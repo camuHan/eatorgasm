@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "342726069396",
+    "project_id": "eat-orgasm",
+    "storage_bucket": "eat-orgasm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:342726069396:android:c8723d7e352118580d7881",
+        "android_client_info": {
+          "package_name": "com.cason.eatorgasm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "342726069396-9bl55p0ft39g5t36oruspv8uo535r2ke.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsigs-lajr5C8rsUX8yMXSOjDV48b8dRs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "342726069396-9bl55p0ft39g5t36oruspv8uo535r2ke.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
