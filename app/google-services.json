@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:342726069396:android:c8723d7e352118580d7881",
+        "mobilesdk_app_id": "1:342726069396:android:fefc0c3dc7732cbc0d7881",
         "android_client_info": {
           "package_name": "com.cason.eatorgasm"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "342726069396-lorbs93eb30uh6ts0rbcqqasqmpprgas.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cason.eatorgasm",
+            "certificate_hash": "482d2162c5f7fe9e4ec2e9098de87729e8723f5c"
+          }
+        },
         {
           "client_id": "342726069396-9bl55p0ft39g5t36oruspv8uo535r2ke.apps.googleusercontent.com",
           "client_type": 3

@@ -43,10 +43,10 @@ class EatAuthActivity : AppCompatActivity() {
                 showToast("인증코드가 전송되었습니다. 90초 이내에 입력해주세요 :)")
 //                UserInfo.phoneAuthNum = credential.smsCode.toString()
                 mBinding.authAuthEdittext.setText(credential.smsCode.toString())
-                mBinding.authAuthEdittext.isEnabled = false
-                Handler(Looper.getMainLooper()).postDelayed({
-                    verifyPhoneNumberWithCode(credential)
-                }, 1000)
+//                mBinding.authAuthEdittext.isEnabled = false
+//                Handler(Looper.getMainLooper()).postDelayed({
+//                    verifyPhoneNumberWithCode(credential)
+//                }, 1000)
             }
 
             // 번호인증 실패 상태
@@ -88,6 +88,10 @@ class EatAuthActivity : AppCompatActivity() {
         // Initialize Firebase Auth
         auth = Firebase.auth
         mBinding.vm = viewModel
+
+//        auth.firebaseAuthSettings.setAutoRetrievedSmsCodeForPhoneNumber("+821234567890", "123456")
+//        auth.firebaseAuthSettings.forceRecaptchaFlowForTesting(true)
+
         initViewModelCallback()
     }
 
@@ -186,7 +190,7 @@ class EatAuthActivity : AppCompatActivity() {
         Firebase.auth.signInWithCredential(phoneAuthCredential)
             .addOnCompleteListener(this@EatAuthActivity) { task ->
                 if (task.isSuccessful) {
-//                    showToast("인증 성공")
+                    showToast("인증 성공")
 //                    UserInfo.tel = mBinding.phoneAuthEtPhoneNum.text.toString()
 //                    mBinding.phoneAuthEtAuthNum.isEnabled = true
 //                    startActivity(
