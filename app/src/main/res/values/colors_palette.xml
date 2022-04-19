@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#000000</color>
+    <color name="gray01">#1e1e1e</color>
+    <color name="gray02">#333333</color>
+    <color name="gray03">#505050</color>
+    <color name="gray04">#666666</color>
+    <color name="gray05">#757575</color>
+    <color name="gray06">#a0a0a0</color>
+    <color name="gray07">#b4b4b4</color>
+    <color name="gray08">#d2d2d2</color>
+    <color name="gray09">#d9d9d9</color>
+    <color name="gray10">#e1e1e1</color>
+    <color name="gray11">#e6e6e6</color>
+    <color name="gray12">#eeeeee</color>
+    <color name="gray13">#f5f5f5</color>
+    <color name="gray14">#fafafa</color>
+    <color name="white">#ffffff</color>
+
+    <color name="color_set01">#FFFFFF</color>
+    <color name="color_set02">#000000</color>
+    <color name="color_set03">#C00000</color>
+    <color name="color_set04">#FFC000</color>
+    <color name="color_set05">#00B050</color>
+    <color name="color_set06">#0070C0</color>
+    <color name="color_set07">#002060</color>
+    <color name="color_set08">#7030A0</color>
+    <color name="color_set09">#D8D8D8</color>
+    <color name="color_set10">#333333</color>
+    <color name="color_set11">#FF0000</color>
+    <color name="color_set12">#FFFF00</color>
+    <color name="color_set13">#92D050</color>
+    <color name="color_set14">#00B0F0</color>
+    <color name="color_set15">#1345AA</color>
+    <color name="color_set16">#AF64E7</color>
+    <color name="color_set17">#999999</color>
+    <color name="color_set18">#666666</color>
+    <color name="color_set19">#FF7F7F</color>
+    <color name="color_set20">#FFFF94</color>
+    <color name="color_set21">#C8EEA0</color>
+    <color name="color_set22">#81DDFF</color>
+    <color name="color_set23">#3C77ED</color>
+    <color name="color_set24">#DBB0FC</color>
+
+    <color name="dark_bg05">#0b0b0d</color>
+    <color name="dark_bg04">#17171a</color>
+    <color name="dark_bg03">#202024</color>
+    <color name="dark_bg02">#2d2d34</color>
+    <color name="dark_bg01">#383840</color>
+    <color name="dark_content03">#82828a</color>
+    <color name="dark_content02">#b4b4bd</color>
+    <color name="dark_content01">#e5e5eb</color>
+</resources>

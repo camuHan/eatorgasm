@@ -1,15 +1,15 @@
 package com.cason.eatorgasm.auth
 
-import android.content.Intent
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.telephony.TelephonyManager
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -19,7 +19,12 @@ import com.google.firebase.ktx.Firebase
 import java.util.concurrent.TimeUnit
 import com.cason.eatorgasm.R
 import com.cason.eatorgasm.databinding.EatAuthActivityBinding
-import com.google.firebase.FirebaseApp
+import com.google.firebase.database.FirebaseDatabase
+
+import android.os.Build
+
+
+
 
 class EatAuthActivity : AppCompatActivity() {
     private lateinit var mBinding: EatAuthActivityBinding
@@ -83,7 +88,6 @@ class EatAuthActivity : AppCompatActivity() {
 
         mBinding = EatAuthActivityBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
-//        mBinding = DataBindingUtil.setContentView(this, R.layout.eat_auth_activity)
 
         // Initialize Firebase Auth
         auth = Firebase.auth
@@ -92,7 +96,80 @@ class EatAuthActivity : AppCompatActivity() {
 //        auth.firebaseAuthSettings.setAutoRetrievedSmsCodeForPhoneNumber("+821234567890", "123456")
 //        auth.firebaseAuthSettings.forceRecaptchaFlowForTesting(true)
 
+        checkPhoneNumber()
+
         initViewModelCallback()
+    }
+
+    private fun checkPhoneNumber() {
+        val telManager = getSystemService(TELEPHONY_SERVICE) as TelephonyManager
+
+        val mRequiredPermissions = arrayOfNulls<String>(1)
+        // 사용자의 안드로이드 버전에 따라 권한을 다르게 요청합니다
+        // 사용자의 안드로이드 버전에 따라 권한을 다르게 요청합니다
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // 11 이상인 경우
+            mRequiredPermissions[0] = Manifest.permission.READ_PHONE_NUMBERS
+        } else {
+            // 10 이하인 경우
+            mRequiredPermissions[0] = Manifest.permission.READ_PRECISE_PHONE_STATE
+        }
+
+
+
+//        TelephonyManager telManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE)
+        var phoneNum = if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_SMS
+            ) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_PHONE_NUMBERS
+            ) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_PHONE_STATE
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            telManager.line1Number
+        } else {
+            ActivityCompat.requestPermissions(this, mRequiredPermissions, 0)
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+
+//        if(phoneNum.startsWith("+82")){
+//            phoneNum = phoneNum.replace("+82", "0")
+//        }
+
+        val firebaseDB = FirebaseDatabase.getInstance()
+        val table_user = firebaseDB.getReference("User")
+
+        if(table_user.child(phoneNum).key != null){
+
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == 0) {
+            for (granted in grantResults) {
+                if (granted == PackageManager.PERMISSION_DENIED) {
+                    finish()
+                    return
+                }
+            }
+
+        }
     }
 
     private fun initViewModelCallback() {
@@ -123,6 +200,7 @@ class EatAuthActivity : AppCompatActivity() {
                 // 휴대폰 인증번호로 인증 및 로그인 실행
                 // onCodeSent() 에서 받은 vertificationID 와 문자메시지로 전송한 인증코드값으로 Credintial 만든 후 인증 시도
                 try {
+                    checkPhoneNumber()
                     val phoneCredential =
                         PhoneAuthProvider.getCredential(
                             storedVerificationId,

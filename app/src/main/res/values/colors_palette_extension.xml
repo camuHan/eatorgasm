@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dark_bg05_alpha70">#b30b0b0d</color>
+    <color name="dark_bg04_alpha95">#f317171a</color>
+    <color name="dark_bg03_alpha95">#f3202024</color>
+    <color name="dark_bg02_alpha30">#4d2d2d34</color>
+    <color name="dark_bg01_alpha30">#4d383840</color>
+    <color name="dark_bg01_alpha60">#99383840</color>
+
+    <color name="dark_content03_alpha70">#b382828a</color>
+    <color name="dark_content02_alpha30">#4db4b4bd</color>
+    <color name="dark_content01_alpha30">#4de5e5eb</color>
+    <color name="dark_content01_alpha50">#80e5e5eb</color>
+
+    <color name="black_alpha10">#19000000</color>
+    <color name="black_alpha30">#4d000000</color>
+
+    <color name="gray01_alpha30">#4d1e1e1e</color>
+    <color name="gray02_alpha30">#4d333333</color>
+    <color name="gray02_alpha50">#80333333</color>
+    <color name="gray03_alpha30">#4d505050</color>
+    <color name="gray04_alpha9">#17666666</color>
+    <color name="gray04_alpha30">#4d666666</color>
+    <color name="gray09_alpha30">#4dd9d9d9</color>
+    <color name="gray12_alpha30">#4deeeeee</color>
+
+    <color name="white_alpha15">#26ffffff</color> 
+    <color name="white_alpha20">#33ffffff</color> 
+    <color name="white_alpha30">#4dffffff</color> 
+    <color name="white_alpha38">#61ffffff</color> 
+    <color name="white_alpha50">#80ffffff</color> 
+    <color name="white_alpha70">#b3ffffff</color> 
+
+    <color name="text_theme01">#f2e8d4</color>
+    <color name="text_theme02">#cecac0</color>
+    <color name="text_theme03">#5a5a5c</color>
+
+    <color name="pointer_red">#c00000</color>
+    <color name="pointer_yellow">#ffc000</color>
+    <color name="pointer_green">#00b050</color>
+    <color name="pointer_blue">#1345aa</color>
+    <color name="pointer_purple">#7030a0</color>
+
+    <color name="pen_color01">#ffc00000</color>
+    <color name="pen_color02">#ffffc000</color>
+    <color name="pen_color03">#ff00b050</color>
+    <color name="pen_color04">#ff1345aa</color>
+    <color name="pen_color05">#ff7030a0</color>
+
+    <color name="pen_color06">#ffff0000</color>
+    <color name="pen_color07">#ffffff00</color>
+    <color name="pen_color08">#ff92d050</color>
+    <color name="pen_color09">#ff3c77ed</color>
+    <color name="pen_color10">#ffaf64e7</color>
+
+    <color name="memo_bg_color">#fff0c0</color>
+    <color name="negative_number_red_text_color">#ff2424</color>
+
+
+    <color name="color_set16_alpha15">#80AF64E7</color>
+</resources>

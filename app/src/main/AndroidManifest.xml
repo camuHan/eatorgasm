@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cason.eatorgasm">
 
+    <uses-permission android:name="READ_PHONE_STATE"
+        android:maxSdkVersion="29" />
+    <uses-permission android:name="READ_PHONE_NUMBERS" />
+
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,15 +15,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EatOrgasm">
+
         <activity
-            android:name="com.cason.eatorgasm.auth.EatAuthActivity"
-            android:exported="true">
+            android:name="com.cason.eatorgasm.auth.GoogleAuthActivity"
+            android:configChanges="keyboardHidden|keyboard|orientation|layoutDirection|screenSize|fontScale|screenLayout"
+            android:theme="@style/Theme.EatOrgasm" />
+
+        <activity
+            android:name="com.cason.eatorgasm.EatOrgSplash"
+            android:configChanges="keyboardHidden|keyboard|orientation|layoutDirection|screenSize|fontScale|screenLayout"
+            android:theme="@style/Theme.EatOrgasm" />
+
+        <activity
+            android:name="com.cason.eatorgasm.EatHomeActivity"
+            android:configChanges="keyboardHidden|keyboard|orientation|layoutDirection|screenSize|fontScale|screenLayout"
+            android:theme="@style/Theme.EatOrgasm" />
+
+        <activity-alias
+            android:name="${applicationId}.IntentActionMain"
+            android:exported="true"
+            android:targetActivity="com.cason.eatorgasm.EatOrgSplash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity-alias>
     </application>
 
 </manifest>
