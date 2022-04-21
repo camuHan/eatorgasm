@@ -18,8 +18,11 @@
         <entry key="..\:/eatorgasm/app/src/main/res/layout/eat_auth_activity.xml" value="0.36614583333333334" />
         <entry key="..\:/eatorgasm/app/src/main/res/layout/eat_main_logo.xml" value="0.24583333333333332" />
         <entry key="..\:/eatorgasm/app/src/main/res/layout/eat_main_view.xml" value="0.36633663366336633" />
-        <entry key="..\:/eatorgasm/app/src/main/res/layout/google_auth_activity.xml" value="0.36614583333333334" />
+        <entry key="..\:/eatorgasm/app/src/main/res/layout/google_auth_activity.xml" value="0.13736263736263737" />
         <entry key="..\:/eatorgasm/app/src/main/res/layout/home_main_view.xml" value="0.25" />
+        <entry key="..\:/eatorgasm/app/src/main/res/layout/main_activity.xml" value="0.1" />
+        <entry key="..\:/eatorgasm/app/src/main/res/layout/main_fragment.xml" value="0.1" />
+        <entry key="..\:/eatorgasm/app/src/main/res/layout/private_fragment.xml" value="0.1" />
       </map>
     </option>
   </component>

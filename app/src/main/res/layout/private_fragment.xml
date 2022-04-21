@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="android.view.View"/>
+
+        <variable
+            name="profile"
+            type="com.cason.eatorgasm.model.EatPrivateProfileItem"/>
+
+        <variable
+            name="vm"
+            type="com.cason.eatorgasm.viewmodel.PrivateViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/private_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.cason.eatorgasm.ui.main.MainFragment">
+
+        <TextView
+            android:id="@+id/private_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@={profile.strName}"
+            android:layout_marginTop="100dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/private_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@={profile.email}"
+            android:layout_marginTop="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/private_name" />
+
+        <TextView
+            android:id="@+id/private_phone_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@={profile.phoneNumber}"
+            android:layout_marginTop="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/private_email" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/btn_private_google_sign_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/color_set16_alpha10"
+            android:foreground="@color/color_set16_alpha10"
+            android:text="SignIn"
+            android:visibility="@{profile.email.length() == 0 ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/private_phone_number"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <Button
+            android:id="@+id/btn_private_sign_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->vm.requestSignOut()}"
+            android:text="SignOut"
+            android:visibility="@{profile.email.length() == 0 ? View.GONE : View.VISIBLE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/private_phone_number"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

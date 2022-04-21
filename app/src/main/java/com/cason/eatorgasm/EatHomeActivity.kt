@@ -21,6 +21,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.cason.eatorgasm.databinding.HomeMainViewBinding
 import com.cason.eatorgasm.ui.main.MainFragment
 import com.cason.eatorgasm.util.Utils
+import com.cason.eatorgasm.view.BoardFragment
+import com.cason.eatorgasm.view.PrivateFragment
 import com.cason.eatorgasm.viewmodel.HomeViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -45,10 +47,10 @@ class EatHomeActivity : AppCompatActivity() {
     private lateinit var mBottomSheetDialog: BottomSheetDialog
 
 //    private lateinit var mBottomSheetDialogAdapter: BottomSheetDialogAdapter
-    private lateinit var recentFragment: MainFragment
+    private lateinit var boardFragment: BoardFragment
     private lateinit var browserFragment: MainFragment
     private lateinit var fileTypeFragment: MainFragment
-    private lateinit var favoriteFragment: MainFragment
+    private lateinit var privateFragment: PrivateFragment
 
     private var mHomeToast: Toast? = null
     private var mHomeToastMsg: String? = null
@@ -314,16 +316,16 @@ class EatHomeActivity : AppCompatActivity() {
     }
 
     private fun initViewPager(){
-        recentFragment = supportFragmentManager.fragmentFactory.instantiate(classLoader, MainFragment::class.java.name) as MainFragment
+        boardFragment = supportFragmentManager.fragmentFactory.instantiate(classLoader, BoardFragment::class.java.name) as BoardFragment
         browserFragment = supportFragmentManager.fragmentFactory.instantiate(classLoader, MainFragment::class.java.name) as MainFragment
         fileTypeFragment = supportFragmentManager.fragmentFactory.instantiate(classLoader, MainFragment::class.java.name) as MainFragment
-        favoriteFragment = supportFragmentManager.fragmentFactory.instantiate(classLoader, MainFragment::class.java.name) as MainFragment
+        privateFragment = supportFragmentManager.fragmentFactory.instantiate(classLoader, PrivateFragment::class.java.name) as PrivateFragment
 
         val adapter = PageAdapter(this) // PageAdapter 생성
-        adapter.addItems(recentFragment)
+        adapter.addItems(boardFragment)
         adapter.addItems(browserFragment)
         adapter.addItems(fileTypeFragment)
-        adapter.addItems(favoriteFragment)
+        adapter.addItems(privateFragment)
 
         val tabTextList = getStringList(R.array.home_tab_title_string)
 

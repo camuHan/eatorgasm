@@ -71,6 +71,9 @@ class GoogleAuthActivity : AppCompatActivity() {
 
                 // 성공여부
                 if (it.isSuccessful) {
+                    googleSigninClient?.signOut()?.addOnCompleteListener {
+                        showToast("로그아웃 되었습니다.")
+                    }
 
                     val user = firebaseAuth?.currentUser
                     Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()

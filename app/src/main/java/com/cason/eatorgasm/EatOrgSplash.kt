@@ -30,7 +30,7 @@ class EatOrgSplash : AppCompatActivity() {
     }
 
     private fun intentActivity() {
-        val intent = Intent(this, GoogleAuthActivity::class.java)
+        val intent = Intent(this, EatHomeActivity::class.java)
         startActivity(intent)
         finish()
     }
