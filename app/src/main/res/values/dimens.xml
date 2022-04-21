@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="common_tab_layout_height">56dp</dimen>
+
+    <!-- file browser enhancement -->
+    <dimen name="home_thumbnail_column_width">100.67dp</dimen>
+
+    <dimen name="home_new_form_popup_width">180dp</dimen>
+
+    <dimen name="dialog_folder_select_width">300dp</dimen>
+
+    <!-- file manager -->
+    <dimen name="filemanager_file_property_thumbnail_width">100dp</dimen>
+    <dimen name="filemanager_file_property_thumbnail_height">160dp</dimen>
+
+    <!-- browser enhancement -->
+    <dimen name="home_list_height">72dp</dimen>
+    <dimen name="home_image_button_width">34dp</dimen>
+
+    <dimen name="home_nav_root_padding">18dp</dimen>
+    <dimen name="home_nav_path_padding">9dp</dimen>
+
+    <dimen name="home_file_info_height">520dp</dimen>
+</resources>

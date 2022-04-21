@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <style name="CommonTabtext" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">10sp</item>
+    </style>
+
+<!-- old -->
+
     <style name="MainToolbarTitleTextAppearance">
         <item name="android:textSize">18sp</item>
     </style>
 
     <style name="ActionBarTitleTextStyle" parent="TextAppearance.AppCompat.Medium">
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="SubTitleDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/common_list_divider_color</item>
     </style>
 
     <style name="CommonActionBarStyle" parent="Widget.AppCompat.ActionBar">

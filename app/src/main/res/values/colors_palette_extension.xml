@@ -57,5 +57,6 @@
     <color name="negative_number_red_text_color">#ff2424</color>
 
 
-    <color name="color_set16_alpha15">#80AF64E7</color>
+    <color name="color_set16_alpha20">#33AF64E7</color>
+    <color name="color_set16_alpha10">#1AAF64E7</color>
 </resources>

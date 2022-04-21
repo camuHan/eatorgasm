@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="home_tab_button_drawable">
+        <item>@drawable/home_tab_home_icon</item>
+        <item>@drawable/home_tab_map_icon</item>
+        <item>@drawable/home_tab_chat_icon</item>
+        <item>@drawable/home_tab_private_icon</item>
+    </integer-array>
+    <integer-array name="file_type_tab_button_drawable">
+        <item>@drawable/common_google_signin_btn_icon_dark</item>
+        <item>@drawable/common_google_signin_btn_icon_dark</item>
+        <item>@drawable/common_google_signin_btn_icon_dark</item>
+        <item>@drawable/common_google_signin_btn_icon_dark</item>
+        <item>@drawable/common_google_signin_btn_icon_dark</item>
+        <item>@drawable/common_google_signin_btn_icon_dark</item>
+    </integer-array>
+
+    <string-array name="home_tab_title_string">
+        <item>@string/eat_tab_home_string</item>
+        <item>@string/eat_tab_map</item>
+        <item>@string/eat_tab_chat</item>
+        <item>@string/eat_tab_private_string</item>
+    </string-array>
+</resources>
