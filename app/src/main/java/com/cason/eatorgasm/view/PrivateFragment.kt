@@ -1,23 +1,18 @@
 package com.cason.eatorgasm.view
 
+import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Intent
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.cason.eatorgasm.EatHomeActivity
 import com.cason.eatorgasm.R
 import com.cason.eatorgasm.databinding.PrivateFragmentBinding
-import com.cason.eatorgasm.model.EatPrivateProfileItem
+import com.cason.eatorgasm.model.EatUserProfileItem
 import com.cason.eatorgasm.util.ToastManager
 import com.cason.eatorgasm.viewmodel.PrivateViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -27,7 +22,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.ktx.FirebaseAuthKtxRegistrar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -72,6 +66,7 @@ class PrivateFragment : Fragment() {
 
     }
 
+    @SuppressLint("FragmentLiveDataObserve")
     private fun initViewModelCallback() {
         with(mPrivateViewModel) {
             requestSignIn.observe(this@PrivateFragment, Observer {
@@ -124,7 +119,7 @@ class PrivateFragment : Fragment() {
 
     private fun updateUI() {
         val user = Firebase.auth.currentUser
-        val profile = EatPrivateProfileItem()
+        val profile = EatUserProfileItem()
 
         if(user == null) {
             profile.strName = ""

@@ -6,4 +6,6 @@
     <string name="eat_tab_chat">chatting</string>
     <string name="eat_tab_private_string">private</string>
 
+    <string name="inser_image_chooser_title">"Choose your profile picture"</string>
+
 </resources>
