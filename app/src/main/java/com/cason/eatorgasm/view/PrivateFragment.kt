@@ -2,6 +2,7 @@ package com.cason.eatorgasm.view
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import com.cason.eatorgasm.R
 import com.cason.eatorgasm.databinding.PrivateFragmentBinding
 import com.cason.eatorgasm.model.EatUserProfileItem
 import com.cason.eatorgasm.util.ToastManager
+import com.cason.eatorgasm.view.profile.EditProfileActivity
 import com.cason.eatorgasm.viewmodel.PrivateViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -71,7 +73,7 @@ class PrivateFragment : Fragment() {
         with(mPrivateViewModel) {
             requestSignIn.observe(this@PrivateFragment, Observer {
                 val signInIntent = googleSigninClient?.getSignInIntent()
-                resultLauncher.launch(signInIntent)
+                googleResultLauncher.launch(signInIntent)
             })
 
             requestSignOut.observe(this@PrivateFragment, Observer {
@@ -82,10 +84,15 @@ class PrivateFragment : Fragment() {
                     updateUI()
                 }
             })
+
+            requestEditProfileActivity.observe(this@PrivateFragment, Observer {
+                val editProfileIntent = Intent(requireContext(), EditProfileActivity::class.java)
+                editProfileResultLauncher.launch(editProfileIntent)
+            })
         }
     }
 
-    val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    private val googleResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
@@ -95,6 +102,12 @@ class PrivateFragment : Fragment() {
             } catch (e: ApiException) {
 
             }
+        }
+    }
+
+    private val editProfileResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+
         }
     }
 

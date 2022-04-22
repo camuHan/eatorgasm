@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer-array name="home_tab_button_drawable">
-        <item>@drawable/home_tab_home_icon</item>
-        <item>@drawable/home_tab_map_icon</item>
-        <item>@drawable/home_tab_chat_icon</item>
-        <item>@drawable/home_tab_private_icon</item>
+        <item>@drawable/ic_home_tab_home</item>
+        <item>@drawable/ic_home_tab_map</item>
+        <item>@drawable/ic_home_tab_chat</item>
+        <item>@drawable/ic_home_tab_private</item>
     </integer-array>
     <integer-array name="file_type_tab_button_drawable">
         <item>@drawable/common_google_signin_btn_icon_dark</item>

@@ -27,7 +27,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/eat_account_profile_circle"/>
+            tools:src="@drawable/ic_eat_account_profile_circle"/>
 
         <LinearLayout
             android:id="@+id/llUserInfo"
@@ -63,7 +63,7 @@
                     android:layout_height="24dp"
                     android:contentDescription="@null"
                     android:scaleType="fitXY"
-                    android:src="@drawable/eat_account_profile_star" />
+                    android:src="@drawable/ic_eat_account_profile_star" />
 
                 <TextView
                     android:id="@+id/levelDescription"
@@ -91,7 +91,7 @@
                     android:layout_marginEnd="8dp"
                     android:contentDescription="@null"
                     android:scaleType="fitXY"
-                    android:src="@drawable/eat_account_profile_email" />
+                    android:src="@drawable/ic_eat_account_profile_email" />
 
                 <TextView
                     android:id="@+id/tvName"

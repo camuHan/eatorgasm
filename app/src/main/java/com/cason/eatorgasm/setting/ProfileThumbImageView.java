@@ -82,7 +82,7 @@ public class ProfileThumbImageView extends AppCompatImageView implements Lifecyc
 //            return R.drawable.img_profile_business;
 //        }
 //        else {
-            return R.drawable.home_tab_private_icon;
+            return R.drawable.ic_eat_account_profile_circle;
 //        }
     }
 

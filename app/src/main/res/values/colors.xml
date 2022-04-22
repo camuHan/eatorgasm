@@ -9,4 +9,5 @@
     <color name="common_list_divider_color">@color/gray11</color>
 
     <color name="common_tab_bg">@color/white</color>
+    <color name="common_text_color">@color/gray02</color>
 </resources>

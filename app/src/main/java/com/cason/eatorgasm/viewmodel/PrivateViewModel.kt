@@ -14,9 +14,12 @@ class PrivateViewModel: ViewModel() {
 
     private val _signInPrivate = SingleLiveEvent<Unit>()
     private val _singOutPrivate = SingleLiveEvent<Unit>()
+    private val _requestEditProfile = SingleLiveEvent<Unit>()
 
     val requestSignIn: LiveData<Unit> get() = _signInPrivate
     val requestSignOut: LiveData<Unit> get() = _singOutPrivate
+
+    val requestEditProfileActivity: LiveData<Unit> get() = _requestEditProfile
 
     fun requestSignIn() {
         _signInPrivate.call()
@@ -24,6 +27,10 @@ class PrivateViewModel: ViewModel() {
 
     fun requestSignOut() {
         _singOutPrivate.call()
+    }
+
+    fun requestEditProfile() {
+        _requestEditProfile.call()
     }
 
 }

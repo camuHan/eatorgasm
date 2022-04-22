@@ -24,6 +24,7 @@
             android:id="@+id/cl_profile_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/common_round_shape"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" >
@@ -39,7 +40,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/eat_account_profile_circle"/>
+                tools:src="@drawable/ic_eat_account_profile_circle"/>
 
             <LinearLayout
                 android:id="@+id/ll_user_info"
@@ -75,7 +76,7 @@
                         android:layout_height="24dp"
                         android:contentDescription="@null"
                         android:scaleType="fitXY"
-                        android:src="@drawable/eat_account_profile_star" />
+                        android:src="@drawable/ic_eat_account_profile_star" />
 
                     <TextView
                         android:id="@+id/tv_level_description"
@@ -103,7 +104,7 @@
                         android:layout_marginEnd="8dp"
                         android:contentDescription="@null"
                         android:scaleType="fitXY"
-                        android:src="@drawable/eat_account_profile_email" />
+                        android:src="@drawable/ic_eat_account_profile_email" />
 
                     <TextView
                         android:id="@+id/tv_name"
@@ -111,7 +112,7 @@
                         android:layout_height="wrap_content"
                         android:text="@={profile.strName}"
                         android:gravity="center_vertical"
-                        android:textColor="#c7d4ff"
+                        android:textColor="@color/common_text_color"
                         android:textSize="15sp"
                         android:maxLines="1"
                         android:ellipsize="end"/>
@@ -125,7 +126,9 @@
                 android:layout_marginEnd="4dp"
                 android:contentDescription="@null"
                 android:scaleType="centerInside"
-                android:visibility="gone"
+                android:src="@drawable/ic_common_right_arrow"
+                android:onClick="@{()->vm.requestEditProfile()}"
+                android:visibility="@{profile.email.length() == 0 ? View.GONE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
