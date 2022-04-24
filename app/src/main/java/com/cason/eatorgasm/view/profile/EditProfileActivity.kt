@@ -42,7 +42,7 @@ class EditProfileActivity: AppCompatActivity(), View.OnClickListener {
         setContentView(mBinding.root)
         initViewList()
 //        updateProfileInfo()
-        mBinding.profile = mUserProfile
+
 //        mProfileInfoAdapter = ProfileInfoRecyclerViewAdapter(mTitleList, mContentList)
 //        mBinding.rvProfileInfo.adapter = mProfileInfoAdapter
 //
@@ -61,10 +61,29 @@ class EditProfileActivity: AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initViewList() {
-        mUserProfile.userId = mUser?.uid
-        mUserProfile.strName = mUser?.displayName
-        mUserProfile.email = mUser?.email
-        mUserProfile.phoneNumber = mUser?.phoneNumber
+        mDb.collection("users").document(mUser?.uid.toString())
+            .get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val data = document.data
+                    mUserProfile.userId = data?.get("userId").toString()
+                    mUserProfile.strName = data?.get("strName").toString()
+                    mUserProfile.email = data?.get("email").toString()
+                    mUserProfile.phoneNumber = data?.get("phoneNumber").toString()
+                    CMLog.d(TAG, "DocumentSnapshot data: ${document.data}")
+                } else {
+                    mUserProfile.userId = mUser?.uid
+                    mUserProfile.strName = mUser?.displayName
+                    mUserProfile.email = mUser?.email
+                    mUserProfile.phoneNumber = mUser?.phoneNumber
+                    CMLog.d(TAG, "No such document")
+                }
+                mBinding.profile = mUserProfile
+            }
+            .addOnFailureListener { exception ->
+                CMLog.d(TAG, "get failed with \n$exception")
+            }
+
         mBinding.clPrivateUid.tvProfileInfo.text = "User ID"
 //        mBinding.clPrivateUid.etProfileInfo.setText(mUserProfile.userId)
         mBinding.clPrivateUid.etProfileInfo.isEnabled = false
