@@ -3,7 +3,7 @@ package com.cason.eatorgasm.model
 import com.cason.eatorgasm.R
 
 data class EatUserProfileItem(
-    var userId: Long = 0,
+    var userId: String? = "",
     var strName: String? = "",
     var email: String? = "",
     var password: String ?= "",

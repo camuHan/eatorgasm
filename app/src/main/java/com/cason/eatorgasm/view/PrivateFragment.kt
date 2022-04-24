@@ -86,7 +86,7 @@ class PrivateFragment : Fragment() {
             })
 
             requestEditProfileActivity.observe(this@PrivateFragment, Observer {
-                val editProfileIntent = Intent(requireContext(), EditProfileActivity::class.java)
+                val editProfileIntent = Intent(context, EditProfileActivity::class.java)
                 editProfileResultLauncher.launch(editProfileIntent)
             })
         }

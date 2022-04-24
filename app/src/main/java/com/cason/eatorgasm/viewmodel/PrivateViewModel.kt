@@ -1,7 +1,6 @@
 package com.cason.eatorgasm.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.cason.eatorgasm.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
