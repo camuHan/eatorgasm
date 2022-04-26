@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.cason.eatorgasm.EatHomeActivity
 import com.cason.eatorgasm.R
+import com.cason.eatorgasm.component.EatHomeActivity
 import com.cason.eatorgasm.databinding.GoogleAuthActivityBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount

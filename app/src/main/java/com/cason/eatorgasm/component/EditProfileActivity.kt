@@ -1,4 +1,4 @@
-package com.cason.eatorgasm.view.profile
+package com.cason.eatorgasm.component
 
 import android.content.Context
 import android.os.Bundle
@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.cason.eatorgasm.databinding.EditProfileActivityBinding
 import com.cason.eatorgasm.databinding.ProfileInfoItemBinding
-import com.cason.eatorgasm.model.EatUserProfileItem
+import com.cason.eatorgasm.model.entity.EatUserProfileItem
 import com.cason.eatorgasm.util.CMLog
 import com.cason.eatorgasm.util.ToastManager
 import com.google.firebase.auth.FirebaseAuth
@@ -67,15 +67,17 @@ class EditProfileActivity: AppCompatActivity(), View.OnClickListener {
                 if (document != null) {
                     val data = document.data
                     mUserProfile.userId = data?.get("userId").toString()
-                    mUserProfile.strName = data?.get("strName").toString()
+                    mUserProfile.name = data?.get("strName").toString()
                     mUserProfile.email = data?.get("email").toString()
                     mUserProfile.phoneNumber = data?.get("phoneNumber").toString()
+                    mUserProfile.photoUrl = data?.get("photoUrl").toString()
                     CMLog.d(TAG, "DocumentSnapshot data: ${document.data}")
                 } else {
                     mUserProfile.userId = mUser?.uid
-                    mUserProfile.strName = mUser?.displayName
+                    mUserProfile.name = mUser?.displayName
                     mUserProfile.email = mUser?.email
                     mUserProfile.phoneNumber = mUser?.phoneNumber
+                    mUserProfile.photoUrl = mUser?.photoUrl.toString()
                     CMLog.d(TAG, "No such document")
                 }
                 mBinding.profile = mUserProfile
@@ -100,7 +102,7 @@ class EditProfileActivity: AppCompatActivity(), View.OnClickListener {
 
     private fun updateProfileInfo() {
         mUserProfile.userId = mBinding.clPrivateUid.etProfileInfo.text.toString()
-        mUserProfile.strName = mBinding.clPrivateName.etProfileInfo.text.toString()
+        mUserProfile.name = mBinding.clPrivateName.etProfileInfo.text.toString()
         mUserProfile.email = mBinding.clPrivateEmail.etProfileInfo.text.toString()
         mUserProfile.phoneNumber = mBinding.clPrivatePhoneNumber.etProfileInfo.text.toString()
     }

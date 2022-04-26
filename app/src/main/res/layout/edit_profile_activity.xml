@@ -3,7 +3,7 @@
     <data>
         <variable
             name="profile"
-            type="com.cason.eatorgasm.model.EatUserProfileItem" />
+            type="com.cason.eatorgasm.model.entity.EatUserProfileItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,7 +43,7 @@
 
         <include layout="@layout/layout_profile_info_template"
             android:id="@+id/cl_private_name"
-            bind:info="@{profile.strName}"
+            bind:info="@{profile.name}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

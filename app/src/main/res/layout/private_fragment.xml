@@ -5,11 +5,11 @@
 
         <variable
             name="profile"
-            type="com.cason.eatorgasm.model.EatUserProfileItem"/>
+            type="com.cason.eatorgasm.model.entity.EatUserProfileItem"/>
 
         <variable
             name="vm"
-            type="com.cason.eatorgasm.viewmodel.PrivateViewModel" />
+            type="com.cason.eatorgasm.viewmodel.screen.PrivateViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -110,7 +110,7 @@
                         android:id="@+id/tv_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@={profile.strName}"
+                        android:text="@={profile.name}"
                         android:gravity="center_vertical"
                         android:textColor="@color/common_text_color"
                         android:textSize="15sp"

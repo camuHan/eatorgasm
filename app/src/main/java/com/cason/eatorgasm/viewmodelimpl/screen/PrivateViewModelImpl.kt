@@ -1,13 +1,14 @@
-package com.cason.eatorgasm.viewmodel
+package com.cason.eatorgasm.viewmodelimpl.screen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.cason.eatorgasm.SingleLiveEvent
+import com.cason.eatorgasm.viewmodel.screen.PrivateViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 
-class PrivateViewModel: ViewModel() {
+class PrivateViewModelImpl: ViewModel() {
     private val vmJob = Job()
     protected val vmScope = CoroutineScope(Dispatchers.Main + vmJob)
 
@@ -17,19 +18,18 @@ class PrivateViewModel: ViewModel() {
 
     val requestSignIn: LiveData<Unit> get() = _signInPrivate
     val requestSignOut: LiveData<Unit> get() = _singOutPrivate
-
     val requestEditProfileActivity: LiveData<Unit> get() = _requestEditProfile
 
-    fun requestSignIn() {
-        _signInPrivate.call()
-    }
-
-    fun requestSignOut() {
-        _singOutPrivate.call()
-    }
-
-    fun requestEditProfile() {
-        _requestEditProfile.call()
-    }
+//    override fun requestSignIn() {
+//        _signInPrivate.call()
+//    }
+//
+//    override fun requestSignOut() {
+//        _singOutPrivate.call()
+//    }
+//
+//    override fun requestEditProfile() {
+//        _requestEditProfile.call()
+//    }
 
 }

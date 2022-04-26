@@ -1,4 +1,4 @@
-package com.cason.eatorgasm
+package com.cason.eatorgasm.component
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -17,30 +17,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LiveData
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.cason.eatorgasm.MainFragmentFactoryImpl
+import com.cason.eatorgasm.R
 import com.cason.eatorgasm.databinding.HomeMainViewBinding
-import com.cason.eatorgasm.ui.main.MainFragment
+import com.cason.eatorgasm.model.entity.EatUserProfileItem
 import com.cason.eatorgasm.util.Utils
-import com.cason.eatorgasm.view.BoardFragment
-import com.cason.eatorgasm.view.PrivateFragment
-import com.cason.eatorgasm.viewmodel.HomeViewModel
+import com.cason.eatorgasm.viewmodel.screen.HomeViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
-class EatHomeActivity : AppCompatActivity() {
-
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.main_activity)
-//        if (savedInstanceState == null) {
-//            supportFragmentManager.beginTransaction()
-//                .replace(R.id.container, MainFragment.newInstance())
-//                .commitNow()
-//        }
-//    }
+@AndroidEntryPoint
+class EatHomeActivity : AppCompatActivity(), EatHomeActivityActionListener {
 
     private lateinit var mBinding: HomeMainViewBinding
 //    private lateinit var mUpPanelBinding: HomeBrowserUpPanelViewBinding
@@ -48,8 +41,8 @@ class EatHomeActivity : AppCompatActivity() {
 
 //    private lateinit var mBottomSheetDialogAdapter: BottomSheetDialogAdapter
     private lateinit var boardFragment: BoardFragment
-    private lateinit var browserFragment: MainFragment
-    private lateinit var fileTypeFragment: MainFragment
+    private lateinit var browserFragment: BoardFragment
+    private lateinit var fileTypeFragment: BoardFragment
     private lateinit var privateFragment: PrivateFragment
 
     private var mHomeToast: Toast? = null
@@ -82,6 +75,12 @@ class EatHomeActivity : AppCompatActivity() {
 
 //        setSupportActionBar(mBinding.homeToolbarLayout.homeToolbar)
         showDisplayLogoInActionBar(true)
+
+        mHomeViewModel.loadUserData()
+    }
+
+    override fun getUserInfoLiveData(): LiveData<EatUserProfileItem?>? {
+        return mHomeViewModel.getUserLiveData()
     }
 
     private fun createDataBase() {
@@ -317,8 +316,8 @@ class EatHomeActivity : AppCompatActivity() {
 
     private fun initViewPager(){
         boardFragment = supportFragmentManager.fragmentFactory.instantiate(classLoader, BoardFragment::class.java.name) as BoardFragment
-        browserFragment = supportFragmentManager.fragmentFactory.instantiate(classLoader, MainFragment::class.java.name) as MainFragment
-        fileTypeFragment = supportFragmentManager.fragmentFactory.instantiate(classLoader, MainFragment::class.java.name) as MainFragment
+        browserFragment = supportFragmentManager.fragmentFactory.instantiate(classLoader, BoardFragment::class.java.name) as BoardFragment
+        fileTypeFragment = supportFragmentManager.fragmentFactory.instantiate(classLoader, BoardFragment::class.java.name) as BoardFragment
         privateFragment = supportFragmentManager.fragmentFactory.instantiate(classLoader, PrivateFragment::class.java.name) as PrivateFragment
 
         val adapter = PageAdapter(this) // PageAdapter 생성

@@ -1,6 +1,5 @@
-package com.cason.eatorgasm.view
+package com.cason.eatorgasm.component
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater

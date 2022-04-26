@@ -2,14 +2,12 @@ package com.cason.eatorgasm
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
-import com.cason.eatorgasm.ui.main.MainFragment
-import com.cason.eatorgasm.view.BoardFragment
-import com.cason.eatorgasm.view.PrivateFragment
+import com.cason.eatorgasm.component.BoardFragment
+import com.cason.eatorgasm.component.PrivateFragment
 
 class MainFragmentFactoryImpl(): FragmentFactory() {
     override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
         return when (className) {
-            MainFragment::class.java.name -> MainFragment()
             BoardFragment::class.java.name -> BoardFragment()
             PrivateFragment::class.java.name -> PrivateFragment()
 //            HomeFileTypeFragment::class.java.name -> HomeFileTypeFragment(contract)

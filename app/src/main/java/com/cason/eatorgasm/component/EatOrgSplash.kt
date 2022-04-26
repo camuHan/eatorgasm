@@ -1,10 +1,10 @@
-package com.cason.eatorgasm
+package com.cason.eatorgasm.component
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.cason.eatorgasm.auth.GoogleAuthActivity
+import com.cason.eatorgasm.R
 
 class EatOrgSplash : AppCompatActivity() {
     private val mShowTime = 1000
