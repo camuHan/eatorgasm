@@ -2,8 +2,8 @@ package com.cason.eatorgasm.component;
 
 import androidx.lifecycle.LiveData;
 
-import com.cason.eatorgasm.model.entity.EatUserProfileItem;
+import com.cason.eatorgasm.model.entity.UserInfoModel;
 
 public interface EatHomeActivityActionListener {
-    LiveData<EatUserProfileItem> getUserInfoLiveData();
+    LiveData<UserInfoModel> getUserInfoLiveData();
 }

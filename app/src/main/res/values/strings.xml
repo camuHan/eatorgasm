@@ -8,4 +8,6 @@
 
     <string name="inser_image_chooser_title">"Choose your profile picture"</string>
 
+    <string name="cm_btn_done">"Done"</string>
+
 </resources>

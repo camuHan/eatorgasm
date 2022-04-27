@@ -4,5 +4,5 @@ import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
 
 interface OnRequestedSignInAction {
-    fun onRequestedSignIn(googleResultLauncher: ActivityResultLauncher<Intent>)
+    fun onRequestedSignIn(resultLauncher: ActivityResultLauncher<Intent>)
 }

@@ -1,17 +1,15 @@
 package com.cason.eatorgasm.view
 
 import androidx.lifecycle.LiveData
+import com.cason.eatorgasm.model.entity.UserInfoModel
 import com.cason.eatorgasm.view.action.OnNotifySignInSuccessAction
 import com.cason.eatorgasm.view.action.OnRenderToastAction
 import com.cason.eatorgasm.view.action.OnRequestedSignInAction
-import com.google.firebase.auth.FirebaseUser
 
-interface PrivateView {
+interface EditProfileView {
 
-    fun setFirebaseUserLiveData(liveData: LiveData<FirebaseUser?>)
+    fun setUserProfileLiveData(liveData: LiveData<UserInfoModel?>)
     fun setActionListener(actionListener: ActionListener)
 
-    interface ActionListener : OnNotifySignInSuccessAction, OnRequestedSignInAction,
-        OnRenderToastAction
-
+    interface ActionListener : OnRenderToastAction
 }

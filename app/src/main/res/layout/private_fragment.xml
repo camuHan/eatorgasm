@@ -5,7 +5,7 @@
 
         <variable
             name="profile"
-            type="com.cason.eatorgasm.model.entity.EatUserProfileItem"/>
+            type="com.cason.eatorgasm.model.entity.UserInfoModel"/>
 
         <variable
             name="vm"
@@ -127,7 +127,6 @@
                 android:contentDescription="@null"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_common_right_arrow"
-                android:onClick="@{()->vm.requestEditProfile()}"
                 android:visibility="@{profile.email.length() == 0 ? View.GONE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

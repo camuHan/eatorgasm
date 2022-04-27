@@ -22,7 +22,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.cason.eatorgasm.MainFragmentFactoryImpl
 import com.cason.eatorgasm.R
 import com.cason.eatorgasm.databinding.HomeMainViewBinding
-import com.cason.eatorgasm.model.entity.EatUserProfileItem
+import com.cason.eatorgasm.model.entity.UserInfoModel
 import com.cason.eatorgasm.util.Utils
 import com.cason.eatorgasm.viewmodel.screen.HomeViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -79,7 +79,7 @@ class EatHomeActivity : AppCompatActivity(), EatHomeActivityActionListener {
         mHomeViewModel.loadUserData()
     }
 
-    override fun getUserInfoLiveData(): LiveData<EatUserProfileItem?>? {
+    override fun getUserInfoLiveData(): LiveData<UserInfoModel?> {
         return mHomeViewModel.getUserLiveData()
     }
 

@@ -3,7 +3,7 @@ package com.cason.eatorgasm.model.entity
 import com.cason.eatorgasm.R
 import com.google.firebase.auth.FirebaseUser
 
-data class EatUserProfileItem(
+data class UserInfoModel(
     var userId: String? = "",
     var name: String? = "",
     var email: String? = "",

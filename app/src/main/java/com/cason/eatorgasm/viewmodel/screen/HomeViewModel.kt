@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.cason.eatorgasm.model.FirestoreRepository
-import com.cason.eatorgasm.model.entity.EatUserProfileItem
+import com.cason.eatorgasm.model.entity.UserInfoModel
 import com.cason.eatorgasm.viewmodel.usecase.FetchMyProfileUseCaseExecutor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -19,7 +19,7 @@ class HomeViewModel @Inject constructor(
         usecase.fetchProfileData()
     }
 
-    fun getUserLiveData(): LiveData<EatUserProfileItem?>? {
+    fun getUserLiveData(): LiveData<UserInfoModel?> {
         return usecase.getUserInfoLiveData()
     }
 }

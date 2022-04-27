@@ -1,18 +1,15 @@
 package com.cason.eatorgasm.modelimpl
 
 import com.cason.eatorgasm.model.FirestoreRepository
-import com.cason.eatorgasm.model.entity.EatUserProfileItem
+import com.cason.eatorgasm.model.entity.UserInfoModel
 import com.cason.eatorgasm.util.CMLog
 import com.cason.eatorgasm.util.CMLog.d
-import com.cason.eatorgasm.util.CMLog.e
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -37,7 +34,7 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
     }
 
     private fun addUserToFirestore(firebaseUser: FirebaseUser, db: FirebaseFirestore) {
-        val mUserProfile = EatUserProfileItem()
+        val mUserProfile = UserInfoModel()
 
         mUserProfile.userId = firebaseUser.uid
         mUserProfile.name = firebaseUser.displayName
@@ -55,17 +52,22 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
             .addOnFailureListener { e -> CMLog.w(TAG, "Error writing document \n$e") }
     }
 
-    override fun fetchUserInfo(firebaseUser: FirebaseUser): EatUserProfileItem {
-        val model = EatUserProfileItem()
+    override suspend fun fetchUserInfo(firebaseUser: FirebaseUser): UserInfoModel {
+        val model = UserInfoModel()
         val db = FirebaseFirestore.getInstance()
-        val task = db.collection(COLLECTION_NAME_USERS).document(firebaseUser.uid).get()
-        if(task.isSuccessful) {
-            model.userId = task.result.getString("userId")
-            model.name = task.result.getString("strName")
-            model.email = task.result.getString("email")
-            model.phoneNumber = task.result.getString("phoneNumber")
-            model.photoUrl = task.result.getString("photoUrl")
-        }
+        db.collection(COLLECTION_NAME_USERS).document(firebaseUser.uid).get().addOnCompleteListener {
+            if(!it.isSuccessful) {
+                CMLog.e("HSH", "fail in \n + ${it.exception}")
+            } else {
+                CMLog.e("HSH", "success in")
+                model.userId = it.result.getString("userId")
+                model.name = it.result.getString("strName")
+                model.email = it.result.getString("email")
+                model.phoneNumber = it.result.getString("phoneNumber")
+                model.photoUrl = it.result.getString("photoUrl")
+            }
+        }.await()
+
         return model
     }
 

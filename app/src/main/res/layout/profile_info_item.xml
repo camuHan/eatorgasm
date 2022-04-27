@@ -5,7 +5,7 @@
     <data>
     <variable
         name="profile"
-        type="com.cason.eatorgasm.model.entity.EatUserProfileItem"/>
+        type="com.cason.eatorgasm.model.entity.UserInfoModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

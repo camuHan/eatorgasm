@@ -3,8 +3,7 @@ package com.cason.eatorgasm.viewimpl
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import com.cason.eatorgasm.databinding.PrivateFragmentBinding
-import com.cason.eatorgasm.model.entity.EatUserProfileItem
-import com.cason.eatorgasm.util.ToastManager
+import com.cason.eatorgasm.model.entity.UserInfoModel
 import com.cason.eatorgasm.view.PrivateView
 import com.google.firebase.auth.FirebaseUser
 
@@ -14,15 +13,15 @@ class PrivateViewImpl (private val binding: PrivateFragmentBinding, private val 
 
     override fun setFirebaseUserLiveData(liveData: LiveData<FirebaseUser?>) {
         liveData.observe(lifecycleOwner, { data: FirebaseUser? ->
-            if (liveData.value == null) {
-//                ToastManager.INSTANCE.onMessage(activity, "로그아웃 되었습니다.")
+            if (data == null) {
+                mActionListener?.onRenderToast("로그아웃 되었습니다.")
                 binding.profile = null
-                return@observe
+            } else {
+                val profile = UserInfoModel()
+                profile.setFirebaseUserData(data)
+                binding.profile = profile
+                mActionListener?.onNotifySignInSuccess()
             }
-            val profile = EatUserProfileItem()
-            profile.setFirebaseUserData(data!!)
-            binding.profile = profile
-            mActionListener?.onNotifySignInSuccess()
         })
     }
 

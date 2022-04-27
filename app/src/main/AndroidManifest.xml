@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
 
     <application
+        android:name="com.cason.eatorgasm.EatOrgasmApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -22,24 +23,24 @@
             android:theme="@style/Theme.EatOrgasm" />
 
         <activity
-            android:name="com.cason.eatorgasm.EatOrgSplash"
+            android:name="com.cason.eatorgasm.component.EatOrgSplash"
             android:configChanges="keyboardHidden|keyboard|orientation|layoutDirection|screenSize|fontScale|screenLayout"
             android:theme="@style/Theme.EatOrgasm" />
 
         <activity
-            android:name="com.cason.eatorgasm.EatHomeActivity"
+            android:name="com.cason.eatorgasm.component.EatHomeActivity"
             android:configChanges="keyboardHidden|keyboard|orientation|layoutDirection|screenSize|fontScale|screenLayout"
             android:theme="@style/Theme.EatOrgasm" />
 
         <activity
-            android:name="com.cason.eatorgasm.view.profile.EditProfileActivity"
+            android:name="com.cason.eatorgasm.component.EditProfileActivity"
             android:configChanges="keyboardHidden|keyboard|orientation|layoutDirection|screenSize|fontScale|screenLayout"
             android:theme="@style/Theme.EatOrgasm" />
 
         <activity-alias
             android:name="${applicationId}.IntentActionMain"
             android:exported="true"
-            android:targetActivity="com.cason.eatorgasm.EatOrgSplash">
+            android:targetActivity="com.cason.eatorgasm.component.EatOrgSplash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -29,7 +29,9 @@ class LoginUsecaseExecutorImpl @Inject constructor(private val mFirestoreReposit
 
     override fun loadUserData() {
         val user = mAuth.currentUser
-        mFirebaseUserLiveData.value = user!!
+        if(user != null) {
+            mFirebaseUserLiveData.value = user
+        }
     }
 
     override fun getUserLiveData(): LiveData<FirebaseUser?> {
@@ -81,11 +83,6 @@ class LoginUsecaseExecutorImpl @Inject constructor(private val mFirestoreReposit
         mGoogleSignInClient.signOut().addOnCompleteListener {
             mFirebaseUserLiveData.value = null
         }
-
-//        mGoogleSigninClient?.signOut()?.addOnCompleteListener {
-//            ToastManager.INSTANCE.onMessage(activity, "로그아웃 되었습니다.")
-//            updateUI()
-//        }
     }
 
     init {
