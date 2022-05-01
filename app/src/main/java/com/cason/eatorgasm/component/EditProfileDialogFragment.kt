@@ -1,11 +1,18 @@
 package com.cason.eatorgasm.component
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
+import com.cason.eatorgasm.R
 import com.cason.eatorgasm.component.base.BaseDialogFragment
 import com.cason.eatorgasm.databinding.EditProfileLayoutBinding
 import com.cason.eatorgasm.model.entity.UserInfoModel
@@ -38,8 +45,22 @@ class EditProfileDialogFragment : BaseDialogFragment() {
     private val mHomeViewModel: HomeViewModel by activityViewModels()
     private val mEditProfileViewModel: EditProfileViewModel by viewModels()
 
+    private val changeProfileResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            try{
+                val uri = result?.data?.data
+                mEditProfileViewModel.updateProfileImage(uri!!)
+//                if(result) {
+//                    Glide.with(requireContext()).load(uri).circleCrop()
+//                        .into(mBinding.ivProfileCircle)
+//                }
+            }catch (e:Exception){}
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),1)
     }
 
     override fun onCreateView(
@@ -60,17 +81,23 @@ class EditProfileDialogFragment : BaseDialogFragment() {
     private fun initLayout() {
         initViewList()
 
-        mEditProfileViewModel.setView(EditProfileViewImpl(mBinding, this))
+        mEditProfileViewModel.setView(EditProfileViewImpl(requireContext(), mBinding, this))
         mEditProfileViewModel.setUserProfileLiveData(mHomeViewModel.getUserLiveData())
 
         mBinding.btnProfileUpdate.setOnClickListener {
+
+//            mEditProfileViewModel.updateProfile()
 //            updateProfileInfo()
 //            updateProfile()
         }
 
-        mHomeViewModel.loadUserData()
+        mBinding.ivProfileChange.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            changeProfileResult.launch(intent)
+        }
 
-//        mBinding.clPrivateUid.ibProfileInfoEdit.setOnClickListener(this)
+        mHomeViewModel.loadUserData()
     }
 
     private fun initViewList() {

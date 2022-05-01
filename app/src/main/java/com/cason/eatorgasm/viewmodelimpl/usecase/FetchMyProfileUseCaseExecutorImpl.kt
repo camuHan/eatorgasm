@@ -1,5 +1,6 @@
 package com.cason.eatorgasm.viewmodelimpl.usecase
 
+import android.net.Uri
 import com.cason.eatorgasm.viewmodel.usecase.FetchMyProfileUseCaseExecutor
 import androidx.lifecycle.MutableLiveData
 import com.cason.eatorgasm.model.entity.UserInfoModel
@@ -11,6 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.net.URI
 import javax.inject.Inject
 
 class FetchMyProfileUseCaseExecutorImpl @Inject constructor(private val mFirestoreRepository: FirestoreRepositoryImpl) : FetchMyProfileUseCaseExecutor {
@@ -21,6 +23,13 @@ class FetchMyProfileUseCaseExecutorImpl @Inject constructor(private val mFiresto
     private val mFirebaseUserLiveData = MutableLiveData<FirebaseUser>()
     private val mThrowableLiveData = MutableLiveData<Throwable>()
 
+    private val mUpdateUserInfo = MutableLiveData<Boolean>()
+    private val mUpdateProfileImage = MutableLiveData<Uri>()
+
+    override fun getUserInfoLiveData(): LiveData<UserInfoModel?> {
+        return mUserInfoLiveData
+    }
+
     override fun fetchProfileData() {
         vmScope.launch {
             val user = FirebaseAuth.getInstance().currentUser
@@ -30,7 +39,29 @@ class FetchMyProfileUseCaseExecutorImpl @Inject constructor(private val mFiresto
         }
     }
 
-    override fun getUserInfoLiveData(): LiveData<UserInfoModel?> {
-        return mUserInfoLiveData
+    override fun getUpdateProfileResultLiveData(): LiveData<Boolean> {
+        return mUpdateUserInfo
     }
+
+    override fun updateProfileData(data: UserInfoModel) {
+        vmScope.launch {
+            val result = mFirestoreRepository.updateUserToFirestore(data)
+            mUpdateUserInfo.postValue(result)
+        }
+    }
+
+    override fun getUpdateProfileImageResultLiveData(): LiveData<Uri> {
+        return mUpdateProfileImage
+    }
+
+    override fun updateProfileImage(uri: Uri) {
+        vmScope.launch {
+            val result = mFirestoreRepository.updateProfileImageToFirestore(uri)
+            if(result) {
+                mUpdateProfileImage.postValue(uri)
+            }
+        }
+    }
+
+
 }

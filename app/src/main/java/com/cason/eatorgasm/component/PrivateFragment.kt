@@ -1,6 +1,5 @@
 package com.cason.eatorgasm.component
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -9,25 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.cason.eatorgasm.databinding.PrivateFragmentBinding
-import com.cason.eatorgasm.util.ToastManager
-import com.cason.eatorgasm.view.PrivateView
 import com.cason.eatorgasm.viewimpl.PrivateViewImpl
 import com.cason.eatorgasm.viewmodel.screen.HomeViewModel
 import com.cason.eatorgasm.viewmodel.screen.PrivateViewModel
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class PrivateFragment : Fragment() {
@@ -56,7 +45,7 @@ class PrivateFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         mPrivateViewModel.setParentContext(requireActivity())
-        mPrivateViewModel.setPrivateView(PrivateViewImpl(mBinding, this))
+        mPrivateViewModel.setPrivateView(PrivateViewImpl(requireContext(), mBinding, this))
         mBinding.vm = mPrivateViewModel
 
         mPrivateViewModel.loadUserData()

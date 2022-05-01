@@ -1,6 +1,7 @@
 package com.cason.eatorgasm.viewmodel.screen
 
 import android.app.Activity
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -27,12 +28,22 @@ class EditProfileViewModel @Inject constructor(
 
 
     fun setView(view: EditProfileView) {
-        view.setActionListener(this)
         editProfileView = view
+        view.setActionListener(this)
+        view.setUpdateProfileLiveData(usecase.getUpdateProfileResultLiveData())
+        view.setUpdateProfileImageLiveData(usecase.getUpdateProfileImageResultLiveData())
     }
 
     fun setUserProfileLiveData(liveData: LiveData<UserInfoModel?>) {
         editProfileView.setUserProfileLiveData(liveData)
+    }
+
+    fun updateProfile(userInfo: UserInfoModel) {
+        usecase.updateProfileData(userInfo)
+    }
+
+    fun updateProfileImage(uri: Uri) {
+        usecase.updateProfileImage(uri)
     }
 
     fun loadUserData() {

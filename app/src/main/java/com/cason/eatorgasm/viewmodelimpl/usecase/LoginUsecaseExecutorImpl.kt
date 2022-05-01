@@ -30,7 +30,7 @@ class LoginUsecaseExecutorImpl @Inject constructor(private val mFirestoreReposit
     override fun loadUserData() {
         val user = mAuth.currentUser
         if(user != null) {
-            mFirebaseUserLiveData.value = user
+            mFirebaseUserLiveData.postValue(user)
         }
     }
 
@@ -63,6 +63,7 @@ class LoginUsecaseExecutorImpl @Inject constructor(private val mFirestoreReposit
                 // 성공여부
                 if (it.isSuccessful) {
                     ToastManager.INSTANCE.onMessage(activity, "로그인 성공")
+
                     mFirebaseUserLiveData.value = mAuth.currentUser
                 } else {
                     ToastManager.INSTANCE.onMessage(activity, "로그인 실패")
@@ -71,10 +72,8 @@ class LoginUsecaseExecutorImpl @Inject constructor(private val mFirestoreReposit
     }
 
     private fun uploadUserInfoToRemoteDb() {
-//        mFirestoreRepository.addUserIfNotExists(mAuth.currentUser)
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe({ unused -> loadUserData() }) { thr -> mThrowableLiveData.setValue(thr) }
+        mFirestoreRepository.addUserIfNotExists(mAuth.currentUser!!)
+
     }
 
     override fun signOut() {
