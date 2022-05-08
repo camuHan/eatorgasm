@@ -4,6 +4,9 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,14 +14,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
 import com.cason.eatorgasm.R
 import com.cason.eatorgasm.component.base.BaseDialogFragment
 import com.cason.eatorgasm.databinding.EditProfileLayoutBinding
 import com.cason.eatorgasm.model.entity.UserInfoModel
 import com.cason.eatorgasm.util.CMLog
 import com.cason.eatorgasm.util.ToastManager
-import com.cason.eatorgasm.view.EditProfileView
 import com.cason.eatorgasm.viewimpl.EditProfileViewImpl
 import com.cason.eatorgasm.viewmodel.screen.EditProfileViewModel
 import com.cason.eatorgasm.viewmodel.screen.HomeViewModel
@@ -32,7 +33,21 @@ class EditProfileDialogFragment : BaseDialogFragment() {
     private final val TAG = "EditProfileActivity"
 
     private lateinit var mBinding: EditProfileLayoutBinding
-//    private var mProfileInfoAdapter: EditProfileActivity.ProfileInfoRecyclerViewAdapter? = null
+
+    val updateProfileTextWatcher: TextWatcher = object: TextWatcher {
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+        }
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            mBinding.btnProfileUpdate.isEnabled = true
+        }
+
+        override fun afterTextChanged(p0: Editable?) {
+
+        }
+
+    }
 
     private var mContentList = arrayListOf<String>()
     private var mTitleList = arrayListOf<String>()
@@ -50,10 +65,7 @@ class EditProfileDialogFragment : BaseDialogFragment() {
             try{
                 val uri = result?.data?.data
                 mEditProfileViewModel.updateProfileImage(uri!!)
-//                if(result) {
-//                    Glide.with(requireContext()).load(uri).circleCrop()
-//                        .into(mBinding.ivProfileCircle)
-//                }
+
             }catch (e:Exception){}
         }
     }
@@ -82,22 +94,31 @@ class EditProfileDialogFragment : BaseDialogFragment() {
         initViewList()
 
         mEditProfileViewModel.setView(EditProfileViewImpl(requireContext(), mBinding, this))
+//        mEditProfileViewModel.fetchProfileImage()
         mEditProfileViewModel.setUserProfileLiveData(mHomeViewModel.getUserLiveData())
 
         mBinding.btnProfileUpdate.setOnClickListener {
+            val data: UserInfoModel? = mBinding.profile
+            if(data != null) {
+                data.name = mBinding.clPrivateName.info
+                data.email = mBinding.clPrivateEmail.info
+                data.phoneNumber = mBinding.clPrivatePhoneNumber.info
 
-//            mEditProfileViewModel.updateProfile()
-//            updateProfileInfo()
-//            updateProfile()
+                mEditProfileViewModel.updateProfile(data)
+            }
         }
 
         mBinding.ivProfileChange.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
+            val tempIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            val intent = Intent.createChooser(tempIntent, requireContext().getString(R.string.inser_image_chooser_title));
             changeProfileResult.launch(intent)
         }
 
         mHomeViewModel.loadUserData()
+
+        mBinding.clPrivateName.etProfileInfo.addTextChangedListener(updateProfileTextWatcher)
+        mBinding.clPrivateEmail.etProfileInfo.addTextChangedListener(updateProfileTextWatcher)
+        mBinding.clPrivatePhoneNumber.etProfileInfo.addTextChangedListener(updateProfileTextWatcher)
     }
 
     private fun initViewList() {

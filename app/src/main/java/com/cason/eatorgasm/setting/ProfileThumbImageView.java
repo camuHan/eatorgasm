@@ -125,9 +125,7 @@ public class ProfileThumbImageView extends AppCompatImageView implements Lifecyc
      *  따라서, 해당 메소드를 메인 쓰레드에서 실행시킬 때는 핸들러를 사용하지 마십시오.
      */
     @MainThread
-    public void
-
-    loadProfileThumbnail(){
+    public void loadProfileThumbnail(){
         // 게스트 유저이거나 별도로 프로필 이미지를 설정하지 않았다면 기본 이미지만 로드
 //        if (PoLinkUserInfo.getInstance().isGuestUser() || PoLinkUserInfo.getInstance().isUsingDefaultProfileImage()){
 //            this.setImageDrawable(getDefaultThumbnailDrawable(getContext()));

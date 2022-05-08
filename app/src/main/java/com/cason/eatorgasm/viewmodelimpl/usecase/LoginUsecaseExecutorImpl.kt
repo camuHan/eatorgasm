@@ -63,8 +63,7 @@ class LoginUsecaseExecutorImpl @Inject constructor(private val mFirestoreReposit
                 // 성공여부
                 if (it.isSuccessful) {
                     ToastManager.INSTANCE.onMessage(activity, "로그인 성공")
-
-                    mFirebaseUserLiveData.value = mAuth.currentUser
+                    loadUserData()
                 } else {
                     ToastManager.INSTANCE.onMessage(activity, "로그인 실패")
                 }

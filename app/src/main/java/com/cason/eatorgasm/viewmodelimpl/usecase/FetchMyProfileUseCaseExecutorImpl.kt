@@ -12,7 +12,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.net.URI
 import javax.inject.Inject
 
 class FetchMyProfileUseCaseExecutorImpl @Inject constructor(private val mFirestoreRepository: FirestoreRepositoryImpl) : FetchMyProfileUseCaseExecutor {
@@ -35,6 +34,7 @@ class FetchMyProfileUseCaseExecutorImpl @Inject constructor(private val mFiresto
             val user = FirebaseAuth.getInstance().currentUser
             if(user!= null) {
                 mUserInfoLiveData.postValue(mFirestoreRepository.fetchUserInfo(user))
+                fetchProfileImage()
             }
         }
     }
@@ -56,12 +56,18 @@ class FetchMyProfileUseCaseExecutorImpl @Inject constructor(private val mFiresto
 
     override fun updateProfileImage(uri: Uri) {
         vmScope.launch {
-            val result = mFirestoreRepository.updateProfileImageToFirestore(uri)
+            val result = mFirestoreRepository.updateProfileImage(uri)
             if(result) {
                 mUpdateProfileImage.postValue(uri)
+//                mUserInfoLiveData.value.photoUrl = uri.toString()
             }
         }
     }
 
-
+    override fun fetchProfileImage() {
+        vmScope.launch {
+            val uri = mFirestoreRepository.fetchProfileImage() ?: return@launch
+            mUpdateProfileImage.postValue(uri)
+        }
+    }
 }

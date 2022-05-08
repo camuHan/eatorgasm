@@ -1,6 +1,7 @@
 package com.cason.eatorgasm.viewimpl
 
 import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import com.bumptech.glide.Glide
@@ -16,19 +17,27 @@ class PrivateViewImpl (@ApplicationContext private val context: Context, private
     private var mActionListener: PrivateView.ActionListener? = null
 
     override fun setFirebaseUserLiveData(liveData: LiveData<FirebaseUser?>) {
-        liveData.observe(lifecycleOwner, { data: FirebaseUser? ->
+        liveData.observe(lifecycleOwner) { data: FirebaseUser? ->
             if (data == null) {
                 mActionListener?.onRenderToast("로그아웃 되었습니다.")
                 binding.profile = null
-                Glide.with(context).load(R.drawable.ic_eat_account_profile_circle).circleCrop().into(binding.ivUserThumb)
+                Glide.with(context).load(R.drawable.ic_eat_account_profile_circle).circleCrop()
+                    .into(binding.ivUserThumb)
             } else {
                 val profile = UserInfoModel()
                 profile.setFirebaseUserData(data)
                 binding.profile = profile
                 mActionListener?.onNotifySignInSuccess()
-                Glide.with(context).load(R.drawable.splash_eat_cason).circleCrop().into(binding.ivUserThumb)
             }
-        })
+        }
+    }
+
+    override fun setUpdateProfileImageLiveData(liveData: LiveData<Uri>) {
+        liveData.observe(lifecycleOwner) {
+            if (it != null) {
+                Glide.with(context).load(it).circleCrop().into(binding.ivUserThumb)
+            }
+        }
     }
 
     override fun setActionListener(actionListener: PrivateView.ActionListener) {

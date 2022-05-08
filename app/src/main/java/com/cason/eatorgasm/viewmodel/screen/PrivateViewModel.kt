@@ -7,9 +7,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.cason.eatorgasm.model.FirestoreRepository
 import com.cason.eatorgasm.util.ToastManager
 import com.cason.eatorgasm.view.PrivateView
+import com.cason.eatorgasm.viewmodel.usecase.FetchMyProfileUseCaseExecutor
 import com.cason.eatorgasm.viewmodel.usecase.LoginUsecaseExecutor
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,8 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PrivateViewModel @Inject constructor(
     private val handle: SavedStateHandle
-    , private val repository: FirestoreRepository
-    , private val usecase: LoginUsecaseExecutor): ViewModel(), PrivateView.ActionListener {
+    , private val profileUsecase: FetchMyProfileUseCaseExecutor
+    , private val loginUsecase: LoginUsecaseExecutor): ViewModel(), PrivateView.ActionListener {
 
     private lateinit var mActivityRef: WeakReference<Activity>
 
@@ -31,15 +31,16 @@ class PrivateViewModel @Inject constructor(
 
     fun setPrivateView(view: PrivateView) {
         view.setActionListener(this)
-        view.setFirebaseUserLiveData(usecase.getUserLiveData())
+        view.setFirebaseUserLiveData(loginUsecase.getUserLiveData())
+        view.setUpdateProfileImageLiveData(profileUsecase.getUpdateProfileImageResultLiveData())
     }
 
     fun loadUserData() {
-        usecase.loadUserData()
+        loginUsecase.loadUserData()
     }
 
     fun requestSignOut() {
-        usecase.signOut()
+        loginUsecase.signOut()
     }
 
     fun requestEditProfile(resultLauncher: ActivityResultLauncher<Intent>) {
@@ -50,7 +51,7 @@ class PrivateViewModel @Inject constructor(
     fun googleResult(result: ActivityResult) {
         if (result.resultCode == Activity.RESULT_OK) {
             GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            usecase.firebaseAuthWithGoogle(result.data, mActivityRef.get() as AppCompatActivity)
+            loginUsecase.firebaseAuthWithGoogle(result.data, mActivityRef.get() as AppCompatActivity)
         }
     }
 
@@ -58,6 +59,7 @@ class PrivateViewModel @Inject constructor(
         if (mActivityRef.get() == null) {
             return
         }
+        profileUsecase.fetchProfileImage()
 //        usecase.firebaseAuthWithGoogle(mActivityRef.get())
 //        val intent = Intent(mActivityRef.get(), MainActivity::class.java)
 //        mActivityRef.get()!!.startActivity(intent)
@@ -65,7 +67,7 @@ class PrivateViewModel @Inject constructor(
     }
 
     override fun onRequestedSignIn(resultLauncher: ActivityResultLauncher<Intent>) {
-        val signInIntent: Intent = usecase.getSignInIntent()
+        val signInIntent: Intent = loginUsecase.getSignInIntent()
         resultLauncher.launch(signInIntent)
     }
 

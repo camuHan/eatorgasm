@@ -90,7 +90,7 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
         return result
     }
 
-    override suspend fun updateProfileImageToFirestore(uri: Uri): Boolean {
+    override suspend fun updateProfileImage(uri: Uri): Boolean {
         var result = false
         val storageRef = FirebaseStorage.getInstance().reference
         val user = FirebaseAuth.getInstance().currentUser
@@ -103,6 +103,21 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
             }
         }.await()
         return result
+    }
+
+    override suspend fun fetchProfileImage(): Uri? {
+        var uri:Uri? = null
+        val storageRef = FirebaseStorage.getInstance().reference
+        val user = FirebaseAuth.getInstance().currentUser
+        val imageRef = storageRef.child("EatUser/${user?.uid}/photo")
+        imageRef.downloadUrl.addOnCompleteListener{
+            if(it.isSuccessful) {
+                uri = it.result
+            } else {
+                CMLog.e(TAG, "fail in \n + ${it.exception}")
+            }
+        }.await()
+        return uri
     }
 
     companion object {

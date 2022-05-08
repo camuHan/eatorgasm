@@ -15,4 +15,5 @@ interface FetchMyProfileUseCaseExecutor {
     fun getUpdateProfileImageResultLiveData(): LiveData<Uri>
     fun updateProfileData(data: UserInfoModel)
     fun updateProfileImage(uri: Uri)
+    fun fetchProfileImage()
 }

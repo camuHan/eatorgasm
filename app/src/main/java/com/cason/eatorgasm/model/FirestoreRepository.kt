@@ -9,5 +9,6 @@ interface FirestoreRepository {
     fun addUserIfNotExists(firebaseUser: FirebaseUser): Boolean?
     suspend fun fetchUserInfo(firebaseUser: FirebaseUser): UserInfoModel
     suspend fun updateUserToFirestore(userInfo: UserInfoModel): Boolean
-    suspend fun updateProfileImageToFirestore(uri: Uri): Boolean
+    suspend fun updateProfileImage(uri: Uri): Boolean
+    suspend fun fetchProfileImage(): Uri?
 }

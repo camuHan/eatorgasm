@@ -16,8 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EditProfileViewModel @Inject constructor(
     private val handle: SavedStateHandle
-    , private val repository: FirestoreRepository
-    , private val usecase: FetchMyProfileUseCaseExecutor): ViewModel(), EditProfileView.ActionListener {
+    , private val profileUsecase: FetchMyProfileUseCaseExecutor): ViewModel(), EditProfileView.ActionListener {
 
     private lateinit var mActivityRef: WeakReference<Activity>
     private lateinit var editProfileView: EditProfileView
@@ -30,8 +29,8 @@ class EditProfileViewModel @Inject constructor(
     fun setView(view: EditProfileView) {
         editProfileView = view
         view.setActionListener(this)
-        view.setUpdateProfileLiveData(usecase.getUpdateProfileResultLiveData())
-        view.setUpdateProfileImageLiveData(usecase.getUpdateProfileImageResultLiveData())
+        view.setUpdateProfileLiveData(profileUsecase.getUpdateProfileResultLiveData())
+        view.setUpdateProfileImageLiveData(profileUsecase.getUpdateProfileImageResultLiveData())
     }
 
     fun setUserProfileLiveData(liveData: LiveData<UserInfoModel?>) {
@@ -39,11 +38,15 @@ class EditProfileViewModel @Inject constructor(
     }
 
     fun updateProfile(userInfo: UserInfoModel) {
-        usecase.updateProfileData(userInfo)
+        profileUsecase.updateProfileData(userInfo)
     }
 
     fun updateProfileImage(uri: Uri) {
-        usecase.updateProfileImage(uri)
+        profileUsecase.updateProfileImage(uri)
+    }
+
+    fun fetchProfileImage() {
+        profileUsecase.fetchProfileImage()
     }
 
     fun loadUserData() {
