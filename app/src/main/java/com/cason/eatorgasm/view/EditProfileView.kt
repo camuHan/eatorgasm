@@ -14,5 +14,7 @@ interface EditProfileView {
     fun setUpdateProfileImageLiveData(liveData: LiveData<Uri>)
     fun setActionListener(actionListener: ActionListener)
 
+    fun setEnableUpdate()
+
     interface ActionListener : OnRenderToastAction
 }

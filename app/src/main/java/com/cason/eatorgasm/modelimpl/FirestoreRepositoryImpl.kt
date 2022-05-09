@@ -65,7 +65,7 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
             } else {
                 CMLog.e("HSH", "success in")
                 model.userId = it.result.getString("userId")
-                model.name = it.result.getString("strName")
+                model.name = it.result.getString("name")
                 model.email = it.result.getString("email")
                 model.phoneNumber = it.result.getString("phoneNumber")
                 model.photoUrl = it.result.getString("photoUrl")

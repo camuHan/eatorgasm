@@ -35,18 +35,11 @@ class EditProfileDialogFragment : BaseDialogFragment() {
     private lateinit var mBinding: EditProfileLayoutBinding
 
     val updateProfileTextWatcher: TextWatcher = object: TextWatcher {
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-        }
-
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             mBinding.btnProfileUpdate.isEnabled = true
         }
-
-        override fun afterTextChanged(p0: Editable?) {
-
-        }
-
+        override fun afterTextChanged(p0: Editable?) {}
     }
 
     private var mContentList = arrayListOf<String>()
@@ -94,7 +87,6 @@ class EditProfileDialogFragment : BaseDialogFragment() {
         initViewList()
 
         mEditProfileViewModel.setView(EditProfileViewImpl(requireContext(), mBinding, this))
-//        mEditProfileViewModel.fetchProfileImage()
         mEditProfileViewModel.setUserProfileLiveData(mHomeViewModel.getUserLiveData())
 
         mBinding.btnProfileUpdate.setOnClickListener {
@@ -113,8 +105,6 @@ class EditProfileDialogFragment : BaseDialogFragment() {
             val intent = Intent.createChooser(tempIntent, requireContext().getString(R.string.inser_image_chooser_title));
             changeProfileResult.launch(intent)
         }
-
-        mHomeViewModel.loadUserData()
 
         mBinding.clPrivateName.etProfileInfo.addTextChangedListener(updateProfileTextWatcher)
         mBinding.clPrivateEmail.etProfileInfo.addTextChangedListener(updateProfileTextWatcher)

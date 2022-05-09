@@ -2,10 +2,11 @@ package com.cason.eatorgasm.viewmodel.screen
 
 import android.app.Activity
 import android.net.Uri
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.cason.eatorgasm.model.FirestoreRepository
 import com.cason.eatorgasm.model.entity.UserInfoModel
 import com.cason.eatorgasm.view.EditProfileView
 import com.cason.eatorgasm.viewmodel.usecase.FetchMyProfileUseCaseExecutor
@@ -24,7 +25,6 @@ class EditProfileViewModel @Inject constructor(
     fun setParentContext(parentContext: Activity) {
         mActivityRef = WeakReference(parentContext)
     }
-
 
     fun setView(view: EditProfileView) {
         editProfileView = view

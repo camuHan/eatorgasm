@@ -2,8 +2,10 @@
 <resources>
 <!--  eat orgasm  -->
     <dimen name="common_tab_layout_height">56dp</dimen>
-
     <dimen name="profile_info_text_size">17sp</dimen>
+
+    <dimen name="fab_margin_bottom">16dp</dimen>
+    <dimen name="fab_margin_end">14dp</dimen>
 
     <!-- file browser enhancement -->
     <dimen name="home_thumbnail_column_width">100.67dp</dimen>

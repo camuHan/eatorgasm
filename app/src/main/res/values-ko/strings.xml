@@ -9,5 +9,6 @@
     <string name="inser_image_chooser_title">"변경할 프로필 사진을 선택해주세요."</string>
 
     <string name="cm_btn_done">"확인"</string>
+    <string name="string_update">업데이트</string>
 
 </resources>

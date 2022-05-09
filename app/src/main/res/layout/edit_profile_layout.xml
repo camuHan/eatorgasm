@@ -2,6 +2,9 @@
 <layout xmlns:bind="http://schemas.android.com/tools">
     <data>
         <variable
+            name="viewmodel"
+            type="com.cason.eatorgasm.viewmodel.screen.EditProfileViewModel" />
+        <variable
             name="profile"
             type="com.cason.eatorgasm.model.entity.UserInfoModel" />
     </data>
@@ -94,7 +97,8 @@
             android:id="@+id/btn_profile_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Update"
+            android:text="@string/string_update"
+            android:enabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cl_private_phone_number"
             app:layout_constraintStart_toStartOf="parent"

@@ -38,6 +38,10 @@ class EditProfileViewImpl(@ApplicationContext private val context: Context, priv
         }
     }
 
+    override fun setEnableUpdate() {
+        binding.btnProfileUpdate.isEnabled = true
+    }
+
     override fun setActionListener(actionListener: EditProfileView.ActionListener) {
 
     }
