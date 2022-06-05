@@ -1,14 +1,17 @@
 <resources>
-    <string name="app_name">eat orgasm</string>
+    <string name="app_name">"eat orgasm"</string>
 
-    <string name="eat_tab_home_string">home</string>
-    <string name="eat_tab_map">map</string>
-    <string name="eat_tab_chat">chatting</string>
-    <string name="eat_tab_private_string">private</string>
+    <string name="eat_tab_home_string">"home"</string>
+    <string name="eat_tab_map">"map"</string>
+    <string name="eat_tab_chat">"chatting"</string>
+    <string name="eat_tab_private_string">"private"</string>
 
     <string name="inser_image_chooser_title">"Choose your profile picture"</string>
 
+    <string name="string_cancel">"Cancel"</string>
     <string name="cm_btn_done">"Done"</string>
-    <string name="string_update">Update</string>
+    <string name="string_update">"Update"</string>
+    <string name="string_uploading">"Uploading…"</string>
 
+    <string name="string_title">"Title"</string>
 </resources>

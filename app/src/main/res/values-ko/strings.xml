@@ -1,14 +1,18 @@
 <resources>
-    <string name="app_name">eat orgasm</string>
+    <string name="app_name">"eat orgasm"</string>
 
-    <string name="eat_tab_home_string">홈</string>
-    <string name="eat_tab_map">지도</string>
-    <string name="eat_tab_chat">채팅</string>
-    <string name="eat_tab_private_string">개인</string>
+    <string name="eat_tab_home_string">"홈"</string>
+    <string name="eat_tab_map">"지도"</string>
+    <string name="eat_tab_chat">"채팅"</string>
+    <string name="eat_tab_private_string">"개인"</string>
 
     <string name="inser_image_chooser_title">"변경할 프로필 사진을 선택해주세요."</string>
 
+    <string name="string_cancel">"취소"</string>
     <string name="cm_btn_done">"확인"</string>
-    <string name="string_update">업데이트</string>
+    <string name="string_update">"업데이트"</string>
+    <string name="string_uploading">"업로드 중…"</string>
+
+    <string name="string_title">"제목"</string>
 
 </resources>

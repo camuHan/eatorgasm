@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseUser
 interface PrivateView {
 
     fun setFirebaseUserLiveData(liveData: LiveData<FirebaseUser?>)
-    fun setUpdateProfileImageLiveData(liveData: LiveData<Uri>)
+    fun setUpdateProfileImageLiveData(liveData: LiveData<String>)
     fun setActionListener(actionListener: ActionListener)
 
     interface ActionListener : OnNotifySignInSuccessAction, OnRequestedSignInAction,

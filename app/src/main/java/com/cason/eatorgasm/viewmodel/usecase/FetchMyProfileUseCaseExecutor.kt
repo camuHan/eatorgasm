@@ -12,7 +12,7 @@ interface FetchMyProfileUseCaseExecutor {
     fun getUserInfoLiveData(): LiveData<UserInfoModel?>
     fun fetchProfileData()
     fun getUpdateProfileResultLiveData(): LiveData<Boolean>
-    fun getUpdateProfileImageResultLiveData(): LiveData<Uri>
+    fun getUpdateProfileImageResultLiveData(): LiveData<String>
     fun updateProfileData(data: UserInfoModel)
     fun updateProfileImage(uri: Uri)
     fun fetchProfileImage()

@@ -23,6 +23,7 @@ import com.cason.eatorgasm.MainFragmentFactoryImpl
 import com.cason.eatorgasm.R
 import com.cason.eatorgasm.databinding.HomeMainViewBinding
 import com.cason.eatorgasm.model.entity.UserInfoModel
+import com.cason.eatorgasm.util.ProgressManager
 import com.cason.eatorgasm.util.Utils
 import com.cason.eatorgasm.viewmodel.screen.HomeViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -89,8 +90,7 @@ class EatHomeActivity : AppCompatActivity(), EatHomeActivityActionListener {
     }
 
     private fun createProgressDialog() {
-//        HomeFileProgress(this).setProgressBar()
-//        HomeFileProgress(this).setProgressBasic()
+        ProgressManager(this).setProgressBar()
     }
 
     private fun setLayout() {

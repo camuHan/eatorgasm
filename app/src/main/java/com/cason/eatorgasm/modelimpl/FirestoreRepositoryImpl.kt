@@ -1,20 +1,26 @@
 package com.cason.eatorgasm.modelimpl
 
 import android.net.Uri
+import com.cason.eatorgasm.define.CMEnum
 import com.cason.eatorgasm.model.FirestoreRepository
 import com.cason.eatorgasm.model.entity.UserInfoModel
 import com.cason.eatorgasm.util.CMLog
 import com.cason.eatorgasm.util.CMLog.d
+import com.cason.eatorgasm.util.ProgressManager
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.tasks.await
 import java.net.URI
+import java.net.URL
 import javax.inject.Inject
 
 class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
@@ -59,7 +65,8 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
     override suspend fun fetchUserInfo(firebaseUser: FirebaseUser): UserInfoModel {
         val model = UserInfoModel()
         val db = FirebaseFirestore.getInstance()
-        db.collection(COLLECTION_NAME_USERS).document(firebaseUser.uid).get().addOnCompleteListener {
+        db.collection(COLLECTION_NAME_USERS).document(firebaseUser.uid).get()
+            .addOnCompleteListener {
             if(!it.isSuccessful) {
                 CMLog.e("HSH", "fail in \n + ${it.exception}")
             } else {
@@ -90,38 +97,99 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
         return result
     }
 
-    override suspend fun updateProfileImage(uri: Uri): Boolean {
-        var result = false
+    override suspend fun uploadProfileImageInStorage(uri: Uri): String? {
+//        var result = false
+        var result: String? = null
         val storageRef = FirebaseStorage.getInstance().reference
         val user = FirebaseAuth.getInstance().currentUser
-        val imageRef = storageRef.child("EatUser/${user?.uid}/photo")
-        imageRef.putFile(uri).addOnCompleteListener{
+        val imageRef = storageRef.child("userProfileImages").child(user?.uid!!)
+//        val imageRef = storageRef.child("EatUser/${user?.uid}/photo")
+//        imageRef.putFile(uri).addOnCompleteListener{
+//            if(it.isSuccessful) {
+////                result = true
+//                result= imageRef.downloadUrl.toString()
+//            } else {
+//                CMLog.e(TAG, "fail in \n + ${it.exception}")
+//            }
+//        }.await()
+        ProgressManager.setMaxValue(100)
+        ProgressManager.showProgressBar(CMEnum.CommonProgressType.UPLOAD, null)
+
+        imageRef.putFile(uri).addOnProgressListener {
+            val transferredByte = it.bytesTransferred
+            val totalByte = it.totalByteCount
+            val progress: Double = 100.0 * transferredByte / totalByte
+
+            ProgressManager.updateByPercent(progress.toInt())
+
+
+        }.continueWithTask { task: Task<UploadTask.TaskSnapshot> ->
+            return@continueWithTask imageRef.downloadUrl
+        }.addOnCompleteListener{
             if(it.isSuccessful) {
-                result = true
+//                result = true
+                result= it.result.toString()
             } else {
                 CMLog.e(TAG, "fail in \n + ${it.exception}")
             }
+            ProgressManager.dismissProgressBar()
         }.await()
         return result
     }
 
-    override suspend fun fetchProfileImage(): Uri? {
-        var uri:Uri? = null
-        val storageRef = FirebaseStorage.getInstance().reference
-        val user = FirebaseAuth.getInstance().currentUser
-        val imageRef = storageRef.child("EatUser/${user?.uid}/photo")
-        imageRef.downloadUrl.addOnCompleteListener{
-            if(it.isSuccessful) {
-                uri = it.result
-            } else {
-                CMLog.e(TAG, "fail in \n + ${it.exception}")
-            }
-        }.await()
-        return uri
+    override suspend fun uploadProfileImage(data: Any): Boolean {
+        var result = false
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        val db = FirebaseFirestore.getInstance()
+        db.collection(COLLECTION_NAME_PROFILE_IMAGES)
+            .document(uid!!)
+            .set(data).addOnCompleteListener {
+                if(it.isSuccessful) {
+                    result = true
+                } else {
+                    CMLog.e(TAG, "fail in \n + ${it.exception}")
+                }
+            }.await()
+        return result
     }
+
+    override suspend fun fetchProfileImage(): DocumentSnapshot?{
+        var snapshot:DocumentSnapshot? = null
+        val model = UserInfoModel()
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        val db = FirebaseFirestore.getInstance()
+        db.collection(COLLECTION_NAME_PROFILE_IMAGES).document(uid!!).get()
+            .addOnCompleteListener {
+                if(!it.isSuccessful) {
+                    CMLog.e("HSH", "fail in \n + ${it.exception}")
+                } else {
+                    CMLog.e("HSH", "success in")
+                    snapshot = it.result
+                }
+            }.await()
+
+        return snapshot
+    }
+
+//    override suspend fun fetchProfileImage(): Uri? {
+//        var uri:Uri? = null
+//        val storageRef = FirebaseStorage.getInstance().reference
+//        val user = FirebaseAuth.getInstance().currentUser
+//        val imageRef = storageRef.child("EatUser/${user?.uid}/photo")
+//        imageRef.downloadUrl.addOnCompleteListener{
+//            if(it.isSuccessful) {
+//                uri = it.result
+//            } else {
+//                CMLog.e(TAG, "fail in \n + ${it.exception}")
+//            }
+//        }.await()
+//        return uri
+//    }
 
     companion object {
         private val TAG = FirestoreRepositoryImpl::class.java.simpleName
         private const val COLLECTION_NAME_USERS = "users"
+        private const val COLLECTION_NAME_BOARDS = "boards"
+        private const val COLLECTION_NAME_PROFILE_IMAGES = "profileImages"
     }
 }

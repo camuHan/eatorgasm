@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "342726069396",
+    "firebase_url": "https://eat-orgasm-default-rtdb.firebaseio.com",
     "project_id": "eat-orgasm",
     "storage_bucket": "eat-orgasm.appspot.com"
   },
@@ -13,6 +14,22 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "342726069396-jfg6kup09q081882t1h9d30bp8umt29e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cason.eatorgasm",
+            "certificate_hash": "a20ea379673db5e3fcc67de9b2858e32f354e01f"
+          }
+        },
+        {
+          "client_id": "342726069396-l7c5tkqk5qdd65ohr0mmd5ae9mjvasjb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cason.eatorgasm",
+            "certificate_hash": "237b7b824b4056550f5b596503ca46993797d135"
+          }
+        },
         {
           "client_id": "342726069396-lorbs93eb30uh6ts0rbcqqasqmpprgas.apps.googleusercontent.com",
           "client_type": 1,

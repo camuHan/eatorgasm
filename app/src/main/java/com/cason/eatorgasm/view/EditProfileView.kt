@@ -11,7 +11,7 @@ interface EditProfileView {
 
     fun setUserProfileLiveData(liveData: LiveData<UserInfoModel?>)
     fun setUpdateProfileLiveData(liveData: LiveData<Boolean>)
-    fun setUpdateProfileImageLiveData(liveData: LiveData<Uri>)
+    fun setUpdateProfileImageLiveData(liveData: LiveData<String>)
     fun setActionListener(actionListener: ActionListener)
 
     fun setEnableUpdate()
