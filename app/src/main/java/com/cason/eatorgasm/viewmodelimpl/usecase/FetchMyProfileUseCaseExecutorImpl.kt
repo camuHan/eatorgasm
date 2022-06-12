@@ -46,7 +46,8 @@ class FetchMyProfileUseCaseExecutorImpl @Inject constructor(private val mFiresto
 
     override fun updateProfileData(data: UserInfoModel) {
         vmScope.launch {
-            val result = mFirestoreRepository.updateUserToFirestore(data)
+            mFirestoreRepository.updateUserToFirestore(data)
+            val result = mFirestoreRepository.updateProfile(data)
             mUpdateUserInfo.postValue(result)
         }
     }

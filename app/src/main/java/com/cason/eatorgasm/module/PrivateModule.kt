@@ -11,11 +11,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class PrivateModule {
-//    @Provides
-//    fun providePrivteView(binding: PrivateFragmentBinding, lifecycleOwner: LifecycleOwner): PrivateView {
-//        return PrivateView(binding, lifecycleOwner)
-//    }
-
     @Singleton
     @Binds
     abstract fun bindMyProfileUseCase(fetchMyProfileUsecaseExecutorImpl: FetchMyProfileUseCaseExecutorImpl): FetchMyProfileUseCaseExecutor

@@ -60,10 +60,6 @@ class PrivateViewModel @Inject constructor(
             return
         }
         profileUsecase.fetchProfileImage()
-//        usecase.firebaseAuthWithGoogle(mActivityRef.get())
-//        val intent = Intent(mActivityRef.get(), MainActivity::class.java)
-//        mActivityRef.get()!!.startActivity(intent)
-//        finishActivity()
     }
 
     override fun onRequestedSignIn(resultLauncher: ActivityResultLauncher<Intent>) {

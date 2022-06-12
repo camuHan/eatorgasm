@@ -65,7 +65,7 @@ class EditProfileDialogFragment : BaseDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),1)
+//        ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),1)
     }
 
     override fun onCreateView(
@@ -85,6 +85,7 @@ class EditProfileDialogFragment : BaseDialogFragment() {
 
     private fun initLayout() {
         initViewList()
+        mHomeViewModel.loadUserData()
 
         mEditProfileViewModel.setView(EditProfileViewImpl(requireContext(), mBinding, this))
         mEditProfileViewModel.setUserProfileLiveData(mHomeViewModel.getUserLiveData())
@@ -95,6 +96,7 @@ class EditProfileDialogFragment : BaseDialogFragment() {
                 data.name = mBinding.clPrivateName.info
                 data.email = mBinding.clPrivateEmail.info
                 data.phoneNumber = mBinding.clPrivatePhoneNumber.info
+                data.photoUrl = mBinding.clPrivatePhotoUrl.info
 
                 mEditProfileViewModel.updateProfile(data)
             }

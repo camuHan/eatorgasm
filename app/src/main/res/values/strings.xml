@@ -14,4 +14,7 @@
     <string name="string_uploading">"Uploading…"</string>
 
     <string name="string_title">"Title"</string>
+    <string name="string_contents">"Contents"</string>
+    <string name="string_new_board">"New Board"</string>
+
 </resources>

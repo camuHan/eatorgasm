@@ -36,7 +36,7 @@ class ProgressManager(private val mActivity: Activity) {
         private lateinit var CANCEL: CharSequence
 
         fun showProgressBar(type: CMEnum.CommonProgressType, listener: DialogInterface.OnClickListener?) {
-            mBarDialog.setMessage("$mCurrentCount/${mProgressBar.max}")
+            mBarDialog.setMessage("$mCurrentCount%")
             showProgress(mBarDialog, type, listener)
         }
 
@@ -58,7 +58,7 @@ class ProgressManager(private val mActivity: Activity) {
         }
 
         fun updateByPercent(percent: Int) {
-            mBarDialog.setMessage("${percent}/${mProgressBar.max}")
+            mBarDialog.setMessage("${percent}%")
             if (mProgressBar.max > 0) {
                 mProgressBar.progress = percent
             }

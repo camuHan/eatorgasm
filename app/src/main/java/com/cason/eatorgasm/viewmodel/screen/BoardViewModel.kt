@@ -5,8 +5,10 @@ import android.content.Intent
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.cason.eatorgasm.model.entity.BoardInfoModel
 import com.cason.eatorgasm.util.ToastManager
 import com.cason.eatorgasm.view.PrivateView
 import com.cason.eatorgasm.viewmodel.usecase.BoardUseCaseExecutor
@@ -33,6 +35,18 @@ class BoardViewModel @Inject constructor(
 //        view.setActionListener(this)
 //        view.setFirebaseUserLiveData(boardUsecase.getUserLiveData())
 //        view.setUpdateProfileImageLiveData(profileUsecase.getUpdateProfileImageResultLiveData())
+    }
+
+    fun addBoardData(data: BoardInfoModel) {
+        boardUsecase.addBoardData(data)
+    }
+
+    fun updateBoardDataList() {
+        boardUsecase.fetchBoardDataList()
+    }
+
+    fun getBoardLiveData(): LiveData<ArrayList<BoardInfoModel>> {
+        return boardUsecase.getBoardListLiveData()
     }
 
 }

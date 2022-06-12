@@ -20,8 +20,15 @@ import com.cason.eatorgasm.R
 import com.cason.eatorgasm.modelimpl.FirestoreRepositoryImpl
 import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class LoginUsecaseExecutorImpl @Inject constructor(private val mFirestoreRepository: FirestoreRepositoryImpl, @ApplicationContext private val context: Context) : LoginUsecaseExecutor {
+    private val vmJob = Job()
+    private val vmScope = CoroutineScope(Dispatchers.Main + vmJob)
+
     private val mFirebaseUserLiveData: MutableLiveData<FirebaseUser?> = MutableLiveData<FirebaseUser?>()
     private val mThrowableLiveData: MutableLiveData<Throwable> = MutableLiveData<Throwable>()
     private val mGoogleSignInClient: GoogleSignInClient
@@ -63,7 +70,7 @@ class LoginUsecaseExecutorImpl @Inject constructor(private val mFirestoreReposit
                 // 성공여부
                 if (it.isSuccessful) {
                     ToastManager.INSTANCE.onMessage(activity, "로그인 성공")
-                    loadUserData()
+                    uploadUserInfoToRemoteDb()
                 } else {
                     ToastManager.INSTANCE.onMessage(activity, "로그인 실패")
                 }
@@ -71,8 +78,10 @@ class LoginUsecaseExecutorImpl @Inject constructor(private val mFirestoreReposit
     }
 
     private fun uploadUserInfoToRemoteDb() {
-        mFirestoreRepository.addUserIfNotExists(mAuth.currentUser!!)
-
+        vmScope.launch {
+            mFirestoreRepository.addUserIfNotExists(mAuth.currentUser!!)
+            loadUserData()
+        }
     }
 
     override fun signOut() {
