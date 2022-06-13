@@ -6,10 +6,10 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
 
-    <color name="common_fragment_background">@color/gray10</color>
+    <color name="common_fragment_background">@color/dark_bg04</color>
 
-    <color name="common_list_divider_color">@color/gray11</color>
+    <color name="common_list_divider_color">@color/dark_bg02</color>
 
-    <color name="common_tab_bg">@color/white</color>
-    <color name="common_text_color">@color/gray02</color>
+    <color name="common_tab_bg">@color/dark_bg03</color>
+    <color name="common_text_color">@color/dark_content01</color>
 </resources>

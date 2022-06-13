@@ -74,7 +74,7 @@ class EatHomeActivity : AppCompatActivity(), EatHomeActivityActionListener {
         tabIconList = getResourceIdList(R.array.home_tab_button_drawable)
         initViewPager()
 
-//        setSupportActionBar(mBinding.homeToolbarLayout.homeToolbar)
+        setSupportActionBar(mBinding.homeToolbarLayout.root)
         showDisplayLogoInActionBar(true)
 
         mHomeViewModel.loadUserData()

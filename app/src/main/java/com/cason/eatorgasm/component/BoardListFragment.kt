@@ -55,20 +55,6 @@ class BoardListFragment : Fragment(), BoardContract {
         mBoardListAdapter = BoardListAdapter(requireContext(), this)
         mBinding.rvBoardList.adapter = mBoardListAdapter
 
-//        val list = ArrayList<BoardInfoModel>()
-//        val boardItem = BoardInfoModel()
-//        boardItem.title = "test1"
-//        boardItem.contents = "test111111 werfsdfa"
-//        val boardItem2 = BoardInfoModel()
-//        boardItem2.title = "test2"
-//        boardItem2.contents = "test22222 dfasdf3222222"
-//        val boardItem3 = BoardInfoModel()
-//        boardItem3.title = "test3"
-//        boardItem3.contents = "test33333 dsafasgggr333333"
-//        list.add(boardItem)
-//        list.add(boardItem2)
-//        list.add(boardItem3)
-//        mBoardListAdapter?.submitList(list)
         mBoardViewModel.updateBoardDataList()
 
     }

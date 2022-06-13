@@ -418,7 +418,7 @@ class ProfileImageChooserContract extends ActivityResultContract<Void, Uri> {
     @Override
     public Intent createIntent(@NonNull Context context, @NonNull Void input) {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        return Intent.createChooser(intent, context.getString(R.string.inser_image_chooser_title));
+        return Intent.createChooser(intent, context.getString(R.string.insert_image_chooser_title));
     }
 
     @Override

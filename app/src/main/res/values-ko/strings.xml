@@ -6,7 +6,7 @@
     <string name="eat_tab_chat">"채팅"</string>
     <string name="eat_tab_private_string">"개인"</string>
 
-    <string name="inser_image_chooser_title">"변경할 프로필 사진을 선택해주세요."</string>
+    <string name="insert_image_chooser_title">"변경할 프로필 사진을 선택해주세요."</string>
 
     <string name="string_cancel">"취소"</string>
     <string name="cm_btn_done">"확인"</string>
@@ -16,5 +16,6 @@
     <string name="string_title">"제목"</string>
     <string name="string_contents">"내용"</string>
     <string name="string_new_board">"새 게시판"</string>
+    <string name="string_location">"위치"</string>
 
 </resources>

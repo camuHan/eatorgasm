@@ -7,22 +7,20 @@
     android:layout_height="match_parent"
     tools:context="com.cason.eatorgasm.component.BoardFragment">
 
-    <include layout="@layout/common_toolbar" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_board_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="77dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:fitsSystemWindows="true"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/common_toolbar"
+        app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/board_list_item" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -32,9 +30,10 @@
         android:layout_marginEnd="@dimen/fab_margin_end"
         android:layout_marginBottom="@dimen/fab_margin_bottom"
         android:clickable="true"
-        android:contentDescription="@string/string_new_board"
         android:focusable="true"
+        android:contentDescription="@string/string_new_board"
         android:src="@drawable/ic_board_add"
+        app:backgroundTint="?colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:src="@tools:sample/avatars" />

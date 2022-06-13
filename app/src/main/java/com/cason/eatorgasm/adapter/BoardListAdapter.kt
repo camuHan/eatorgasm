@@ -34,18 +34,6 @@ class BoardListAdapter(private var context: Context, contract: BoardContract) :
             mHolderBinding.model = item
             mHolderBinding.clPrivateProfile.tvUserName.text = item?.name
             Glide.with(context).load(item?.photoUrl).circleCrop().into(mHolderBinding.clPrivateProfile.ivUserThumb)
-//            mHolderBinding.model = item
-//            mHolderBinding.backBg = null
-//            mHolderBinding.homeBrowserFileTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
-//            mHolderBinding.homeBrowserFileDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
-//            mHolderBinding.homeBrowserFileSize.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
-//            mHolderBinding.homeBrowserFileCheckbox.visibility = mCheckBoxVisibility
-//            mHolderBinding.homeBrowserFileMore.visibility = mMoreButtonVisibility
-//            mHolderBinding.homeBrowserFileCheckbox.setOnCheckedChangeListener(this)
-//            mHolderBinding.homeBrowserFileMore.setOnSingleClickListener { onSingleClick(it) }
-//            mHolderBinding.root.setOnSingleClickListener { onSingleClick(it) }
-//            mHolderBinding.root.setOnLongClickListener(this)
-//            mHolderBinding.executePendingBindings()
         }
 
         private fun onSingleClick(view: View?) {

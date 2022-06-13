@@ -1,8 +1,5 @@
 package com.cason.eatorgasm.model.entity
 
-import com.cason.eatorgasm.R
-import com.google.firebase.auth.FirebaseUser
-
 data class BoardInfoModel(
     var userId: String? = "",
     var publisher: String? = "",

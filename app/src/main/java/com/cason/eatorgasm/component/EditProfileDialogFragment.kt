@@ -1,6 +1,5 @@
 package com.cason.eatorgasm.component
 
-import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -11,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.cason.eatorgasm.R
@@ -104,7 +102,7 @@ class EditProfileDialogFragment : BaseDialogFragment() {
 
         mBinding.ivProfileChange.setOnClickListener {
             val tempIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            val intent = Intent.createChooser(tempIntent, requireContext().getString(R.string.inser_image_chooser_title));
+            val intent = Intent.createChooser(tempIntent, requireContext().getString(R.string.insert_image_chooser_title));
             changeProfileResult.launch(intent)
         }
 
