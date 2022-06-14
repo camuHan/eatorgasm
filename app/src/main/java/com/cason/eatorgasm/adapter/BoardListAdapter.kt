@@ -13,7 +13,7 @@ import com.cason.eatorgasm.databinding.BoardListItemBinding
 import com.cason.eatorgasm.model.entity.BoardInfoModel
 
 class BoardListAdapter(private var context: Context, contract: BoardContract) :
-    ListAdapter<BoardInfoModel, RecyclerView.ViewHolder>(HomeFileItemDiffCallback()) {
+    ListAdapter<BoardInfoModel, RecyclerView.ViewHolder>(BoardItemDiffCallback()) {
 
     var mBoardContract = contract
 
@@ -74,7 +74,7 @@ class BoardListAdapter(private var context: Context, contract: BoardContract) :
     }
 }
 
-class HomeFileItemDiffCallback : DiffUtil.ItemCallback<BoardInfoModel>() {
+class BoardItemDiffCallback : DiffUtil.ItemCallback<BoardInfoModel>() {
     override fun areItemsTheSame(
         oldItem: BoardInfoModel,
         newItem: BoardInfoModel

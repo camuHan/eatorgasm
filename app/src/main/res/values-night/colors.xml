@@ -7,9 +7,10 @@
     <color name="teal_700">#FF018786</color>
 
     <color name="common_fragment_background">@color/dark_bg04</color>
-
     <color name="common_list_divider_color">@color/dark_bg02</color>
 
+    <color name="common_divider_color">@color/dark_bg02</color>
+    <color name="common_box_bg">@color/dark_bg05</color>
     <color name="common_tab_bg">@color/dark_bg03</color>
     <color name="common_text_color">@color/dark_content01</color>
 </resources>

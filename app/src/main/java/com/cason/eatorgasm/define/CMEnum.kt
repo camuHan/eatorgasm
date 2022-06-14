@@ -14,7 +14,7 @@ class CMEnum {
         INFO,
         DELETE,
         UN_SELECT,
-        NAVI_CLICKED
+        IMAGE_CLICKED
     }
 
     enum class CommonProgressType {

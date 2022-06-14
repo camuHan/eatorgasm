@@ -42,7 +42,6 @@ class BoardListFragment : Fragment(), BoardContract {
         initializeBoardListView()
         setObservers()
 
-
         mBinding.fbNewBoardAdd.setOnClickListener {
             val fragment = BoardDialogFragment()
             val transaction: FragmentTransaction = parentFragmentManager.beginTransaction()
@@ -56,7 +55,6 @@ class BoardListFragment : Fragment(), BoardContract {
         mBinding.rvBoardList.adapter = mBoardListAdapter
 
         mBoardViewModel.updateBoardDataList()
-
     }
 
     private fun setObservers() {

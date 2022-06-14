@@ -6,12 +6,10 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
 import com.cason.eatorgasm.R
 import com.cason.eatorgasm.adapter.BoardContract
 import com.cason.eatorgasm.adapter.BoardImageListAdapter
@@ -25,7 +23,7 @@ import com.cason.eatorgasm.viewmodel.screen.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class BoardDialogFragment : BaseDialogFragment(), BoardContract {
+class ImagePageDialogFragment : BaseDialogFragment(), BoardContract {
     private lateinit var mBinding: BoardFragmentBinding
     private val mHomeViewModel: HomeViewModel by activityViewModels()
     private val mBoardViewModel: BoardViewModel by viewModels()
@@ -33,7 +31,7 @@ class BoardDialogFragment : BaseDialogFragment(), BoardContract {
     private var mBoardImageListAdapter: BoardImageListAdapter? = null
 
     companion object {
-        fun newInstance() = BoardDialogFragment()
+        fun newInstance() = ImagePageDialogFragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -41,21 +39,14 @@ class BoardDialogFragment : BaseDialogFragment(), BoardContract {
         return mBinding.root
     }
 
-    private val addImageResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == Activity.RESULT_OK) {
-            val clipData = it?.data?.clipData
-            val clipDataSize = clipData?.itemCount
-            if (clipData == null) { //이미지를 하나만 선택할 경우 clipData가 null이 올수 있음
-                val selectedImageUri = it.data?.data.toString()
-                mBoardImageListAdapter?.addItem(selectedImageUri)
+    private val addImageResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            try{
+                val uri = result?.data?.data.toString()
+                mBoardImageListAdapter?.addItem(uri)
+//                mEditProfileViewModel.updateProfileImage(uri!!)
 
-            } else {
-                val list = ArrayList<String>()
-                for (i in 0 until clipDataSize!!) { //선택 한 사진수만큼 반복
-                    list.add(clipData.getItemAt(i).uri.toString())
-                }
-                mBoardImageListAdapter?.setItems(list)
-            }
+            }catch (e:Exception){}
         }
     }
 
@@ -65,10 +56,8 @@ class BoardDialogFragment : BaseDialogFragment(), BoardContract {
         initializeBoardImageListView()
 
         mBinding.btnBoardCamera.setOnClickListener {
-            val intent = Intent()
-            intent.type = "image/*"
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-            intent.action = Intent.ACTION_PICK
+            val tempIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            val intent = Intent.createChooser(tempIntent, requireContext().getString(R.string.insert_image_chooser_title));
             addImageResult.launch(intent)
         }
 
@@ -90,13 +79,7 @@ class BoardDialogFragment : BaseDialogFragment(), BoardContract {
     }
 
     override fun onCommand(commandType: CMEnum.EatCommand, vararg args: Any?) {
-        when(commandType) {
-            CMEnum.EatCommand.IMAGE_CLICKED -> {
-//                Glide.with(requireContext()).load(args[0].toString()).into(mBinding.ivCustomImage)
-//                mBinding.ivCustomImage.visibility = VISIBLE
-            }
-            else -> {}
-        }
+        TODO("Not yet implemented")
     }
 
 }
