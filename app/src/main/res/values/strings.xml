@@ -18,4 +18,9 @@
     <string name="string_new_board">"New Board"</string>
     <string name="string_location">"Location"</string>
 
+    <string name="string_user_id">"User ID"</string>
+    <string name="string_display_name">"Display Name"</string>
+    <string name="string_email">"Email"</string>
+    <string name="string_phone_number">"PhoneNumber"</string>
+
 </resources>

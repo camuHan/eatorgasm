@@ -59,7 +59,6 @@ class PrivateViewModel @Inject constructor(
         if (mActivityRef.get() == null) {
             return
         }
-        profileUsecase.fetchProfileImage()
     }
 
     override fun onRequestedSignIn(resultLauncher: ActivityResultLauncher<Intent>) {

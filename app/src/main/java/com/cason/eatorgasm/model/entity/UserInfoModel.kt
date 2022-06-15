@@ -12,11 +12,12 @@ data class UserInfoModel(
     var photoUrl: String? = "",
     var timestapCreated: String? = ""
 ) {
-    fun setFirebaseUserData (user: FirebaseUser) {
+    fun setFirebaseUserData (user: FirebaseUser): UserInfoModel {
         userId = user.uid
         name = user.displayName
         email = user.email
         phoneNumber = user.phoneNumber
         photoUrl = user.photoUrl.toString()
+        return this
     }
 }

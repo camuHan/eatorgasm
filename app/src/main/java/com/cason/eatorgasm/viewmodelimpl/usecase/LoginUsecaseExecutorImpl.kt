@@ -5,7 +5,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.cason.eatorgasm.model.FirestoreRepository
+import com.cason.eatorgasm.R
+import com.cason.eatorgasm.modelimpl.FirestoreRepositoryImpl
 import com.cason.eatorgasm.util.ToastManager
 import com.cason.eatorgasm.viewmodel.usecase.LoginUsecaseExecutor
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -14,16 +15,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.*
-import javax.inject.Inject
-import com.cason.eatorgasm.R
-import com.cason.eatorgasm.modelimpl.FirestoreRepositoryImpl
-import dagger.hilt.android.qualifiers.ActivityContext
+import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class LoginUsecaseExecutorImpl @Inject constructor(private val mFirestoreRepository: FirestoreRepositoryImpl, @ApplicationContext private val context: Context) : LoginUsecaseExecutor {
     private val vmJob = Job()

@@ -24,14 +24,15 @@ class PrivateViewImpl (@ApplicationContext private val context: Context, private
                 Glide.with(context).load(R.drawable.ic_eat_account_profile_circle).circleCrop()
                     .into(binding.ivUserThumb)
             } else {
-                val profile = UserInfoModel()
-                profile.setFirebaseUserData(data)
+                val profile: UserInfoModel = UserInfoModel().setFirebaseUserData(data)
                 binding.profile = profile
-                mActionListener?.onNotifySignInSuccess()
+                Glide.with(context).load(data.photoUrl).circleCrop()
+                    .into(binding.ivUserThumb)
             }
         }
     }
 
+    //nothing
     override fun setUpdateProfileImageLiveData(liveData: LiveData<String>) {
         liveData.observe(lifecycleOwner) {
             if (it != null) {

@@ -1,12 +1,11 @@
 package com.cason.eatorgasm.viewmodelimpl.usecase
 
 import android.net.Uri
-import com.cason.eatorgasm.viewmodel.usecase.FetchMyProfileUseCaseExecutor
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.cason.eatorgasm.model.entity.UserInfoModel
-import androidx.lifecycle.LiveData
 import com.cason.eatorgasm.modelimpl.FirestoreRepositoryImpl
-import com.cason.eatorgasm.util.ProgressManager
+import com.cason.eatorgasm.viewmodel.usecase.FetchMyProfileUseCaseExecutor
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.CoroutineScope
@@ -25,6 +24,7 @@ class FetchMyProfileUseCaseExecutorImpl @Inject constructor(private val mFiresto
 
     private val mUpdateUserInfo = MutableLiveData<Boolean>()
     private val mUpdateProfileImage = MutableLiveData<String>()
+    private val mChangeProfileImage = MutableLiveData<String>()
 
     override fun getUserInfoLiveData(): LiveData<UserInfoModel?> {
         return mUserInfoLiveData
@@ -35,7 +35,6 @@ class FetchMyProfileUseCaseExecutorImpl @Inject constructor(private val mFiresto
             val user = FirebaseAuth.getInstance().currentUser
             if(user!= null) {
                 mUserInfoLiveData.postValue(mFirestoreRepository.fetchUserInfo(user))
-                fetchProfileImage()
             }
         }
     }
@@ -44,39 +43,35 @@ class FetchMyProfileUseCaseExecutorImpl @Inject constructor(private val mFiresto
         return mUpdateUserInfo
     }
 
-    override fun updateProfileData(data: UserInfoModel) {
-        vmScope.launch {
-            mFirestoreRepository.updateUserToFirestore(data)
-            val result = mFirestoreRepository.updateProfile(data)
-            mUpdateUserInfo.postValue(result)
-        }
-    }
-
     override fun getUpdateProfileImageResultLiveData(): LiveData<String> {
         return mUpdateProfileImage
     }
 
-    override fun updateProfileImage(uri: Uri) {
+    override fun updateProfileData(data: UserInfoModel) {
         vmScope.launch {
-            val result = mFirestoreRepository.uploadProfileImageInStorage(uri)
-            if(result != null) {
-                val map = HashMap<String, Any>()
-                map["image"] = result
-                if(mFirestoreRepository.uploadProfileImage(map)) {
-                    val snapshot = mFirestoreRepository.fetchProfileImage() ?: return@launch
-                    mUpdateProfileImage.postValue(snapshot.data!!["image"] as String)
-                }
+            // TODO remove this
+            mFirestoreRepository.updateUserToFirestore(data)
+            val url = mFirestoreRepository.uploadProfileImageInStorage(Uri.parse(data.photoUrl))
+            if(url != null) {
+                val result = mFirestoreRepository.updateProfile(data)
+                mUpdateUserInfo.postValue(result)
+                mUpdateProfileImage.postValue(data.photoUrl)
             }
         }
     }
 
+    override fun getChangeProfileImageResultLiveData(): LiveData<String> {
+        return mChangeProfileImage
+    }
+
+    override fun changeProfileImage(uri: Uri) {
+        mChangeProfileImage.postValue(uri.toString())
+    }
+
     override fun fetchProfileImage() {
-        vmScope.launch {
-            val snapshot = mFirestoreRepository.fetchProfileImage()
-            if(snapshot != null && snapshot.data != null) {
-                val test = snapshot.data!!["image"] as String
-                mUpdateProfileImage.postValue(test)
-            }
+        val user = FirebaseAuth.getInstance().currentUser
+        if(user != null && user.photoUrl != null) {
+            mUpdateProfileImage.postValue(user.photoUrl.toString())
         }
     }
 }

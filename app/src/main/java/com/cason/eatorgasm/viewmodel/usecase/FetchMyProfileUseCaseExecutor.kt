@@ -11,9 +11,12 @@ interface FetchMyProfileUseCaseExecutor {
 
     fun getUserInfoLiveData(): LiveData<UserInfoModel?>
     fun fetchProfileData()
+
     fun getUpdateProfileResultLiveData(): LiveData<Boolean>
     fun getUpdateProfileImageResultLiveData(): LiveData<String>
     fun updateProfileData(data: UserInfoModel)
-    fun updateProfileImage(uri: Uri)
+
+    fun getChangeProfileImageResultLiveData(): LiveData<String>
+    fun changeProfileImage(uri: Uri)
     fun fetchProfileImage()
 }

@@ -2,8 +2,6 @@ package com.cason.eatorgasm.viewmodel.screen
 
 import android.app.Activity
 import android.net.Uri
-import android.text.Editable
-import android.text.TextWatcher
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -30,7 +28,7 @@ class EditProfileViewModel @Inject constructor(
         editProfileView = view
         view.setActionListener(this)
         view.setUpdateProfileLiveData(profileUsecase.getUpdateProfileResultLiveData())
-        view.setUpdateProfileImageLiveData(profileUsecase.getUpdateProfileImageResultLiveData())
+        view.setChangeProfileImageLiveData(profileUsecase.getChangeProfileImageResultLiveData())
     }
 
     fun setUserProfileLiveData(liveData: LiveData<UserInfoModel?>) {
@@ -41,13 +39,13 @@ class EditProfileViewModel @Inject constructor(
         profileUsecase.updateProfileData(userInfo)
     }
 
-    fun updateProfileImage(uri: Uri) {
-        profileUsecase.updateProfileImage(uri)
+    fun chagneProfileImage(uri: Uri) {
+        profileUsecase.changeProfileImage(uri)
     }
 
-    fun fetchProfileImage() {
-        profileUsecase.fetchProfileImage()
-    }
+//    fun fetchProfileImage() {
+//        profileUsecase.fetchProfileImage()
+//    }
 
     fun loadUserData() {
 //        usecase.loadUserData()

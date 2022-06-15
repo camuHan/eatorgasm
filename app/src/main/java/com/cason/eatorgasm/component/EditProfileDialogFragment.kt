@@ -16,8 +16,6 @@ import com.cason.eatorgasm.R
 import com.cason.eatorgasm.component.base.BaseDialogFragment
 import com.cason.eatorgasm.databinding.EditProfileLayoutBinding
 import com.cason.eatorgasm.model.entity.UserInfoModel
-import com.cason.eatorgasm.util.CMLog
-import com.cason.eatorgasm.util.ToastManager
 import com.cason.eatorgasm.viewimpl.EditProfileViewImpl
 import com.cason.eatorgasm.viewmodel.screen.EditProfileViewModel
 import com.cason.eatorgasm.viewmodel.screen.HomeViewModel
@@ -55,7 +53,7 @@ class EditProfileDialogFragment : BaseDialogFragment() {
         if (result.resultCode == Activity.RESULT_OK) {
             try{
                 val uri = result?.data?.data
-                mEditProfileViewModel.updateProfileImage(uri!!)
+                mEditProfileViewModel.chagneProfileImage(uri!!)
 
             }catch (e:Exception){}
         }
@@ -63,7 +61,6 @@ class EditProfileDialogFragment : BaseDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),1)
     }
 
     override fun onCreateView(
@@ -117,24 +114,5 @@ class EditProfileDialogFragment : BaseDialogFragment() {
         mBinding.clPrivateName.tvProfileInfo.text = "Name"
         mBinding.clPrivateEmail.tvProfileInfo.text = "Email"
         mBinding.clPrivatePhoneNumber.tvProfileInfo.text = "PHoneNumber"
-    }
-
-    private fun updateProfileInfo() {
-        mUserProfile.userId = mBinding.clPrivateUid.etProfileInfo.text.toString()
-        mUserProfile.name = mBinding.clPrivateName.etProfileInfo.text.toString()
-        mUserProfile.email = mBinding.clPrivateEmail.etProfileInfo.text.toString()
-        mUserProfile.phoneNumber = mBinding.clPrivatePhoneNumber.etProfileInfo.text.toString()
-    }
-
-    private fun updateProfile() {
-        mDb.collection("users").document(mUser?.uid.toString()).set(mUserProfile)
-            .addOnSuccessListener {
-                CMLog.d(TAG, "DocumentSnapshot successfully written!")
-                ToastManager.INSTANCE.onMessage(context, "업데이트 되었습니다.")
-            }
-            .addOnFailureListener {
-                    e -> CMLog.w(TAG, "Error writing document \n$e")
-                ToastManager.INSTANCE.onMessage(context, "업데이트에 실패하였습니다.")
-            }
     }
 }
