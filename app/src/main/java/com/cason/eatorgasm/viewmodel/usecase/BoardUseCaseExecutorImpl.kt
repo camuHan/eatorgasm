@@ -1,17 +1,9 @@
-package com.cason.eatorgasm.viewmodelimpl.usecase
+package com.cason.eatorgasm.viewmodel.usecase
 
-import android.net.Uri
-import com.cason.eatorgasm.viewmodel.usecase.FetchMyProfileUseCaseExecutor
 import androidx.lifecycle.MutableLiveData
-import com.cason.eatorgasm.model.entity.UserInfoModel
-import androidx.lifecycle.LiveData
 import com.cason.eatorgasm.model.entity.BoardInfoModel
 import com.cason.eatorgasm.model.mapper.EatLocalMapper
-import com.cason.eatorgasm.modelimpl.FirestoreRepositoryImpl
-import com.cason.eatorgasm.viewmodel.screen.BoardViewModel
-import com.cason.eatorgasm.viewmodel.usecase.BoardUseCaseExecutor
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import com.cason.eatorgasm.model.FirestoreRepositoryImpl
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope

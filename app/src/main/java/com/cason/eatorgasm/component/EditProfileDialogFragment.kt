@@ -1,6 +1,8 @@
 package com.cason.eatorgasm.component
 
 import android.app.Activity
+import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
@@ -10,18 +12,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import com.cason.eatorgasm.R
 import com.cason.eatorgasm.component.base.BaseDialogFragment
+import com.cason.eatorgasm.component.contract.ComponentContract
 import com.cason.eatorgasm.databinding.EditProfileLayoutBinding
+import com.cason.eatorgasm.define.CMEnum
+import com.cason.eatorgasm.define.EatValue
 import com.cason.eatorgasm.model.entity.UserInfoModel
-import com.cason.eatorgasm.viewimpl.EditProfileViewImpl
+import com.cason.eatorgasm.util.CMLog
+import com.cason.eatorgasm.view.EditProfileViewImpl
 import com.cason.eatorgasm.viewmodel.screen.EditProfileViewModel
 import com.cason.eatorgasm.viewmodel.screen.HomeViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,14 +43,6 @@ class EditProfileDialogFragment : BaseDialogFragment() {
         override fun afterTextChanged(p0: Editable?) {}
     }
 
-    private var mContentList = arrayListOf<String>()
-    private var mTitleList = arrayListOf<String>()
-
-    private var mUserProfile = UserInfoModel()
-
-    val mUser = FirebaseAuth.getInstance().currentUser
-    val mDb = Firebase.firestore
-
     private val mHomeViewModel: HomeViewModel by activityViewModels()
     private val mEditProfileViewModel: EditProfileViewModel by viewModels()
 
@@ -53,7 +50,7 @@ class EditProfileDialogFragment : BaseDialogFragment() {
         if (result.resultCode == Activity.RESULT_OK) {
             try{
                 val uri = result?.data?.data
-                mEditProfileViewModel.chagneProfileImage(uri!!)
+                mEditProfileViewModel.changeProfileImage(uri!!)
 
             }catch (e:Exception){}
         }
@@ -61,6 +58,16 @@ class EditProfileDialogFragment : BaseDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        dialog?.setOnDismissListener {
+            CMLog.e("HSH", "onDismiss")
+            setFragmentResult(EatValue.RESULT_EDIT_PROFILE, Bundle())
+        }
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
+        dialog.setCancelable(true)
+        return dialog
     }
 
     override fun onCreateView(
@@ -82,7 +89,7 @@ class EditProfileDialogFragment : BaseDialogFragment() {
         initViewList()
         mHomeViewModel.loadUserData()
 
-        mEditProfileViewModel.setView(EditProfileViewImpl(requireContext(), mBinding, this))
+        mEditProfileViewModel.setView(EditProfileViewImpl(requireContext(), mBinding, viewLifecycleOwner))
         mEditProfileViewModel.setUserProfileLiveData(mHomeViewModel.getUserLiveData())
 
         mBinding.btnProfileUpdate.setOnClickListener {
@@ -115,4 +122,36 @@ class EditProfileDialogFragment : BaseDialogFragment() {
         mBinding.clPrivateEmail.tvProfileInfo.text = "Email"
         mBinding.clPrivatePhoneNumber.tvProfileInfo.text = "PHoneNumber"
     }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        CMLog.e("HSH", "onDismiss")
+    }
+
+    override fun dismissAllowingStateLoss() {
+        super.dismissAllowingStateLoss()
+        CMLog.e("HSH", "onDismiss")
+    }
+
+    override fun dismiss() {
+        super.dismiss()
+        CMLog.e("HSH", "onDismiss")
+    }
+
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        CMLog.e("HSH", "onCancel")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        CMLog.e("HSH", "onDestroy")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        CMLog.e("HSH", "onDestroyView")
+        setFragmentResult(EatValue.RESULT_EDIT_PROFILE, Bundle())
+    }
+
 }

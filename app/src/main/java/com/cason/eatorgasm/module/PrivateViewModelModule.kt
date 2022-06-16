@@ -1,9 +1,9 @@
 package com.cason.eatorgasm.module
 
 import com.cason.eatorgasm.model.FirestoreRepository
-import com.cason.eatorgasm.modelimpl.FirestoreRepositoryImpl
+import com.cason.eatorgasm.model.FirestoreRepositoryImpl
 import com.cason.eatorgasm.viewmodel.usecase.LoginUsecaseExecutor
-import com.cason.eatorgasm.viewmodelimpl.usecase.LoginUsecaseExecutorImpl
+import com.cason.eatorgasm.viewmodel.usecase.LoginUsecaseExecutorImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.cason.eatorgasm.viewimpl
+package com.cason.eatorgasm.view
 
 import android.content.Context
 import android.net.Uri

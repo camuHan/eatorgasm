@@ -5,10 +5,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.cason.eatorgasm.component.contract.ComponentContract
 import com.cason.eatorgasm.databinding.BoardImageListItemBinding
 import com.cason.eatorgasm.define.CMEnum
 
-class BoardImageListAdapter(private var context: Context, contract: BoardContract) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class BoardImageListAdapter(private var context: Context, contract: ComponentContract) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var mBoardContract = contract
     var mItems = ArrayList<String>()
 

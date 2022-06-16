@@ -3,13 +3,13 @@ package com.cason.eatorgasm
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import com.cason.eatorgasm.component.MapFragment
-import com.cason.eatorgasm.component.BoardListFragment
+import com.cason.eatorgasm.component.EatBoardListFragment
 import com.cason.eatorgasm.component.PrivateFragment
 
 class MainFragmentFactoryImpl(): FragmentFactory() {
     override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
         return when (className) {
-            BoardListFragment::class.java.name -> BoardListFragment()
+            EatBoardListFragment::class.java.name -> EatBoardListFragment()
             MapFragment::class.java.name -> MapFragment()
             PrivateFragment::class.java.name -> PrivateFragment()
 //            HomeFileTypeFragment::class.java.name -> HomeFileTypeFragment(contract)

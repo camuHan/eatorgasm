@@ -1,4 +1,4 @@
-package com.cason.eatorgasm.viewmodelimpl.usecase
+package com.cason.eatorgasm.viewmodel.usecase
 
 import android.app.Activity
 import android.content.Context
@@ -6,9 +6,8 @@ import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.cason.eatorgasm.R
-import com.cason.eatorgasm.modelimpl.FirestoreRepositoryImpl
+import com.cason.eatorgasm.model.FirestoreRepositoryImpl
 import com.cason.eatorgasm.util.ToastManager
-import com.cason.eatorgasm.viewmodel.usecase.LoginUsecaseExecutor
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -24,6 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class LoginUsecaseExecutorImpl @Inject constructor(private val mFirestoreRepository: FirestoreRepositoryImpl, @ApplicationContext private val context: Context) : LoginUsecaseExecutor {
@@ -36,9 +36,12 @@ class LoginUsecaseExecutorImpl @Inject constructor(private val mFirestoreReposit
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun loadUserData() {
-        val user = mAuth.currentUser
-        if(user != null) {
-            mFirebaseUserLiveData.postValue(user)
+        vmScope.launch {
+            mAuth.currentUser?.reload()?.await()
+            val user = mAuth.currentUser
+            if (user != null) {
+                mFirebaseUserLiveData.postValue(user)
+            }
         }
     }
 

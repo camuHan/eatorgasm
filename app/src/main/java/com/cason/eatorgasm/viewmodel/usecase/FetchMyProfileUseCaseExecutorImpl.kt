@@ -1,11 +1,10 @@
-package com.cason.eatorgasm.viewmodelimpl.usecase
+package com.cason.eatorgasm.viewmodel.usecase
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.cason.eatorgasm.model.entity.UserInfoModel
-import com.cason.eatorgasm.modelimpl.FirestoreRepositoryImpl
-import com.cason.eatorgasm.viewmodel.usecase.FetchMyProfileUseCaseExecutor
+import com.cason.eatorgasm.model.FirestoreRepositoryImpl
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.CoroutineScope
@@ -49,14 +48,13 @@ class FetchMyProfileUseCaseExecutorImpl @Inject constructor(private val mFiresto
 
     override fun updateProfileData(data: UserInfoModel) {
         vmScope.launch {
+            val url = mFirestoreRepository.uploadProfileImageInStorage(Uri.parse(data.photoUrl)) ?: return@launch
+            data.photoUrl = url
             // TODO remove this
             mFirestoreRepository.updateUserToFirestore(data)
-            val url = mFirestoreRepository.uploadProfileImageInStorage(Uri.parse(data.photoUrl))
-            if(url != null) {
-                val result = mFirestoreRepository.updateProfile(data)
-                mUpdateUserInfo.postValue(result)
-                mUpdateProfileImage.postValue(data.photoUrl)
-            }
+            val result = mFirestoreRepository.updateProfile(data)
+            mUpdateUserInfo.postValue(result)
+            mUpdateProfileImage.postValue(url)
         }
     }
 

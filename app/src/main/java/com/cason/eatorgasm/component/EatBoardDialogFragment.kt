@@ -3,19 +3,14 @@ package com.cason.eatorgasm.component
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
-import com.cason.eatorgasm.R
-import com.cason.eatorgasm.adapter.BoardContract
+import com.cason.eatorgasm.component.contract.ComponentContract
 import com.cason.eatorgasm.adapter.BoardImageListAdapter
-import com.cason.eatorgasm.adapter.BoardListAdapter
 import com.cason.eatorgasm.component.base.BaseDialogFragment
 import com.cason.eatorgasm.databinding.BoardFragmentBinding
 import com.cason.eatorgasm.define.CMEnum
@@ -25,7 +20,7 @@ import com.cason.eatorgasm.viewmodel.screen.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class BoardDialogFragment : BaseDialogFragment(), BoardContract {
+class EatBoardDialogFragment : BaseDialogFragment(), ComponentContract {
     private lateinit var mBinding: BoardFragmentBinding
     private val mHomeViewModel: HomeViewModel by activityViewModels()
     private val mBoardViewModel: BoardViewModel by viewModels()
@@ -33,7 +28,7 @@ class BoardDialogFragment : BaseDialogFragment(), BoardContract {
     private var mBoardImageListAdapter: BoardImageListAdapter? = null
 
     companion object {
-        fun newInstance() = BoardDialogFragment()
+        fun newInstance() = EatBoardDialogFragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

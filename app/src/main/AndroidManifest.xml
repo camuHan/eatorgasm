@@ -33,11 +33,6 @@
             android:configChanges="keyboardHidden|keyboard|orientation|layoutDirection|screenSize|fontScale|screenLayout"
             android:theme="@style/Theme.EatOrgasm" />
 
-        <activity
-            android:name="com.cason.eatorgasm.component.EditProfileActivity"
-            android:configChanges="keyboardHidden|keyboard|orientation|layoutDirection|screenSize|fontScale|screenLayout"
-            android:theme="@style/Theme.EatOrgasm" />
-
         <activity-alias
             android:name="${applicationId}.IntentActionMain"
             android:exported="true"

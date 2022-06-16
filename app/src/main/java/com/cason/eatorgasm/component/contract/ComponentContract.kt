@@ -1,7 +1,7 @@
-package com.cason.eatorgasm.adapter
+package com.cason.eatorgasm.component.contract
 
 import com.cason.eatorgasm.define.CMEnum
 
-interface BoardContract {
+interface ComponentContract {
     fun onCommand(commandType: CMEnum.EatCommand, vararg args: Any?)
 }

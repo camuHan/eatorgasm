@@ -8,12 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.*
+import com.cason.eatorgasm.R
 import com.cason.eatorgasm.databinding.PrivateFragmentBinding
-import com.cason.eatorgasm.viewimpl.PrivateViewImpl
+import com.cason.eatorgasm.define.EatValue.RESULT_EDIT_PROFILE
+import com.cason.eatorgasm.define.EatValue.RESULT_UPDATE_PROFILE
+import com.cason.eatorgasm.view.PrivateViewImpl
 import com.cason.eatorgasm.viewmodel.screen.HomeViewModel
 import com.cason.eatorgasm.viewmodel.screen.PrivateViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,18 +48,31 @@ class PrivateFragment : Fragment() {
         mPrivateViewModel.setPrivateView(PrivateViewImpl(requireContext(), mBinding, this))
         mBinding.vm = mPrivateViewModel
 
-        mPrivateViewModel.loadUserData()
-
         mBinding.btnPrivateGoogleSignIn.setOnClickListener {
             mPrivateViewModel.onRequestedSignIn(googleResultLauncher)
         }
 
         mBinding.clProfileContainer.setOnClickListener {
-            val fragment = EditProfileDialogFragment()
-            val transaction: FragmentTransaction = parentFragmentManager.beginTransaction()
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            transaction.add(android.R.id.content, fragment).addToBackStack(null).commit()
-//            mPrivateViewModel.requestEditProfile(editProfileResultLauncher)
+            val dialog = EditProfileDialogFragment()
+            dialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.Theme_EatOrgasm)
+            dialog.show(parentFragmentManager, "tag");
+
+//            val fragment = EditProfileDialogFragment()
+//            val transaction: FragmentTransaction = parentFragmentManager.beginTransaction()
+//            parentFragmentManager.setFragmentResultListener(RESULT_EDIT_PROFILE, this, mEditProfileListener)
+//            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+//            transaction.add(android.R.id.content, fragment).addToBackStack(null).commit()
         }
+    }
+
+    private val mEditProfileListener = FragmentResultListener { key, bundle ->
+        if (key == RESULT_EDIT_PROFILE) {
+            mPrivateViewModel.loadUserData()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mPrivateViewModel.loadUserData()
     }
 }

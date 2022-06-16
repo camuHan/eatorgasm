@@ -11,9 +11,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.cason.eatorgasm.R
-import com.cason.eatorgasm.adapter.BoardContract
+import com.cason.eatorgasm.component.contract.ComponentContract
 import com.cason.eatorgasm.adapter.BoardImageListAdapter
-import com.cason.eatorgasm.adapter.BoardListAdapter
 import com.cason.eatorgasm.component.base.BaseDialogFragment
 import com.cason.eatorgasm.databinding.BoardFragmentBinding
 import com.cason.eatorgasm.define.CMEnum
@@ -23,7 +22,7 @@ import com.cason.eatorgasm.viewmodel.screen.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ImagePageDialogFragment : BaseDialogFragment(), BoardContract {
+class ImagePageDialogFragment : BaseDialogFragment(), ComponentContract {
     private lateinit var mBinding: BoardFragmentBinding
     private val mHomeViewModel: HomeViewModel by activityViewModels()
     private val mBoardViewModel: BoardViewModel by viewModels()

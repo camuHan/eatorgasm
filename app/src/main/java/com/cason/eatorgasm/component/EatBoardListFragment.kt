@@ -5,27 +5,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.viewModels
 import com.cason.eatorgasm.R
-import com.cason.eatorgasm.adapter.BoardContract
+import com.cason.eatorgasm.component.contract.ComponentContract
 import com.cason.eatorgasm.adapter.BoardListAdapter
-import com.cason.eatorgasm.databinding.BoardFragmentBinding
 import com.cason.eatorgasm.databinding.BoardListFragmentBinding
 import com.cason.eatorgasm.define.CMEnum
-import com.cason.eatorgasm.model.entity.BoardInfoModel
 import com.cason.eatorgasm.viewmodel.screen.BoardViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class BoardListFragment : Fragment(), BoardContract {
+class EatBoardListFragment : Fragment(), ComponentContract {
     private lateinit var mBinding: BoardListFragmentBinding
 
     private val mBoardViewModel: BoardViewModel by viewModels()
     private var mBoardListAdapter: BoardListAdapter? = null
 
     companion object {
-        fun newInstance() = BoardListFragment()
+        fun newInstance() = EatBoardListFragment()
     }
 
     override fun onCreateView(
@@ -43,10 +42,14 @@ class BoardListFragment : Fragment(), BoardContract {
         setObservers()
 
         mBinding.fbNewBoardAdd.setOnClickListener {
-            val fragment = BoardDialogFragment()
-            val transaction: FragmentTransaction = parentFragmentManager.beginTransaction()
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            transaction.add(android.R.id.content, fragment).addToBackStack(null).commit()
+            val dialog = EatBoardDialogFragment()
+            dialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.Theme_EatOrgasm)
+            dialog.show(parentFragmentManager, "tag");
+
+//            val fragment = EatBoardDialogFragment()
+//            val transaction: FragmentTransaction = parentFragmentManager.beginTransaction()
+//            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+//            transaction.add(android.R.id.content, fragment).addToBackStack(null).commit()
         }
     }
 

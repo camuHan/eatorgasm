@@ -39,7 +39,7 @@ class EditProfileViewModel @Inject constructor(
         profileUsecase.updateProfileData(userInfo)
     }
 
-    fun chagneProfileImage(uri: Uri) {
+    fun changeProfileImage(uri: Uri) {
         profileUsecase.changeProfileImage(uri)
     }
 

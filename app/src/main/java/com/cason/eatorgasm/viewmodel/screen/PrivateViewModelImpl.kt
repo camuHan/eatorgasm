@@ -1,4 +1,4 @@
-package com.cason.eatorgasm.viewmodelimpl.screen
+package com.cason.eatorgasm.viewmodel.screen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

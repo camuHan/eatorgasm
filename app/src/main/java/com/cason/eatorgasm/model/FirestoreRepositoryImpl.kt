@@ -1,9 +1,7 @@
-package com.cason.eatorgasm.modelimpl
+package com.cason.eatorgasm.model
 
 import android.net.Uri
 import com.cason.eatorgasm.define.CMEnum
-import com.cason.eatorgasm.model.FirestoreRepository
-import com.cason.eatorgasm.model.entity.BoardInfoModel
 import com.cason.eatorgasm.model.entity.UserInfoModel
 import com.cason.eatorgasm.util.CMLog
 import com.cason.eatorgasm.util.CMLog.d
@@ -23,8 +21,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.tasks.await
-import java.net.URI
-import java.net.URL
 import javax.inject.Inject
 
 class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {

@@ -9,10 +9,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.cason.eatorgasm.component.contract.ComponentContract
 import com.cason.eatorgasm.databinding.BoardListItemBinding
 import com.cason.eatorgasm.model.entity.BoardInfoModel
 
-class BoardListAdapter(private var context: Context, contract: BoardContract) :
+class BoardListAdapter(private var context: Context, contract: ComponentContract) :
     ListAdapter<BoardInfoModel, RecyclerView.ViewHolder>(BoardItemDiffCallback()) {
 
     var mBoardContract = contract

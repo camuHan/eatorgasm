@@ -41,7 +41,7 @@ class EatHomeActivity : AppCompatActivity(), EatHomeActivityActionListener {
     private lateinit var mBottomSheetDialog: BottomSheetDialog
 
 //    private lateinit var mBottomSheetDialogAdapter: BottomSheetDialogAdapter
-    private lateinit var boardListFragment: BoardListFragment
+    private lateinit var boardListFragment: EatBoardListFragment
     private lateinit var browserFragment: MapFragment
     private lateinit var fileTypeFragment: MapFragment
     private lateinit var privateFragment: PrivateFragment
@@ -315,7 +315,7 @@ class EatHomeActivity : AppCompatActivity(), EatHomeActivityActionListener {
     }
 
     private fun initViewPager(){
-        boardListFragment = supportFragmentManager.fragmentFactory.instantiate(classLoader, BoardListFragment::class.java.name) as BoardListFragment
+        boardListFragment = supportFragmentManager.fragmentFactory.instantiate(classLoader, EatBoardListFragment::class.java.name) as EatBoardListFragment
         browserFragment = supportFragmentManager.fragmentFactory.instantiate(classLoader, MapFragment::class.java.name) as MapFragment
         fileTypeFragment = supportFragmentManager.fragmentFactory.instantiate(classLoader, MapFragment::class.java.name) as MapFragment
         privateFragment = supportFragmentManager.fragmentFactory.instantiate(classLoader, PrivateFragment::class.java.name) as PrivateFragment

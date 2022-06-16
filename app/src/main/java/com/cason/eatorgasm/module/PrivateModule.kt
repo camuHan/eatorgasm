@@ -1,7 +1,7 @@
 package com.cason.eatorgasm.module
 
 import com.cason.eatorgasm.viewmodel.usecase.FetchMyProfileUseCaseExecutor
-import com.cason.eatorgasm.viewmodelimpl.usecase.FetchMyProfileUseCaseExecutorImpl
+import com.cason.eatorgasm.viewmodel.usecase.FetchMyProfileUseCaseExecutorImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
