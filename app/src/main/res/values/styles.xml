@@ -11,6 +11,16 @@
         <item name="android:background">@color/common_list_divider_color</item>
     </style>
 
+    <style name="EatCommonTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/common_box_bg</item>
+        <item name="boxCornerRadiusBottomEnd">50dp</item>
+        <item name="boxCornerRadiusTopEnd">50dp</item>
+        <item name="boxCornerRadiusBottomStart">50dp</item>
+        <item name="boxCornerRadiusTopStart">50dp</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+    </style>
+
 <!-- old -->
 
     <style name="MainToolbarTitleTextAppearance">

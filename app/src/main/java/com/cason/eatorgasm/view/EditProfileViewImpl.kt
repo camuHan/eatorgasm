@@ -32,10 +32,9 @@ class EditProfileViewImpl(@ApplicationContext private val context: Context,
     }
 
     override fun setChangeProfileImageLiveData(liveData: LiveData<String>) {
-        liveData.observe(lifecycleOwner) {
-            if (it != null) {
-                binding.clPrivatePhotoUrl.info = it
-                Glide.with(context).load(it).circleCrop().into(binding.ivProfileCircle)
+        liveData.observe(lifecycleOwner) { galleryPhotoUrl ->
+            if (galleryPhotoUrl != null) {
+                Glide.with(context).load(galleryPhotoUrl).circleCrop().into(binding.ivProfileCircle)
             }
         }
     }

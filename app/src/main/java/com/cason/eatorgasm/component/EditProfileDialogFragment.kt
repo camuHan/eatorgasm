@@ -58,16 +58,6 @@ class EditProfileDialogFragment : BaseDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        dialog?.setOnDismissListener {
-            CMLog.e("HSH", "onDismiss")
-            setFragmentResult(EatValue.RESULT_EDIT_PROFILE, Bundle())
-        }
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = super.onCreateDialog(savedInstanceState)
-        dialog.setCancelable(true)
-        return dialog
     }
 
     override fun onCreateView(
@@ -95,10 +85,10 @@ class EditProfileDialogFragment : BaseDialogFragment() {
         mBinding.btnProfileUpdate.setOnClickListener {
             val data: UserInfoModel? = mBinding.profile
             if(data != null) {
-                data.name = mBinding.clPrivateName.info
-                data.email = mBinding.clPrivateEmail.info
-                data.phoneNumber = mBinding.clPrivatePhoneNumber.info
-                data.photoUrl = mBinding.clPrivatePhotoUrl.info
+                data.name = mBinding.etPrivateName.text.toString()
+//                data.email = mBinding.etPrivateEmail.text.toString()
+                data.phoneNumber = mBinding.etPrivatePhoneNumber.text.toString()
+//                data.photoUrl = mBinding.etPrivatePhotoUrl.text.toString()
 
                 mEditProfileViewModel.updateProfile(data)
             }
@@ -110,47 +100,17 @@ class EditProfileDialogFragment : BaseDialogFragment() {
             changeProfileResult.launch(intent)
         }
 
-        mBinding.clPrivateName.etProfileInfo.addTextChangedListener(updateProfileTextWatcher)
-        mBinding.clPrivateEmail.etProfileInfo.addTextChangedListener(updateProfileTextWatcher)
-        mBinding.clPrivatePhoneNumber.etProfileInfo.addTextChangedListener(updateProfileTextWatcher)
+        mBinding.etPrivateName.addTextChangedListener(updateProfileTextWatcher)
+        mBinding.etPrivateEmail.addTextChangedListener(updateProfileTextWatcher)
+        mBinding.etPrivatePhoneNumber.addTextChangedListener(updateProfileTextWatcher)
     }
 
     private fun initViewList() {
-        mBinding.clPrivateUid.tvProfileInfo.text = "User ID"
-        mBinding.clPrivateUid.etProfileInfo.isEnabled = false
-        mBinding.clPrivateName.tvProfileInfo.text = "Name"
-        mBinding.clPrivateEmail.tvProfileInfo.text = "Email"
-        mBinding.clPrivatePhoneNumber.tvProfileInfo.text = "PHoneNumber"
-    }
 
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        CMLog.e("HSH", "onDismiss")
-    }
-
-    override fun dismissAllowingStateLoss() {
-        super.dismissAllowingStateLoss()
-        CMLog.e("HSH", "onDismiss")
-    }
-
-    override fun dismiss() {
-        super.dismiss()
-        CMLog.e("HSH", "onDismiss")
     }
 
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
-        CMLog.e("HSH", "onCancel")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        CMLog.e("HSH", "onDestroy")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        CMLog.e("HSH", "onDestroyView")
         setFragmentResult(EatValue.RESULT_EDIT_PROFILE, Bundle())
     }
 
