@@ -10,8 +10,8 @@ import com.cason.eatorgasm.databinding.BoardImageListItemBinding
 import com.cason.eatorgasm.define.CMEnum
 
 class BoardImageListAdapter(private var context: Context, contract: ComponentContract) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    var mBoardContract = contract
-    var mItems = ArrayList<String>()
+    private var mBoardContract = contract
+    private var mItems = ArrayList<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding = BoardImageListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -34,7 +34,11 @@ class BoardImageListAdapter(private var context: Context, contract: ComponentCon
 
     fun setItems(items: ArrayList<String>) {
         mItems = items
-        notifyDataSetChanged()
+        notifyItemRangeChanged(0, itemCount)
+    }
+
+    fun getItems(): ArrayList<String> {
+        return this.mItems
     }
 
     inner class BoardImageListViewHolder(binding: BoardImageListItemBinding) : RecyclerView.ViewHolder(binding.root) {

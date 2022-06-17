@@ -71,6 +71,7 @@ class EatBoardDialogFragment : BaseDialogFragment(), ComponentContract {
             val data = BoardInfoModel()
             data.title = mBinding.etBoardTitle.text.toString()
             data.contents = mBinding.etBoardContents.text.toString()
+            data.contentsList = mBoardImageListAdapter?.getItems()
             mBoardViewModel.addBoardData(data)
 
             dismiss()

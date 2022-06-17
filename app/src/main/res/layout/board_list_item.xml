@@ -47,11 +47,24 @@
                 android:layout_gravity="center"
                 android:gravity="center_vertical"
                 android:text="@{model.title}"
+                android:textStyle="bold"
+                android:textSize="20sp"
                 app:layout_constraintHeight_percent="0.2"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/common_divider1"
                 app:layout_constraintBottom_toTopOf="@id/iv_board_list_image"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintEnd_toStartOf="@id/ib_board_list_more"/>
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ib_board_list_more"
+                android:layout_width="@dimen/home_image_button_width"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_more"
+                android:tint="@color/gray07"
+                app:layout_constraintBottom_toBottomOf="@id/tv_board_list_title"
+                app:layout_constraintTop_toTopOf="@id/tv_board_list_title"
+                app:layout_constraintEnd_toEndOf="parent" />
 
 
             <ImageView

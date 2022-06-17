@@ -32,6 +32,8 @@ class BoardUseCaseExecutorImpl @Inject constructor(private val mFirestoreReposit
                 data.timeStamp = System.currentTimeMillis().toString()
                 data.location = ""
                 data.photoUrl = user.photoUrl.toString()
+
+                data.boardId = data.userId + data.timeStamp
             }
             val result = mFirestoreRepository.uploadBoard(data)
             mUpdateBoardInfo.postValue(result)

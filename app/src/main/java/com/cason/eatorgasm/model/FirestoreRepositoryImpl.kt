@@ -243,15 +243,17 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
         var result = false
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         val db = FirebaseFirestore.getInstance()
-        db.collection(COLLECTION_NAME_BOARDS)
-            .document(uid!!)
-            .set(data).addOnCompleteListener {
-                if(it.isSuccessful) {
-                    result = true
-                } else {
-                    CMLog.e(TAG, "fail in \n + ${it.exception}")
-                }
-            }.await()
+        if(uid != null) {
+            db.collection(COLLECTION_NAME_BOARDS)
+                .document()
+                .set(data).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        result = true
+                    } else {
+                        CMLog.e(TAG, "fail in \n + ${it.exception}")
+                    }
+                }.await()
+        }
         return result
     }
 

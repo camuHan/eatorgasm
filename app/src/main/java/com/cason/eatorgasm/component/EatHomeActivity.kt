@@ -21,7 +21,9 @@ import androidx.lifecycle.LiveData
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.cason.eatorgasm.MainFragmentFactoryImpl
 import com.cason.eatorgasm.R
+import com.cason.eatorgasm.component.contract.ComponentContract
 import com.cason.eatorgasm.databinding.HomeMainViewBinding
+import com.cason.eatorgasm.define.CMEnum
 import com.cason.eatorgasm.model.entity.UserInfoModel
 import com.cason.eatorgasm.util.ProgressManager
 import com.cason.eatorgasm.util.Utils
@@ -34,7 +36,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class EatHomeActivity : AppCompatActivity(), EatHomeActivityActionListener {
+class EatHomeActivity : AppCompatActivity(), EatHomeActivityActionListener, ComponentContract {
 
     private lateinit var mBinding: HomeMainViewBinding
 //    private lateinit var mUpPanelBinding: HomeBrowserUpPanelViewBinding
@@ -57,11 +59,10 @@ class EatHomeActivity : AppCompatActivity(), EatHomeActivityActionListener {
     private var mMenuPopup: PopupWindow? = null
     private var mStrRecoveryPath: String? = null
     private var mIsRecoveryCompleted = false
-    private var mMILicenseKey: String? = null
 
     private val mHomeViewModel: HomeViewModel by viewModels()
     override fun onCreate(saveInstanceState: Bundle?) {
-        supportFragmentManager.fragmentFactory = MainFragmentFactoryImpl()
+        supportFragmentManager.fragmentFactory = MainFragmentFactoryImpl(this)
         super.onCreate(saveInstanceState)
 
         createDataBase()
@@ -494,17 +495,6 @@ class EatHomeActivity : AppCompatActivity(), EatHomeActivityActionListener {
         }
     }
 
-    private fun setActionBarList() {
-//        mActionList = ArrayList()
-//        mActionList!!.add(FileActionBarItem(PODefine.MenuId.NEW_DOCX, R.drawable.p7_fb_ico_file_docx, getString(R.string.po_menu_item_new_doc)))
-//        mActionList!!.add(FileActionBarItem(PODefine.MenuId.NEW_XLSX, R.drawable.p7_fb_ico_file_xlsx, getString(R.string.po_menu_item_new_xls)))
-//        mActionList!!.add(FileActionBarItem(PODefine.MenuId.NEW_PPTX, R.drawable.p7_fb_ico_file_pptx, getString(R.string.po_menu_item_new_ppt)))
-//        if (B2BConfig.USE_HWP_Support() == HWP_SUPPORT.EDITOR) {
-//            mActionList!!.add(FileActionBarItem(PODefine.MenuId.NEW_HWP, R.drawable.p7_fb_ico_file_hwp, getString(R.string.po_menu_item_new_hwp)))
-//        }
-//        mActionList!!.add(FileActionBarItem(PODefine.MenuId.NEW_TEXT, R.drawable.p7_fb_ico_file_txt, getString(R.string.po_menu_item_new_txt)))
-    }
-
     private fun showActionBarNewFormPopup() {
 //        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
 //        setActionBarList()
@@ -560,11 +550,6 @@ class EatHomeActivity : AppCompatActivity(), EatHomeActivityActionListener {
         mHomeToastMsg = message
         if (mHomeToastMsg != null && mHomeToastMsg!!.isNotEmpty())
             runOnUiThread(mRunToastMsg)
-    }
-
-    //BB 에서 사용하여 public 유지
-    public fun onSetting() {
-//        startActivityForResult(Intent(this, SettingActivity::class.java), PODefine.Request.DIALOG_OPEN_SETTINGS)
     }
 
     // 자동복구가 나타날 시점 변경
@@ -636,26 +621,6 @@ class EatHomeActivity : AppCompatActivity(), EatHomeActivityActionListener {
 //        startActivityForResult(intent, PODefine.Request.DIALOG_TEMPLATE_LIST)
     }
 
-//    private val homeNewFileAdapter: HomeNewFileAdapter
-//        get() = HomeNewFileAdapter(this, R.layout.fm_actionbar_listitem, mActionList, mNewFormItemClickListener)
-//    private val officeHomeSwitchIntent: Intent
-//        get() = Intent(this, OfficeHomeSwitch::class.java)
-//    private fun checkLicense(licenseStatus: Int) {
-//        if (licenseStatus == LicenseStatus.UPDATE) {
-//            if (NetworkUtil.isConnected(baseContext)) {
-//                mLicenseLoaderManager?.saveLicenseKey(mLicenseLoaderManager?.restoreLicenseKey())
-//                mLicenseLoaderManager?.start(null)
-//            } else {
-//                showAlertDialog(resources.getString(R.string.license_error_network))
-//            }
-//        } else {
-//            val intent = Intent(this@PolarisHomeActivity, LicenseActivity::class.java)
-//            if (B2BConfig.USE_MIServerLicenseKey()) {
-//                intent.putExtra("MI_LICENSEKEY", mMILicenseKey)
-//            }
-//            startActivityForResult(intent, PODefine.Request.DIALOG_CHECK_LICENSE)
-//        }
-//    }
 
 //    private fun showAlertDialog(msg: String) {
 //        val mAlertDialog = AlertDialog.Builder(this)
@@ -667,63 +632,7 @@ class EatHomeActivity : AppCompatActivity(), EatHomeActivityActionListener {
 //        mAlertDialog.show()
 //    }
 
-//    private fun openDocument(fileListItem: HomeFileItem) {
-//        if (fileListItem.strPath == "") {
-//            val assetManager = this.resources.assets
-//            try {
-//                val strLang = Locale.ENGLISH.language
-//                var samplePath: String? = null
-//                when {
-//                    fileListItem.strExt.compareTo("docx", ignoreCase = true) == 0 -> {
-//                        samplePath = resources.getString(R.string.fm_sample_word)
-//                    }
-//                    fileListItem.strExt.compareTo("pptx", ignoreCase = true) == 0 -> {
-//                        samplePath = resources.getString(R.string.fm_sample_slide)
-//                    }
-//                    fileListItem.strExt.compareTo("xlsx", ignoreCase = true) == 0 -> {
-//                        samplePath = resources.getString(R.string.fm_sample_sheet)
-//                    }
-//                }
-//                samplePath = String.format(samplePath!!, strLang)
-//                val iStream = assetManager.open(samplePath)
-//                val defaultDir = PLFile(CMDefine.OfficeDefaultPath.getUITempPath())
-//
-//                if (!defaultDir.exists() && !defaultDir.mkdirs()) {
-//                    CMLog.e(LOG_TAG, "[openDocument] " + defaultDir.absolutePath + " could not create.")
-//                }
-//
-//                val newFile = PLFile(PLFile.createTempFile("sample", "." + fileListItem.strExt, defaultDir).absolutePath)
-//                val oStream = PLFileOutputStream(newFile)
-//                val buf = ByteArray(1024)
-//                do {
-//                    val numRead = iStream.read(buf)
-//                    if (numRead <= 0) break
-//                    oStream.write(buf, 0, numRead)
-//                } while (true)
-//                iStream.close()
-//                oStream.close()
-//                val strFilePath = newFile.absolutePath
-//                val intent = Intent(this, OfficeLauncherActivity::class.java)
-//                intent.putExtra(CMDefine.InternalCmdType.DM_CMD_KEYSTR, CMDefine.InternalCmdType.DM_INTCMD_NONE)
-//                intent.putExtra(CMDefine.ExtraKey.NEW_FILE, CMDefine.OfficeDefaultPath.getBrowserRootPath() + fileListItem.strName)
-//                if (strFilePath.isNotEmpty()) {
-//                    intent.putExtra(CMDefine.InternalCmdType.DM_CMD_KEYSTR, CMDefine.InternalCmdType.DM_INTCMD_MANUAL)
-//                    intent.putExtra(CMDefine.ExtraKey.TEMPLATE_FILE, strFilePath)
-//                }
-//                intent.putExtra(CMDefine.ExtraKey.OPEN_START_TIME, CMLog.startTimeTrace("OPEN")) // 로딩성능 측정용
-//                startActivityForResult(intent, PODefine.Request.DIALOG_OPEN_DOCUMENT)
-//                return
-//            } catch (e: IOException) {
-//                CMLog.trace(e.stackTrace)
-//                return
-//            }
-//        }
-//        val intent = Intent(this, OfficeLauncherActivity::class.java)
-//        intent.putExtra(CMDefine.InternalCmdType.DM_CMD_KEYSTR, CMDefine.InternalCmdType.DM_INTCMD_NONE)
-//        intent.putExtra(CMDefine.ExtraKey.OPEN_FILE, fileListItem.strPath)
-//        intent.putExtra(CMDefine.ExtraKey.HOME_RECENT_FILE, true)
-//        startActivityForResult(intent, PODefine.Request.DIALOG_OPEN_DOCUMENT)
-//    }
+
 
 //    override fun onCommand(commandType: HomeEnum.HomeCommand, vararg args: Any?) {
 //        when(commandType) {
@@ -786,5 +695,9 @@ class EatHomeActivity : AppCompatActivity(), EatHomeActivityActionListener {
         fun addItems(fragment: Fragment){
             fragments.add(fragment)
         }
+    }
+
+    override fun onCommand(commandType: CMEnum.EatCommand, vararg args: Any?) {
+        TODO("Not yet implemented")
     }
 }

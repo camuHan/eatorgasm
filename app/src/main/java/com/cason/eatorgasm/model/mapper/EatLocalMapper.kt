@@ -9,6 +9,7 @@ object EatLocalMapper {
         val boardInfoList = ArrayList<BoardInfoModel>()
         documentList?.forEach {
             val item = BoardInfoModel()
+            item.boardId = it.id
             item.userId = it.data?.get("userId").toString()
             item.publisher = it.data?.get("publisher").toString()
             item.name = it.data?.get("name").toString()

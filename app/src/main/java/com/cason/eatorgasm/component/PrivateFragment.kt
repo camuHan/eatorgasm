@@ -10,6 +10,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.*
 import com.cason.eatorgasm.R
+import com.cason.eatorgasm.component.contract.ComponentContract
 import com.cason.eatorgasm.databinding.PrivateFragmentBinding
 import com.cason.eatorgasm.define.EatValue.RESULT_EDIT_PROFILE
 import com.cason.eatorgasm.define.EatValue.RESULT_UPDATE_PROFILE
@@ -19,7 +20,7 @@ import com.cason.eatorgasm.viewmodel.screen.PrivateViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PrivateFragment : Fragment() {
+class PrivateFragment(contract: ComponentContract) : Fragment() {
     private lateinit var mBinding: PrivateFragmentBinding
     private val mHomeViewModel: HomeViewModel by activityViewModels()
     private val mPrivateViewModel: PrivateViewModel by viewModels()

@@ -17,15 +17,15 @@ import com.cason.eatorgasm.viewmodel.screen.BoardViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class EatBoardListFragment : Fragment(), ComponentContract {
+class EatBoardListFragment(contract: ComponentContract) : Fragment(), ComponentContract {
     private lateinit var mBinding: BoardListFragmentBinding
 
     private val mBoardViewModel: BoardViewModel by viewModels()
     private var mBoardListAdapter: BoardListAdapter? = null
 
-    companion object {
-        fun newInstance() = EatBoardListFragment()
-    }
+//    companion object {
+//        fun newInstance() = EatBoardListFragment(this)
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

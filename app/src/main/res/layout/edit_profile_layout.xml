@@ -138,27 +138,6 @@
                 android:hint="@string/string_phone_number" />
         </com.google.android.material.textfield.TextInputLayout>
 
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:id="@+id/tl_private_photo_url"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:layout_marginStart="10dp"-->
-<!--            android:layout_marginEnd="10dp"-->
-<!--            style="@style/EatCommonTextInputLayout"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/tl_private_phone_number"-->
-<!--            app:layout_constraintBottom_toTopOf="@id/btn_profile_update"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent">-->
-
-<!--            <com.google.android.material.textfield.TextInputEditText-->
-<!--                android:id="@+id/et_private_photo_url"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="@={profile.photoUrl}"-->
-<!--                android:hint="Photo URL" />-->
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
-
         <Button
             android:id="@+id/btn_profile_update"
             android:layout_width="wrap_content"
