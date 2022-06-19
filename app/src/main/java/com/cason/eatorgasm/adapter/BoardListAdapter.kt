@@ -11,16 +11,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cason.eatorgasm.component.contract.ComponentContract
 import com.cason.eatorgasm.databinding.BoardListItemBinding
+import com.cason.eatorgasm.define.CMEnum
 import com.cason.eatorgasm.model.entity.BoardInfoModel
 
 class BoardListAdapter(private var context: Context, contract: ComponentContract) :
     ListAdapter<BoardInfoModel, RecyclerView.ViewHolder>(BoardItemDiffCallback()) {
 
     var mBoardContract = contract
+    lateinit var mBinding: BoardListItemBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val binding = BoardListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return BoardListViewHolder(binding)
+        val mBinding = BoardListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return BoardListViewHolder(mBinding)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -35,26 +37,14 @@ class BoardListAdapter(private var context: Context, contract: ComponentContract
             mHolderBinding.model = item
             mHolderBinding.clPrivateProfile.tvUserName.text = item?.name
             Glide.with(context).load(item?.photoUrl).circleCrop().into(mHolderBinding.clPrivateProfile.ivUserThumb)
-        }
 
-        private fun onSingleClick(view: View?) {
-//            if (bindingAdapterPosition == RecyclerView.NO_POSITION) {
-//                return
-//            }
-//
-//            val homeFileItem = getItem(bindingAdapterPosition)
-//            when (view?.id) {
-//                mHolderBinding.root.id -> {
-//                    if (homeFileItem != null) {
-//                        mHomeContract.onCommand(HomeEnum.HomeCommand.CLICKED, homeFileItem, bindingAdapterPosition)
-//                    }
-//                }
-//                mHolderBinding.homeBrowserFileMore.id -> {
-//                    if (homeFileItem != null) {
-//                        mHomeContract.onCommand(HomeEnum.HomeCommand.BUTTON_CLICKED, homeFileItem, bindingAdapterPosition)
-//                    }
-//                }
-//            }
+            mHolderBinding.root.setOnClickListener {
+                mBoardContract.onCommand(CMEnum.EatCommand.BOARD_ITEM_CLICKED, getItem(adapterPosition))
+            }
+
+            mHolderBinding.ibBoardListMore.setOnClickListener { view ->
+                mBoardContract.onCommand(CMEnum.EatCommand.BOARD_MORE_MENU_CLICKED, getItem(adapterPosition), view)
+            }
         }
 
         override fun onLongClick(v: View?): Boolean {

@@ -6,6 +6,9 @@ object EatValue {
 
     const val RESULT_EDIT_PROFILE = "result_edit_profile"
 
+
+    const val BOARD_ID = "board_id"
+
     /*  not used  */
 
     const val RESULT_PATH = "result_path"

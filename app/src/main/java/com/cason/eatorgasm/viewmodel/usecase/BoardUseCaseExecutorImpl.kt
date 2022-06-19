@@ -17,9 +17,9 @@ class BoardUseCaseExecutorImpl @Inject constructor(private val mFirestoreReposit
     private val vmJob = Job()
     private val vmScope = CoroutineScope(Dispatchers.Main + vmJob)
 
-    private val mBoardInfoLiveData = MutableLiveData<BoardInfoModel>()
     private val mUpdateBoardInfo = MutableLiveData<Boolean>()
 
+    private val mBoardInfo = MutableLiveData<BoardInfoModel>()
     private val mBoardInfoList = MutableLiveData<ArrayList<BoardInfoModel>>()
 
     override fun addBoardData(data: BoardInfoModel) {
@@ -32,10 +32,13 @@ class BoardUseCaseExecutorImpl @Inject constructor(private val mFirestoreReposit
                 data.timeStamp = System.currentTimeMillis().toString()
                 data.location = ""
                 data.photoUrl = user.photoUrl.toString()
-
-                data.boardId = data.userId + data.timeStamp
             }
-            val result = mFirestoreRepository.uploadBoard(data)
+
+            val result = if(data.boardId != "") {
+                mFirestoreRepository.modifyBoardByBoardId(data, data.boardId)
+            } else {
+                mFirestoreRepository.uploadBoard(data)
+            }
             mUpdateBoardInfo.postValue(result)
         }
     }
@@ -44,16 +47,34 @@ class BoardUseCaseExecutorImpl @Inject constructor(private val mFirestoreReposit
         TODO("Not yet implemented")
     }
 
+    override fun deleteBoardData(boardId: String?) {
+        vmScope.launch {
+            mFirestoreRepository.deleteBoardByBoardId(boardId)
+        }
+    }
+
+    override fun fetchBoardDataByBoardId(boardId: String) {
+        vmScope.launch {
+            val result = mFirestoreRepository.fetchBoard(boardId)
+            if(result != null) {
+                val item = EatLocalMapper.mapToBoardInfo(result)
+                mBoardInfo.postValue(item)
+            }
+        }
+    }
+
     override fun fetchBoardDataList() {
         vmScope.launch {
             val result = mFirestoreRepository.fetchBoardList()
             if(result != null) {
                 val list = EatLocalMapper.mapToBoardInfoList(result)
-//                var list = ArrayList<BoardInfoModel>()
-//                list.addAll(result)
                 mBoardInfoList.postValue(list)
             }
         }
+    }
+
+    override fun getBoardLiveData(): MutableLiveData<BoardInfoModel> {
+        return mBoardInfo
     }
 
     override fun getBoardListLiveData(): MutableLiveData<ArrayList<BoardInfoModel>> {

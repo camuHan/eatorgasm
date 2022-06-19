@@ -126,6 +126,21 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
         return model
     }
 
+    override suspend fun updateUserToFirestore(userInfo: UserInfoModel): Boolean {
+        var result = false
+        val db = FirebaseFirestore.getInstance()
+        db.collection(COLLECTION_NAME_USERS)
+            .document(userInfo.userId.toString())
+            .set(userInfo).addOnCompleteListener {
+                if(it.isSuccessful) {
+                    result = true
+                } else {
+                    CMLog.e(TAG, "fail in \n + ${it.exception}")
+                }
+            }.await()
+        return result
+    }
+
     override suspend fun updateProfile(userInfo: UserInfoModel): Boolean {
         var result = false
         val user = Firebase.auth.currentUser
@@ -141,21 +156,6 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
                     result = true
                 }
             }
-        return result
-    }
-
-    override suspend fun updateUserToFirestore(userInfo: UserInfoModel): Boolean {
-        var result = false
-        val db = FirebaseFirestore.getInstance()
-        db.collection(COLLECTION_NAME_USERS)
-            .document(userInfo.userId.toString())
-            .set(userInfo).addOnCompleteListener {
-                if(it.isSuccessful) {
-                    result = true
-                } else {
-                    CMLog.e(TAG, "fail in \n + ${it.exception}")
-                }
-            }.await()
         return result
     }
 
@@ -255,6 +255,66 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
                 }.await()
         }
         return result
+    }
+
+    override suspend fun modifyBoardByBoardId(data: Any, boardId: String?): Boolean {
+        if(boardId == null) {
+            return false
+        }
+
+        var result = false
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        val db = FirebaseFirestore.getInstance()
+        if(uid != null) {
+            db.collection(COLLECTION_NAME_BOARDS)
+                .document(boardId)
+                .set(data).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        result = true
+                    } else {
+                        CMLog.e(TAG, "fail in \n + ${it.exception}")
+                    }
+                }.await()
+        }
+        return result
+    }
+
+    override suspend fun deleteBoardByBoardId(boardId: String?): Boolean {
+        if(boardId == null) {
+            return false
+        }
+
+        var result = false
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        val db = FirebaseFirestore.getInstance()
+        if(uid != null) {
+            db.collection(COLLECTION_NAME_BOARDS)
+                .document(boardId).delete()
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        result = true
+                    } else {
+                        CMLog.e(TAG, "fail in \n + ${it.exception}")
+                    }
+                }.await()
+        }
+        return result
+    }
+
+    override suspend fun fetchBoard(boardId: String): DocumentSnapshot? {
+        var docSnapshot: DocumentSnapshot? = null
+        val db = FirebaseFirestore.getInstance()
+        db.collection(COLLECTION_NAME_BOARDS).document(boardId).get()
+            .addOnCompleteListener {
+                if(!it.isSuccessful) {
+                    CMLog.e("HSH", "fail in \n + ${it.exception}")
+                } else {
+                    CMLog.e("HSH", "success in")
+                    docSnapshot = it.result
+                }
+            }.await()
+
+        return docSnapshot
     }
 
     override suspend fun fetchBoardList(): List<DocumentSnapshot>? {

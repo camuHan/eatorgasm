@@ -14,6 +14,7 @@ import com.cason.eatorgasm.adapter.BoardImageListAdapter
 import com.cason.eatorgasm.component.base.BaseDialogFragment
 import com.cason.eatorgasm.databinding.BoardFragmentBinding
 import com.cason.eatorgasm.define.CMEnum
+import com.cason.eatorgasm.define.EatValue.BOARD_ID
 import com.cason.eatorgasm.model.entity.BoardInfoModel
 import com.cason.eatorgasm.viewmodel.screen.BoardViewModel
 import com.cason.eatorgasm.viewmodel.screen.HomeViewModel
@@ -26,15 +27,6 @@ class EatBoardDialogFragment : BaseDialogFragment(), ComponentContract {
     private val mBoardViewModel: BoardViewModel by viewModels()
 
     private var mBoardImageListAdapter: BoardImageListAdapter? = null
-
-    companion object {
-        fun newInstance() = EatBoardDialogFragment()
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        mBinding = BoardFragmentBinding.inflate(inflater, container, false)
-        return mBinding.root
-    }
 
     private val addImageResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == Activity.RESULT_OK) {
@@ -54,10 +46,21 @@ class EatBoardDialogFragment : BaseDialogFragment(), ComponentContract {
         }
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        mBinding = BoardFragmentBinding.inflate(inflater, container, false)
+        return mBinding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val boardId = arguments?.getString(BOARD_ID, "")
+        if(boardId != null && boardId != "") {
+            mBoardViewModel.getBoardDataByBoardId(boardId)
+        }
+
         initializeBoardImageListView()
+        setObservers()
 
         mBinding.btnBoardCamera.setOnClickListener {
             val intent = Intent()
@@ -69,11 +72,11 @@ class EatBoardDialogFragment : BaseDialogFragment(), ComponentContract {
 
         mBinding.btnBoardConfirm.setOnClickListener {
             val data = BoardInfoModel()
+            data.boardId = mBinding.board?.boardId
             data.title = mBinding.etBoardTitle.text.toString()
             data.contents = mBinding.etBoardContents.text.toString()
             data.contentsList = mBoardImageListAdapter?.getItems()
             mBoardViewModel.addBoardData(data)
-
             dismiss()
         }
     }
@@ -83,6 +86,12 @@ class EatBoardDialogFragment : BaseDialogFragment(), ComponentContract {
         mBinding.rvBoardImageList.adapter = mBoardImageListAdapter
 
 //        mBoardViewModel.updateBoardDataList()
+    }
+
+    private fun setObservers() {
+        mBoardViewModel.getBoardLiveData().observe(viewLifecycleOwner) { boardInfoModel ->
+            mBinding.board = boardInfoModel
+        }
     }
 
     override fun onCommand(commandType: CMEnum.EatCommand, vararg args: Any?) {

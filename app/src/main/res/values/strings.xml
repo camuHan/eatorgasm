@@ -22,5 +22,7 @@
     <string name="string_display_name">"Display Name"</string>
     <string name="string_email">"Email"</string>
     <string name="string_phone_number">"PhoneNumber"</string>
+    <string name="string_modification">"modification"</string>
+    <string name="string_delete">"delete"</string>
 
 </resources>

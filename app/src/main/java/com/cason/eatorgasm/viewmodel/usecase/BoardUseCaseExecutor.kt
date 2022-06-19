@@ -11,6 +11,12 @@ interface BoardUseCaseExecutor {
 
     fun addBoardData(data: BoardInfoModel)
     fun updateBoardData(data: BoardInfoModel)
+
+    fun deleteBoardData(boardId: String?)
+
+    fun fetchBoardDataByBoardId(boardId: String)
     fun fetchBoardDataList()
+
+    fun getBoardLiveData(): MutableLiveData<BoardInfoModel>
     fun getBoardListLiveData(): MutableLiveData<ArrayList<BoardInfoModel>>
 }

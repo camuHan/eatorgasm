@@ -17,5 +17,7 @@
     <string name="string_contents">"내용"</string>
     <string name="string_new_board">"새 게시판"</string>
     <string name="string_location">"위치"</string>
+    <string name="string_modification">"수정"</string>
+    <string name="string_delete">"삭제"</string>
 
 </resources>

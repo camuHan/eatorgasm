@@ -41,12 +41,24 @@ class BoardViewModel @Inject constructor(
         boardUsecase.addBoardData(data)
     }
 
+    fun deleteBoardDataByBoardId(boardId: String?) {
+        boardUsecase.deleteBoardData(boardId)
+    }
+
+    fun getBoardDataByBoardId(boardId: String) {
+        boardUsecase.fetchBoardDataByBoardId(boardId)
+    }
+
     fun updateBoardDataList() {
         boardUsecase.fetchBoardDataList()
     }
 
-    fun getBoardLiveData(): LiveData<ArrayList<BoardInfoModel>> {
+    fun getBoardListLiveData(): LiveData<ArrayList<BoardInfoModel>> {
         return boardUsecase.getBoardListLiveData()
+    }
+
+    fun getBoardLiveData(): LiveData<BoardInfoModel> {
+        return boardUsecase.getBoardLiveData()
     }
 
 }

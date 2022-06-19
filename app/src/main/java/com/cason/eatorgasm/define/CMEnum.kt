@@ -3,17 +3,8 @@ package com.cason.eatorgasm.define
 class CMEnum {
     enum class EatCommand {
         CLICKED,
-        LONG_CLICKED,
-        BUTTON_CLICKED,
-        CHECKED,
-        MOVE,
-        COPY,
-        FAVORITE,
-        RENAME,
-        SEND,
-        INFO,
-        DELETE,
-        UN_SELECT,
+        BOARD_ITEM_CLICKED,
+        BOARD_MORE_MENU_CLICKED,
         IMAGE_CLICKED,
 
         SET_RESULT,
