@@ -15,6 +15,12 @@ object EatLocalMapper {
             item.name = documentSnapshot.data?.get("name").toString()
             item.title = documentSnapshot.data?.get("title").toString()
             item.contents = documentSnapshot.data?.get("contents").toString()
+            val tempList = documentSnapshot.data?.get("contentsList")
+            if(tempList is ArrayList<*>) {
+                tempList.forEach {
+                    item.contentsList?.add(it.toString())
+                }
+            }
             item.password = documentSnapshot.data?.get("password").toString()
             item.timeStamp = documentSnapshot.data?.get("timeStamp").toString()
             item.photoUrl = documentSnapshot.data?.get("photoUrl").toString()

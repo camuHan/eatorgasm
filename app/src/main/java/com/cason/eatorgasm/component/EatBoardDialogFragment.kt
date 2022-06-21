@@ -7,15 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import com.cason.eatorgasm.component.contract.ComponentContract
 import com.cason.eatorgasm.adapter.BoardImageListAdapter
 import com.cason.eatorgasm.component.base.BaseDialogFragment
 import com.cason.eatorgasm.databinding.BoardFragmentBinding
 import com.cason.eatorgasm.define.CMEnum
-import com.cason.eatorgasm.define.EatValue.BOARD_ID
+import com.cason.eatorgasm.define.EatDefine.BundleKey.BOARD_ID
+import com.cason.eatorgasm.define.EatDefine.Request.REQUEST_KEY
 import com.cason.eatorgasm.model.entity.BoardInfoModel
+import com.cason.eatorgasm.util.ProgressManager
 import com.cason.eatorgasm.viewmodel.screen.BoardViewModel
 import com.cason.eatorgasm.viewmodel.screen.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -77,20 +81,24 @@ class EatBoardDialogFragment : BaseDialogFragment(), ComponentContract {
             data.contents = mBinding.etBoardContents.text.toString()
             data.contentsList = mBoardImageListAdapter?.getItems()
             mBoardViewModel.addBoardData(data)
-            dismiss()
         }
     }
 
     private fun initializeBoardImageListView() {
         mBoardImageListAdapter = BoardImageListAdapter(requireContext(), this)
         mBinding.rvBoardImageList.adapter = mBoardImageListAdapter
-
-//        mBoardViewModel.updateBoardDataList()
     }
 
     private fun setObservers() {
         mBoardViewModel.getBoardLiveData().observe(viewLifecycleOwner) { boardInfoModel ->
             mBinding.board = boardInfoModel
+            mBoardImageListAdapter?.setItems(boardInfoModel.contentsList)
+        }
+
+        mBoardViewModel.getUpdateBoardLiveData().observe(viewLifecycleOwner) { isUpdate ->
+            ProgressManager.dismissProgressBar()
+            dismiss()
+            setFragmentResult(REQUEST_KEY, Bundle())
         }
     }
 

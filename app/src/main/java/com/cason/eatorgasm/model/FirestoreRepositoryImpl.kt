@@ -2,6 +2,10 @@ package com.cason.eatorgasm.model
 
 import android.net.Uri
 import com.cason.eatorgasm.define.CMEnum
+import com.cason.eatorgasm.define.EatDefine.FireBaseStorage.FIREBASE_STORAGE_PROFILE_IMAGES
+import com.cason.eatorgasm.define.EatDefine.FireStoreCollection.COLLECTION_NAME_BOARDS
+import com.cason.eatorgasm.define.EatDefine.FireStoreCollection.COLLECTION_NAME_PROFILE_IMAGES
+import com.cason.eatorgasm.define.EatDefine.FireStoreCollection.COLLECTION_NAME_USERS
 import com.cason.eatorgasm.model.entity.UserInfoModel
 import com.cason.eatorgasm.util.CMLog
 import com.cason.eatorgasm.util.CMLog.d
@@ -17,6 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import com.google.firebase.storage.ktx.storageMetadata
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -163,7 +168,7 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
         var result: String? = null
         val storageRef = FirebaseStorage.getInstance().reference
         val user = FirebaseAuth.getInstance().currentUser
-        val imageRef = storageRef.child("userProfileImages").child(user?.uid!!)
+        val imageRef = storageRef.child(FIREBASE_STORAGE_PROFILE_IMAGES).child(user?.uid!!)
 
         ProgressManager.setMaxValue(100)
         ProgressManager.showProgressBar(CMEnum.CommonProgressType.UPLOAD, null)
@@ -175,12 +180,10 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
 
             ProgressManager.updateByPercent(progress.toInt())
 
-
         }.continueWithTask { task: Task<UploadTask.TaskSnapshot> ->
             return@continueWithTask imageRef.downloadUrl
         }.addOnCompleteListener{
             if(it.isSuccessful) {
-//                result = true
                 result= it.result.toString()
             } else {
                 CMLog.e(TAG, "fail in \n + ${it.exception}")
@@ -190,6 +193,34 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
         return result
     }
 
+    override suspend fun uploadImageListInStorage(storageName: String
+                                                  , imageList: ArrayList<String>?): ArrayList<String>? {
+        if(imageList == null) {
+            return null
+        }
+
+        val resultList = ArrayList<String>()
+        val storageRef = FirebaseStorage.getInstance().reference
+        val imageRef = storageRef.child(storageName)
+
+        imageList.forEachIndexed { index, uri ->
+            val metadata = storageMetadata {
+                setCustomMetadata("index", "" + index)
+            }
+            imageRef.putFile(Uri.parse(uri), metadata).continueWithTask {
+                return@continueWithTask imageRef.downloadUrl
+            }.addOnCompleteListener{
+                if(it.isSuccessful) {
+                    resultList.add(it.result.toString())
+                } else {
+                    CMLog.e(TAG, "fail in \n + ${it.exception}")
+                }
+            }.await()
+        }
+        return resultList
+    }
+
+    /* not used */
     override suspend fun uploadProfileImage(data: Any): Boolean {
         var result = false
         val uid = FirebaseAuth.getInstance().currentUser?.uid
@@ -206,6 +237,7 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
         return result
     }
 
+    /* not used */
     override suspend fun fetchProfileImage(): DocumentSnapshot?{
         var snapshot:DocumentSnapshot? = null
         val uid = FirebaseAuth.getInstance().currentUser?.uid
@@ -335,8 +367,8 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
 
     companion object {
         private val TAG = FirestoreRepositoryImpl::class.java.simpleName
-        private const val COLLECTION_NAME_USERS = "users"
-        private const val COLLECTION_NAME_BOARDS = "boards"
-        private const val COLLECTION_NAME_PROFILE_IMAGES = "profileImages"
+//        private const val COLLECTION_NAME_USERS = "users"
+//        private const val COLLECTION_NAME_BOARDS = "boards"
+//        private const val COLLECTION_NAME_PROFILE_IMAGES = "profileImages"
     }
 }

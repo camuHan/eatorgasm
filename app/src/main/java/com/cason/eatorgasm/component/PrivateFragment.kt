@@ -12,8 +12,7 @@ import androidx.fragment.app.*
 import com.cason.eatorgasm.R
 import com.cason.eatorgasm.component.contract.ComponentContract
 import com.cason.eatorgasm.databinding.PrivateFragmentBinding
-import com.cason.eatorgasm.define.EatValue.RESULT_EDIT_PROFILE
-import com.cason.eatorgasm.define.EatValue.RESULT_UPDATE_PROFILE
+import com.cason.eatorgasm.define.EatDefine.Result.RESULT_EDIT_PROFILE
 import com.cason.eatorgasm.view.PrivateViewImpl
 import com.cason.eatorgasm.viewmodel.screen.HomeViewModel
 import com.cason.eatorgasm.viewmodel.screen.PrivateViewModel

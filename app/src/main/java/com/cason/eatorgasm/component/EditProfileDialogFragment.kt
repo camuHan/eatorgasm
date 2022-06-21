@@ -1,7 +1,6 @@
 package com.cason.eatorgasm.component
 
 import android.app.Activity
-import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -12,18 +11,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import com.cason.eatorgasm.R
 import com.cason.eatorgasm.component.base.BaseDialogFragment
-import com.cason.eatorgasm.component.contract.ComponentContract
 import com.cason.eatorgasm.databinding.EditProfileLayoutBinding
-import com.cason.eatorgasm.define.CMEnum
-import com.cason.eatorgasm.define.EatValue
+import com.cason.eatorgasm.define.EatDefine
+import com.cason.eatorgasm.define.EatDefine.Result.RESULT_EDIT_PROFILE
 import com.cason.eatorgasm.model.entity.UserInfoModel
-import com.cason.eatorgasm.util.CMLog
 import com.cason.eatorgasm.view.EditProfileViewImpl
 import com.cason.eatorgasm.viewmodel.screen.EditProfileViewModel
 import com.cason.eatorgasm.viewmodel.screen.HomeViewModel
@@ -111,7 +107,7 @@ class EditProfileDialogFragment : BaseDialogFragment() {
 
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
-        setFragmentResult(EatValue.RESULT_EDIT_PROFILE, Bundle())
+        setFragmentResult(RESULT_EDIT_PROFILE, Bundle())
     }
 
 }

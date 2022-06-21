@@ -17,6 +17,7 @@ interface BoardUseCaseExecutor {
     fun fetchBoardDataByBoardId(boardId: String)
     fun fetchBoardDataList()
 
+    fun getUpdateBoardLiveData(): MutableLiveData<Boolean>
     fun getBoardLiveData(): MutableLiveData<BoardInfoModel>
     fun getBoardListLiveData(): MutableLiveData<ArrayList<BoardInfoModel>>
 }

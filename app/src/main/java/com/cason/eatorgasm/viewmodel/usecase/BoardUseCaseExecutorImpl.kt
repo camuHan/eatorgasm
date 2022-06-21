@@ -1,6 +1,7 @@
 package com.cason.eatorgasm.viewmodel.usecase
 
 import androidx.lifecycle.MutableLiveData
+import com.cason.eatorgasm.define.EatDefine.FireBaseStorage.FIREBASE_STORAGE_BOARD_IMAGES
 import com.cason.eatorgasm.model.entity.BoardInfoModel
 import com.cason.eatorgasm.model.mapper.EatLocalMapper
 import com.cason.eatorgasm.model.FirestoreRepositoryImpl
@@ -34,7 +35,10 @@ class BoardUseCaseExecutorImpl @Inject constructor(private val mFirestoreReposit
                 data.photoUrl = user.photoUrl.toString()
             }
 
-            val result = if(data.boardId != "") {
+            val boardStorageName = FIREBASE_STORAGE_BOARD_IMAGES + "/" + data.userId
+            data.contentsList = mFirestoreRepository.uploadImageListInStorage(boardStorageName, data.contentsList)
+
+            val result = if(data.boardId != null && data.boardId != "") {
                 mFirestoreRepository.modifyBoardByBoardId(data, data.boardId)
             } else {
                 mFirestoreRepository.uploadBoard(data)
@@ -71,6 +75,10 @@ class BoardUseCaseExecutorImpl @Inject constructor(private val mFirestoreReposit
                 mBoardInfoList.postValue(list)
             }
         }
+    }
+
+    override fun getUpdateBoardLiveData(): MutableLiveData<Boolean> {
+        return mUpdateBoardInfo
     }
 
     override fun getBoardLiveData(): MutableLiveData<BoardInfoModel> {

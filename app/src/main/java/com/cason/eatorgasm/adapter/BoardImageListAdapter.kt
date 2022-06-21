@@ -32,7 +32,11 @@ class BoardImageListAdapter(private var context: Context, contract: ComponentCon
         notifyItemInserted(mItems.size)
     }
 
-    fun setItems(items: ArrayList<String>) {
+    fun setItems(items: ArrayList<String>?) {
+        if(items == null) {
+            return
+        }
+
         mItems = items
         notifyItemRangeChanged(0, itemCount)
     }

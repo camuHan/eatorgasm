@@ -19,9 +19,13 @@ interface FirestoreRepository {
     // update profile
     suspend fun updateProfile(userInfo: UserInfoModel): Boolean
 
-    // profile image
+    // upload image
     suspend fun uploadProfileImageInStorage(uri: Uri): String?
+    suspend fun uploadImageListInStorage(storageName: String
+                                         , imageList: ArrayList<String>?): ArrayList<String>?
     suspend fun uploadProfileImage(data: Any): Boolean
+
+    // fetch image
     suspend fun fetchProfileImage(): DocumentSnapshot?
     suspend fun fetchProfileImageByUid(uid: String): DocumentSnapshot?
 

@@ -8,7 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.cason.eatorgasm.define.CMEnum
 import com.cason.eatorgasm.model.entity.BoardInfoModel
+import com.cason.eatorgasm.util.ProgressManager
 import com.cason.eatorgasm.util.ToastManager
 import com.cason.eatorgasm.view.PrivateView
 import com.cason.eatorgasm.viewmodel.usecase.BoardUseCaseExecutor
@@ -38,6 +40,7 @@ class BoardViewModel @Inject constructor(
     }
 
     fun addBoardData(data: BoardInfoModel) {
+        ProgressManager.showProgressBar(CMEnum.CommonProgressType.UPLOAD, null)
         boardUsecase.addBoardData(data)
     }
 
@@ -51,6 +54,10 @@ class BoardViewModel @Inject constructor(
 
     fun updateBoardDataList() {
         boardUsecase.fetchBoardDataList()
+    }
+
+    fun getUpdateBoardLiveData(): LiveData<Boolean> {
+        return boardUsecase.getUpdateBoardLiveData()
     }
 
     fun getBoardListLiveData(): LiveData<ArrayList<BoardInfoModel>> {
