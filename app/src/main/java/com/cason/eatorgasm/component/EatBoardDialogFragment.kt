@@ -1,27 +1,23 @@
 package com.cason.eatorgasm.component
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
+import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.cason.eatorgasm.component.contract.ComponentContract
+import com.cason.eatorgasm.adapter.BoardEditImageListAdapter
 import com.cason.eatorgasm.adapter.BoardImageListAdapter
 import com.cason.eatorgasm.component.base.BaseDialogFragment
 import com.cason.eatorgasm.databinding.BoardFragmentBinding
 import com.cason.eatorgasm.define.CMEnum
-import com.cason.eatorgasm.define.EatDefine.BundleKey.BOARD_ID
-import com.cason.eatorgasm.define.EatDefine.Request.REQUEST_KEY
-import com.cason.eatorgasm.model.entity.BoardInfoModel
-import com.cason.eatorgasm.util.ProgressManager
+import com.cason.eatorgasm.define.EatDefine
 import com.cason.eatorgasm.viewmodel.screen.BoardViewModel
 import com.cason.eatorgasm.viewmodel.screen.HomeViewModel
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,24 +28,6 @@ class EatBoardDialogFragment : BaseDialogFragment(), ComponentContract {
 
     private var mBoardImageListAdapter: BoardImageListAdapter? = null
 
-    private val addImageResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == Activity.RESULT_OK) {
-            val clipData = it?.data?.clipData
-            val clipDataSize = clipData?.itemCount
-            if (clipData == null) { //이미지를 하나만 선택할 경우 clipData가 null이 올수 있음
-                val selectedImageUri = it.data?.data.toString()
-                mBoardImageListAdapter?.addItem(selectedImageUri)
-
-            } else {
-                val list = ArrayList<String>()
-                for (i in 0 until clipDataSize!!) { //선택 한 사진수만큼 반복
-                    list.add(clipData.getItemAt(i).uri.toString())
-                }
-                mBoardImageListAdapter?.setItems(list)
-            }
-        }
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding = BoardFragmentBinding.inflate(inflater, container, false)
         return mBinding.root
@@ -58,47 +36,34 @@ class EatBoardDialogFragment : BaseDialogFragment(), ComponentContract {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val boardId = arguments?.getString(BOARD_ID, "")
+        mBoardImageListAdapter = BoardImageListAdapter(requireContext(), this)
+
+        mBinding.boardViewPager.adapter = mBoardImageListAdapter
+        mBinding.boardViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+
+        TabLayoutMediator(mBinding.boardTabLayout, mBinding.boardViewPager) { tab, position ->
+//            tab.text = "OBJECT ${(position + 1)}"
+        }.attach()
+
+        val boardId = arguments?.getString(EatDefine.BundleKey.BOARD_ID, "")
         if(boardId != null && boardId != "") {
             mBoardViewModel.getBoardDataByBoardId(boardId)
         }
 
         initializeBoardImageListView()
         setObservers()
-
-        mBinding.btnBoardCamera.setOnClickListener {
-            val intent = Intent()
-            intent.type = "image/*"
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-            intent.action = Intent.ACTION_PICK
-            addImageResult.launch(intent)
-        }
-
-        mBinding.btnBoardConfirm.setOnClickListener {
-            val data = BoardInfoModel()
-            data.boardId = mBinding.board?.boardId
-            data.title = mBinding.etBoardTitle.text.toString()
-            data.contents = mBinding.etBoardContents.text.toString()
-            data.contentsList = mBoardImageListAdapter?.getItems()
-            mBoardViewModel.addBoardData(data)
-        }
     }
 
     private fun initializeBoardImageListView() {
-        mBoardImageListAdapter = BoardImageListAdapter(requireContext(), this)
-        mBinding.rvBoardImageList.adapter = mBoardImageListAdapter
+
     }
 
     private fun setObservers() {
         mBoardViewModel.getBoardLiveData().observe(viewLifecycleOwner) { boardInfoModel ->
             mBinding.board = boardInfoModel
+            mBinding.clBoardProfile.tvUserName.text = boardInfoModel?.name
+            Glide.with(requireContext()).load(boardInfoModel?.photoUrl).circleCrop().into(mBinding.clBoardProfile.ivUserThumb)
             mBoardImageListAdapter?.setItems(boardInfoModel.contentsList)
-        }
-
-        mBoardViewModel.getUpdateBoardLiveData().observe(viewLifecycleOwner) { isUpdate ->
-            ProgressManager.dismissProgressBar()
-            dismiss()
-            setFragmentResult(REQUEST_KEY, Bundle())
         }
     }
 

@@ -6,15 +6,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cason.eatorgasm.component.contract.ComponentContract
+import com.cason.eatorgasm.databinding.BoardEditImageListItemBinding
 import com.cason.eatorgasm.databinding.BoardImageListItemBinding
 import com.cason.eatorgasm.define.CMEnum
 
-class BoardImageListAdapter(private var context: Context, contract: ComponentContract) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class BoardEditImageListAdapter(private var context: Context, contract: ComponentContract) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var mBoardContract = contract
     private var mItems = ArrayList<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val binding = BoardImageListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = BoardEditImageListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return BoardImageListViewHolder(binding)
     }
 
@@ -45,13 +46,18 @@ class BoardImageListAdapter(private var context: Context, contract: ComponentCon
         return this.mItems
     }
 
-    inner class BoardImageListViewHolder(binding: BoardImageListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class BoardImageListViewHolder(binding: BoardEditImageListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         private val mHolderBinding = binding
 
         fun bind(item: String) {
-            Glide.with(context).load(item).centerCrop().into(mHolderBinding.ivBoardImageListImage)
-            mHolderBinding.ivBoardImageListImage.setOnClickListener {
-//                mBoardContract.onCommand(CMEnum.EatCommand.IMAGE_CLICKED, mItems[adapterPosition])
+            Glide.with(context).load(item).centerCrop().into(mHolderBinding.ivBoardEditImageListImage)
+            mHolderBinding.ivBoardEditImageListCancel.setOnClickListener {
+                mItems.removeAt(adapterPosition)
+                notifyItemRemoved(adapterPosition)
+            }
+            mHolderBinding.ivBoardEditImageListImage.setOnClickListener {
+//                Glide.with(context).
+                mBoardContract.onCommand(CMEnum.EatCommand.IMAGE_CLICKED, mItems[adapterPosition])
 
             }
         }
