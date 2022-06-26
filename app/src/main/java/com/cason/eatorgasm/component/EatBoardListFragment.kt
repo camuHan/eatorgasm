@@ -1,13 +1,11 @@
 package com.cason.eatorgasm.component
 
-import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
@@ -18,7 +16,6 @@ import com.cason.eatorgasm.databinding.BoardListFragmentBinding
 import com.cason.eatorgasm.define.CMEnum
 import com.cason.eatorgasm.define.EatDefine
 import com.cason.eatorgasm.define.EatDefine.BundleKey.BOARD_ID
-import com.cason.eatorgasm.define.EatDefine.Result.RESULT_EDIT_PROFILE
 import com.cason.eatorgasm.model.entity.BoardInfoModel
 import com.cason.eatorgasm.viewmodel.screen.BoardViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -85,15 +82,29 @@ class EatBoardListFragment(contract: ComponentContract) : Fragment(), ComponentC
         popupMenu.show()
     }
 
-    private fun goEditBoard(bundle: Bundle) {
+    private fun goBoard(bundle: Bundle) {
         val dialog = EatBoardDialogFragment()
         dialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.Theme_EatOrgasm)
         dialog.arguments = bundle
-        parentFragmentManager.setFragmentResultListener(EatDefine.Request.REQUEST_KEY, this, mEditProfileListener)
+        parentFragmentManager.setFragmentResultListener(EatDefine.Request.REQUEST_KEY, this, mBoardListener)
         dialog.show(parentFragmentManager, "board");
     }
 
-    private val mEditProfileListener = FragmentResultListener { key, bundle ->
+    private fun goEditBoard(bundle: Bundle) {
+        val dialog = EatBoardEditDialogFragment()
+        dialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.Theme_EatOrgasm)
+        dialog.arguments = bundle
+        parentFragmentManager.setFragmentResultListener(EatDefine.Request.REQUEST_KEY, this, mEditBoardListener)
+        dialog.show(parentFragmentManager, "board");
+    }
+
+    private val mBoardListener = FragmentResultListener { key, bundle ->
+        if (key == EatDefine.Request.REQUEST_KEY) {
+            mBoardViewModel.updateBoardDataList()
+        }
+    }
+
+    private val mEditBoardListener = FragmentResultListener { key, bundle ->
         if (key == EatDefine.Request.REQUEST_KEY) {
             mBoardViewModel.updateBoardDataList()
         }
@@ -106,7 +117,7 @@ class EatBoardListFragment(contract: ComponentContract) : Fragment(), ComponentC
 
                 val bundle = Bundle()
                 bundle.putString(BOARD_ID, item.boardId)
-                goEditBoard(bundle)
+                goBoard(bundle)
             }
             CMEnum.EatCommand.BOARD_MORE_MENU_CLICKED -> {
                 setPopupMenu(args[0] as BoardInfoModel, args[1] as View)

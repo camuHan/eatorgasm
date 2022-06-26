@@ -26,6 +26,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.tasks.await
+import java.util.*
 import javax.inject.Inject
 
 class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
@@ -201,13 +202,22 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
 
         val resultList = ArrayList<String>()
         val storageRef = FirebaseStorage.getInstance().reference
-        val imageRef = storageRef.child(storageName)
+        val imageStorageRef = storageRef.child(storageName)
 
         imageList.forEachIndexed { index, uri ->
             val metadata = storageMetadata {
                 setCustomMetadata("index", "" + index)
             }
-            imageRef.putFile(Uri.parse(uri), metadata).continueWithTask {
+
+            val lastIndex: Int = uri.lastIndexOf('/')
+            if (lastIndex < 0) {
+                return@forEachIndexed
+            }
+
+            val fileName: String = uri.substring(lastIndex + 1)
+            val imageRef = imageStorageRef.child(fileName)
+
+            imageRef.putFile(Uri.parse(uri)).continueWithTask {
                 return@continueWithTask imageRef.downloadUrl
             }.addOnCompleteListener{
                 if(it.isSuccessful) {
@@ -367,8 +377,5 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
 
     companion object {
         private val TAG = FirestoreRepositoryImpl::class.java.simpleName
-//        private const val COLLECTION_NAME_USERS = "users"
-//        private const val COLLECTION_NAME_BOARDS = "boards"
-//        private const val COLLECTION_NAME_PROFILE_IMAGES = "profileImages"
     }
 }
