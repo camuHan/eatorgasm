@@ -30,8 +30,8 @@ interface FirestoreRepository {
     suspend fun fetchProfileImageByUid(uid: String): DocumentSnapshot?
 
     // set board
-    suspend fun modifyBoardByBoardId(data: Any, boardId: String?): Boolean
-    suspend fun uploadBoard(data: Any): Boolean
+    suspend fun setFireStoreData(collectionName: String, data: Any): Boolean
+    suspend fun modifyFireStoreDataByDocumentId(collectionName: String, data: Any, documentId: String?): Boolean
 
     // delete board
     suspend fun deleteBoardByBoardId(boardId: String?): Boolean

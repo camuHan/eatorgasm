@@ -84,7 +84,7 @@ class EatBoardListFragment(contract: ComponentContract) : Fragment(), ComponentC
 
     private fun goBoard(bundle: Bundle) {
         val dialog = EatBoardDialogFragment()
-        dialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.Theme_EatOrgasm)
+        dialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.MyAnimationTheme)
         dialog.arguments = bundle
         parentFragmentManager.setFragmentResultListener(EatDefine.Request.REQUEST_KEY, this, mBoardListener)
         dialog.show(parentFragmentManager, "board");

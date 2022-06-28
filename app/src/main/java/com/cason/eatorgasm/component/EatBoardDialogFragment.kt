@@ -4,17 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
+import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.cason.eatorgasm.component.contract.ComponentContract
-import com.cason.eatorgasm.adapter.BoardEditImageListAdapter
+import com.cason.eatorgasm.R
 import com.cason.eatorgasm.adapter.BoardImageListAdapter
 import com.cason.eatorgasm.component.base.BaseDialogFragment
+import com.cason.eatorgasm.component.contract.ComponentContract
 import com.cason.eatorgasm.databinding.BoardFragmentBinding
 import com.cason.eatorgasm.define.CMEnum
 import com.cason.eatorgasm.define.EatDefine
+import com.cason.eatorgasm.model.entity.BoardInfoModel
+import com.cason.eatorgasm.util.CMLog
 import com.cason.eatorgasm.viewmodel.screen.BoardViewModel
 import com.cason.eatorgasm.viewmodel.screen.HomeViewModel
 import com.google.android.material.tabs.TabLayoutMediator
@@ -28,6 +32,12 @@ class EatBoardDialogFragment : BaseDialogFragment(), ComponentContract {
 
     private var mBoardImageListAdapter: BoardImageListAdapter? = null
 
+    private val mEditBoardListener = FragmentResultListener { key, bundle ->
+        if (key == EatDefine.Request.REQUEST_KEY) {
+            getBoardData(bundle)
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         mBinding = BoardFragmentBinding.inflate(inflater, container, false)
         return mBinding.root
@@ -36,6 +46,25 @@ class EatBoardDialogFragment : BaseDialogFragment(), ComponentContract {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initTransparentActionBar()
+        initBoardLayout()
+        setObservers()
+
+        getBoardData(arguments)
+    }
+
+    private fun initTransparentActionBar() {
+        mBinding.boardToolbarLayout.background.alpha = 0
+        mBinding.boardScrollview.setOnScrollChangeListener { view, x, y, oldx, oldy ->
+            if(y in 0..1299) {
+                val ratio = y / (1300f)
+                CMLog.e("HSH", "test = $ratio")
+                mBinding.boardToolbarLayout.background.alpha = (ratio * 255).toInt()
+            }
+        }
+    }
+
+    private fun initBoardLayout() {
         mBoardImageListAdapter = BoardImageListAdapter(requireContext(), this)
 
         mBinding.boardViewPager.adapter = mBoardImageListAdapter
@@ -45,17 +74,17 @@ class EatBoardDialogFragment : BaseDialogFragment(), ComponentContract {
 //            tab.text = "OBJECT ${(position + 1)}"
         }.attach()
 
-        val boardId = arguments?.getString(EatDefine.BundleKey.BOARD_ID, "")
+        mBinding.ibBoardListMore.setOnClickListener { view ->
+            val boardInfoModel = mBinding.board as BoardInfoModel
+            setPopupMenu(boardInfoModel, view)
+        }
+    }
+
+    private fun getBoardData(bundle: Bundle?) {
+        val boardId = bundle?.getString(EatDefine.BundleKey.BOARD_ID, "")
         if(boardId != null && boardId != "") {
             mBoardViewModel.getBoardDataByBoardId(boardId)
         }
-
-        initializeBoardImageListView()
-        setObservers()
-    }
-
-    private fun initializeBoardImageListView() {
-
     }
 
     private fun setObservers() {
@@ -75,6 +104,37 @@ class EatBoardDialogFragment : BaseDialogFragment(), ComponentContract {
             }
             else -> {}
         }
+    }
+
+    private fun setPopupMenu(item: BoardInfoModel, view: View) {
+        val popupMenu = PopupMenu(context, view)
+        activity?.menuInflater?.inflate(R.menu.board_more_menu, popupMenu.menu)
+        popupMenu.setOnMenuItemClickListener { menuItem ->
+            when(menuItem.itemId) {
+                R.id.board_modification -> {
+                    val bundle = Bundle()
+                    bundle.putString(EatDefine.BundleKey.BOARD_ID, item.boardId)
+                    goEditBoard(bundle)
+                    true
+                }
+                R.id.board_delete -> {
+                    mBoardViewModel.deleteBoardDataByBoardId(item.boardId)
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
+        popupMenu.show()
+    }
+
+    private fun goEditBoard(bundle: Bundle) {
+        val dialog = EatBoardEditDialogFragment()
+        dialog.setStyle(STYLE_NORMAL, R.style.Theme_EatOrgasm)
+        dialog.arguments = bundle
+        parentFragmentManager.setFragmentResultListener(EatDefine.Request.REQUEST_KEY, this, mEditBoardListener)
+        dialog.show(parentFragmentManager, "board");
     }
 
 }

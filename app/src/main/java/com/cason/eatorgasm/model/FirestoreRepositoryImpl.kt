@@ -205,6 +205,11 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
         val imageStorageRef = storageRef.child(storageName)
 
         imageList.forEachIndexed { index, uri ->
+            if(uri.contains(FIRESTORE_DOWNLOAD_URL)) {
+                resultList.add(uri)
+                return@forEachIndexed
+            }
+
             val metadata = storageMetadata {
                 setCustomMetadata("index", "" + index)
             }
@@ -281,12 +286,12 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
         return snapshot
     }
 
-    override suspend fun uploadBoard(data: Any): Boolean {
+    override suspend fun setFireStoreData(collectionName: String, data: Any): Boolean {
         var result = false
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         val db = FirebaseFirestore.getInstance()
         if(uid != null) {
-            db.collection(COLLECTION_NAME_BOARDS)
+            db.collection(collectionName)
                 .document()
                 .set(data).addOnCompleteListener {
                     if (it.isSuccessful) {
@@ -299,8 +304,8 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
         return result
     }
 
-    override suspend fun modifyBoardByBoardId(data: Any, boardId: String?): Boolean {
-        if(boardId == null) {
+    override suspend fun modifyFireStoreDataByDocumentId(collectionName: String, data: Any, documentId: String?): Boolean {
+        if(documentId == null) {
             return false
         }
 
@@ -308,8 +313,8 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         val db = FirebaseFirestore.getInstance()
         if(uid != null) {
-            db.collection(COLLECTION_NAME_BOARDS)
-                .document(boardId)
+            db.collection(collectionName)
+                .document(documentId)
                 .set(data).addOnCompleteListener {
                     if (it.isSuccessful) {
                         result = true
@@ -377,5 +382,6 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
 
     companion object {
         private val TAG = FirestoreRepositoryImpl::class.java.simpleName
+        private val FIRESTORE_DOWNLOAD_URL = "https://firebasestorage.googleapis.com"
     }
 }

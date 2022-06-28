@@ -10,6 +10,8 @@ data class BoardInfoModel(
     var contentsList: ArrayList<String>? = ArrayList(),
     var location: String? = "",
     var password: String? = "",
+    var createdTime: String? = "",
+    var modifiedTime: String? = "",
     var timeStamp: String? = "",
     var photoUrl: String? = "",
     var locked: Boolean = false

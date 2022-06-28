@@ -79,7 +79,7 @@ class EatBoardEditDialogFragment : BaseDialogFragment(), ComponentContract {
             data.title = mBinding.etBoardEditTitle.text.toString()
             data.contents = mBinding.etBoardEditContents.text.toString()
             data.contentsList = mBoardEditImageListAdapter?.getItems()
-            mBoardViewModel.addBoardData(data)
+            mBoardViewModel.setBoardData(data)
         }
     }
 
@@ -97,7 +97,12 @@ class EatBoardEditDialogFragment : BaseDialogFragment(), ComponentContract {
         mBoardViewModel.getUpdateBoardLiveData().observe(viewLifecycleOwner) { isUpdate ->
             ProgressManager.dismissProgressBar()
             dismiss()
-            setFragmentResult(REQUEST_KEY, Bundle())
+            val bundle = Bundle()
+            val boardInfoModel = mBinding.board
+            if(boardInfoModel?.boardId != null) {
+                bundle.putString(BOARD_ID, boardInfoModel.boardId)
+            }
+            setFragmentResult(REQUEST_KEY, bundle)
         }
     }
 

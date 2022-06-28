@@ -52,7 +52,6 @@ class BoardImageListAdapter(private var context: Context, contract: ComponentCon
             Glide.with(context).load(item).centerCrop().into(mHolderBinding.ivBoardImageListImage)
             mHolderBinding.ivBoardImageListImage.setOnClickListener {
 //                mBoardContract.onCommand(CMEnum.EatCommand.IMAGE_CLICKED, mItems[adapterPosition])
-
             }
         }
     }

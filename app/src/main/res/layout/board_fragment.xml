@@ -8,20 +8,13 @@
             name="board"
             type="com.cason.eatorgasm.model.entity.BoardInfoModel" />
     </data>
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/board_toolbar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:background="@android:color/transparent"
-            app:contentInsetStartWithNavigation="0dp"
-            app:navigationIcon="@drawable/ic_back_arrow" />
-
         <ScrollView
+            android:id="@+id/board_scrollview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/board_fragment_background" >
@@ -30,12 +23,12 @@
                 android:id="@+id/board_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:context="com.cason.eatorgasm.component.MapFragment">
+                tools:context="com.cason.eatorgasm.component.EatHomeActivity">
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/board_view_pager"
                     android:layout_width="match_parent"
-                    android:layout_height="280dp"
+                    android:layout_height="350dp"
                     app:layout_constraintBottom_toTopOf="@id/cl_board_profile"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -45,18 +38,20 @@
                     android:id="@+id/board_tab_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@id/board_view_pager"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:background="@android:color/transparent"
                     app:tabBackground="@drawable/tab_selector"
                     app:tabGravity="center"
-                    app:tabIndicatorHeight="0dp" />
+                    app:tabIndicatorHeight="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/board_view_pager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <include
                     android:id="@+id/cl_board_profile"
                     layout="@layout/private_profile_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/board_tab_layout"
@@ -72,11 +67,14 @@
 
                 <TextView
                     android:id="@+id/tv_board_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
+                    android:layout_marginStart="10dp"
+                    android:padding="10dp"
+                    android:background="@drawable/common_round_shape"
                     android:gravity="center_vertical"
                     android:text="@{board.title}"
                     android:textSize="20sp"
@@ -101,6 +99,7 @@
                     android:id="@+id/tv_board_contents"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
                     android:layout_gravity="center"
                     android:gravity="center_vertical"
                     android:text="@{board.contents}"
@@ -111,5 +110,14 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
-    </LinearLayout>
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/board_toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="?colorPrimary"
+            android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:contentInsetStartWithNavigation="0dp"
+            app:navigationIcon="@drawable/ic_back_arrow" />
+    </FrameLayout>
 </layout>

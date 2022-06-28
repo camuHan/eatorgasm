@@ -9,7 +9,7 @@ import java.net.URI
 
 interface BoardUseCaseExecutor {
 
-    fun addBoardData(data: BoardInfoModel)
+    fun setBoardData(data: BoardInfoModel)
     fun updateBoardData(data: BoardInfoModel)
 
     fun deleteBoardData(boardId: String?)

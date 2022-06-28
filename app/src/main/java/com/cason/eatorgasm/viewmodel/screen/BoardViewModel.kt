@@ -1,22 +1,14 @@
 package com.cason.eatorgasm.viewmodel.screen
 
 import android.app.Activity
-import android.content.Intent
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultLauncher
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.cason.eatorgasm.define.CMEnum
 import com.cason.eatorgasm.model.entity.BoardInfoModel
 import com.cason.eatorgasm.util.ProgressManager
-import com.cason.eatorgasm.util.ToastManager
 import com.cason.eatorgasm.view.PrivateView
 import com.cason.eatorgasm.viewmodel.usecase.BoardUseCaseExecutor
-import com.cason.eatorgasm.viewmodel.usecase.FetchMyProfileUseCaseExecutor
-import com.cason.eatorgasm.viewmodel.usecase.LoginUsecaseExecutor
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.lang.ref.WeakReference
 import javax.inject.Inject
@@ -39,9 +31,9 @@ class BoardViewModel @Inject constructor(
 //        view.setUpdateProfileImageLiveData(profileUsecase.getUpdateProfileImageResultLiveData())
     }
 
-    fun addBoardData(data: BoardInfoModel) {
+    fun setBoardData(data: BoardInfoModel) {
         ProgressManager.showProgressBar(CMEnum.CommonProgressType.UPLOAD, null)
-        boardUsecase.addBoardData(data)
+        boardUsecase.setBoardData(data)
     }
 
     fun deleteBoardDataByBoardId(boardId: String?) {
