@@ -38,6 +38,11 @@ class BoardListAdapter(private var context: Context, contract: ComponentContract
             mHolderBinding.clPrivateProfile.tvUserName.text = item?.name
             Glide.with(context).load(item?.photoUrl).circleCrop().into(mHolderBinding.clPrivateProfile.ivUserThumb)
 
+            if(item?.contentsList?.size != 0) {
+                Glide.with(context).load(item?.contentsList?.get(0)).centerCrop()
+                    .into(mHolderBinding.ivBoardListImage)
+            }
+
             mHolderBinding.root.setOnClickListener {
                 mBoardContract.onCommand(CMEnum.EatCommand.BOARD_ITEM_CLICKED, getItem(adapterPosition))
             }

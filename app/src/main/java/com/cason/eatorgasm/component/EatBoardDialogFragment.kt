@@ -8,6 +8,8 @@ import android.widget.PopupMenu
 import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.viewpager2.widget.CompositePageTransformer
+import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.cason.eatorgasm.R
@@ -70,6 +72,15 @@ class EatBoardDialogFragment : BaseDialogFragment(), ComponentContract {
 
         mBinding.boardViewPager.adapter = mBoardImageListAdapter
         mBinding.boardViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        mBinding.boardViewPager.offscreenPageLimit = 3
+
+        val transform = CompositePageTransformer()
+        transform.addTransformer(MarginPageTransformer(8))
+        transform.addTransformer(ViewPager2.PageTransformer{ view: View, fl: Float ->
+            val v = 1-Math.abs(fl)
+            view.scaleY = 0.8f + v * 0.2f
+        })
+        mBinding.boardViewPager.setPageTransformer(transform)
 
         TabLayoutMediator(mBinding.boardTabLayout, mBinding.boardViewPager) { tab, position ->
 //            tab.text = "OBJECT ${(position + 1)}"
