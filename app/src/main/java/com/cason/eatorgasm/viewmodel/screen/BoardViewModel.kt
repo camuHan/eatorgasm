@@ -32,7 +32,7 @@ class BoardViewModel @Inject constructor(
     }
 
     fun setBoardData(data: BoardInfoModel) {
-        ProgressManager.showProgressBar(CMEnum.CommonProgressType.UPLOAD, null)
+        ProgressManager.showProgressCircular(CMEnum.CommonProgressType.UPLOAD, "", null)
         boardUsecase.setBoardData(data)
     }
 

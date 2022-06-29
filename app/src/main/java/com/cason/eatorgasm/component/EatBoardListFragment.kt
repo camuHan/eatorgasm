@@ -17,6 +17,7 @@ import com.cason.eatorgasm.define.CMEnum
 import com.cason.eatorgasm.define.EatDefine
 import com.cason.eatorgasm.define.EatDefine.BundleKey.BOARD_ID
 import com.cason.eatorgasm.model.entity.BoardInfoModel
+import com.cason.eatorgasm.util.ProgressManager
 import com.cason.eatorgasm.viewmodel.screen.BoardViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,18 +45,19 @@ class EatBoardListFragment(contract: ComponentContract) : Fragment(), ComponentC
         mBinding.fbNewBoardAdd.setOnClickListener {
             goEditBoard(Bundle())
         }
+
+        updateBoardDataListCommand()
     }
 
     private fun initializeBoardListView() {
         mBoardListAdapter = BoardListAdapter(requireContext(), this)
         mBinding.rvBoardList.adapter = mBoardListAdapter
-
-        mBoardViewModel.updateBoardDataList()
     }
 
     private fun setObservers() {
         mBoardViewModel.getBoardListLiveData().observe(viewLifecycleOwner) {
             mBoardListAdapter?.submitList(it)
+            ProgressManager.dismissProgress()
         }
     }
 
@@ -100,13 +102,13 @@ class EatBoardListFragment(contract: ComponentContract) : Fragment(), ComponentC
 
     private val mBoardListener = FragmentResultListener { key, bundle ->
         if (key == EatDefine.Request.REQUEST_KEY) {
-            mBoardViewModel.updateBoardDataList()
+            updateBoardDataListCommand()
         }
     }
 
     private val mEditBoardListener = FragmentResultListener { key, bundle ->
         if (key == EatDefine.Request.REQUEST_KEY) {
-            mBoardViewModel.updateBoardDataList()
+            updateBoardDataListCommand()
         }
     }
 
@@ -125,4 +127,8 @@ class EatBoardListFragment(contract: ComponentContract) : Fragment(), ComponentC
         }
     }
 
+    private fun updateBoardDataListCommand() {
+        ProgressManager.showProgress()
+        mBoardViewModel.updateBoardDataList()
+    }
 }

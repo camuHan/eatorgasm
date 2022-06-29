@@ -11,6 +11,6 @@ class CMEnum {
     }
 
     enum class CommonProgressType {
-        UPLOAD, ETC
+        NONE, UPLOAD, ETC
     }
 }

@@ -19,6 +19,7 @@ import com.cason.eatorgasm.define.CMEnum
 import com.cason.eatorgasm.define.EatDefine
 import com.cason.eatorgasm.model.entity.BoardInfoModel
 import com.cason.eatorgasm.util.CMLog
+import com.cason.eatorgasm.util.ProgressManager
 import com.cason.eatorgasm.viewmodel.screen.BoardViewModel
 import com.cason.eatorgasm.viewmodel.screen.HomeViewModel
 import com.google.android.material.tabs.TabLayoutMediator
@@ -84,6 +85,7 @@ class EatBoardDialogFragment : BaseDialogFragment(), ComponentContract {
         val boardId = bundle?.getString(EatDefine.BundleKey.BOARD_ID, "")
         if(boardId != null && boardId != "") {
             mBoardViewModel.getBoardDataByBoardId(boardId)
+            ProgressManager.showProgress()
         }
     }
 
@@ -93,6 +95,7 @@ class EatBoardDialogFragment : BaseDialogFragment(), ComponentContract {
             mBinding.clBoardProfile.tvUserName.text = boardInfoModel?.name
             Glide.with(requireContext()).load(boardInfoModel?.photoUrl).circleCrop().into(mBinding.clBoardProfile.ivUserThumb)
             mBoardImageListAdapter?.setItems(boardInfoModel.contentsList)
+            ProgressManager.dismissProgress()
         }
     }
 

@@ -95,7 +95,7 @@ class EatBoardEditDialogFragment : BaseDialogFragment(), ComponentContract {
         }
 
         mBoardViewModel.getUpdateBoardLiveData().observe(viewLifecycleOwner) { isUpdate ->
-            ProgressManager.dismissProgressBar()
+            ProgressManager.dismissProgressCircular()
             dismiss()
             val bundle = Bundle()
             val boardInfoModel = mBinding.board

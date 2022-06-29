@@ -65,9 +65,10 @@ class EatHomeActivity : AppCompatActivity(), EatHomeActivityActionListener, Comp
         supportFragmentManager.fragmentFactory = MainFragmentFactoryImpl(this)
         super.onCreate(saveInstanceState)
 
+        setLayout()
         createDataBase()
         createProgressDialog()
-        setLayout()
+
 
         setHomeBottomSheetDialogObserver()
         setOpenObserver()
@@ -92,6 +93,8 @@ class EatHomeActivity : AppCompatActivity(), EatHomeActivityActionListener, Comp
 
     private fun createProgressDialog() {
         ProgressManager(this).setProgressBar()
+        ProgressManager(this).setProgressMessageCircular()
+        ProgressManager(this).setProgressCircular(mBinding.homeRootView)
     }
 
     private fun setLayout() {
