@@ -21,6 +21,7 @@ import androidx.lifecycle.LiveData
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.cason.eatorgasm.MainFragmentFactoryImpl
 import com.cason.eatorgasm.R
+import com.cason.eatorgasm.adapter.ViewPageAdapter
 import com.cason.eatorgasm.component.contract.ComponentContract
 import com.cason.eatorgasm.databinding.HomeMainViewBinding
 import com.cason.eatorgasm.define.CMEnum
@@ -325,7 +326,7 @@ class EatHomeActivity : AppCompatActivity(),
         fileTypeFragment = supportFragmentManager.fragmentFactory.instantiate(classLoader, MapFragment::class.java.name) as MapFragment
         privateFragment = supportFragmentManager.fragmentFactory.instantiate(classLoader, PrivateFragment::class.java.name) as PrivateFragment
 
-        val adapter = PageAdapter(this) // PageAdapter 생성
+        val adapter = ViewPageAdapter(this) // PageAdapter 생성
         adapter.addItems(boardListFragment)
         adapter.addItems(browserFragment)
         adapter.addItems(fileTypeFragment)
@@ -685,20 +686,6 @@ class EatHomeActivity : AppCompatActivity(),
 //        }
 
         super.onBackPressed()
-    }
-
-    inner class PageAdapter(fm: FragmentActivity) : FragmentStateAdapter(fm){
-        private var fragments : ArrayList<Fragment> = ArrayList()
-
-        override fun createFragment(position: Int): Fragment {
-            return fragments[position]
-        }
-
-        override fun getItemCount(): Int = fragments.size
-
-        fun addItems(fragment: Fragment){
-            fragments.add(fragment)
-        }
     }
 
     override fun onCommand(commandType: CMEnum.EatCommand, vararg args: Any?) {

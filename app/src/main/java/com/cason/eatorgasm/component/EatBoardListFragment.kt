@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
@@ -21,6 +22,7 @@ import com.cason.eatorgasm.databinding.BoardListFragmentBinding
 import com.cason.eatorgasm.define.CMEnum
 import com.cason.eatorgasm.define.EatDefine
 import com.cason.eatorgasm.define.EatDefine.BundleKey.BOARD_ID
+import com.cason.eatorgasm.define.EatDefine.BundleKey.BOARD_INFO_MODEL
 import com.cason.eatorgasm.model.entity.BoardInfoModel
 import com.cason.eatorgasm.util.ProgressManager
 import com.cason.eatorgasm.viewmodel.screen.BoardViewModel
@@ -90,28 +92,17 @@ class EatBoardListFragment(contract: ComponentContract) : Fragment(), ComponentC
         popupMenu.show()
     }
 
-    private fun goBoard(boardId: String?, imageView: ImageView) {
+    private fun goBoard(board: BoardInfoModel, imageView: ImageView) {
         val intent = Intent(activity, EatBoardActivity::class.java)
-        intent.putExtra(BOARD_ID, boardId)
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(),
-            imageView, "imageTransition")
-        boardResultLauncher.launch(intent, options)
+        intent.putExtra(BOARD_INFO_MODEL, board)
+        val transitionName = ViewCompat.getTransitionName(imageView)
+        if(transitionName != null) {
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                requireActivity(),
+                imageView, transitionName)
 
-
-//        val simpleFragmentB = EatBoardListFragment()
-//        parentFragmentManager
-//            .beginTransaction()
-//            .addSharedElement(imageView, ViewCompat.getTransitionName(imageView)!!)
-//            .addToBackStack("test")
-//            .add(R.id.content, simpleFragmentB)
-//            .commit()
-
-
-//        val dialog = EatBoardDialogFragment()
-//        dialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.MyAnimationTheme)
-//        dialog.arguments = bundle
-//        parentFragmentManager.setFragmentResultListener(EatDefine.Request.REQUEST_KEY, this, mBoardListener)
-//        dialog.show(parentFragmentManager, "board");
+            boardResultLauncher.launch(intent, options)
+        }
     }
 
     private val boardResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -140,10 +131,7 @@ class EatBoardListFragment(contract: ComponentContract) : Fragment(), ComponentC
                 val item = args[0] as BoardInfoModel
                 val imageView = args[1] as ImageView
 
-                val bundle = Bundle()
-//                bundle.putString(BOARD_ID, item.boardId)
-//                goBoard(bundle)
-                goBoard(item.boardId, imageView)
+                goBoard(item, imageView)
             }
             CMEnum.EatCommand.BOARD_MORE_MENU_CLICKED -> {
                 setPopupMenu(args[0] as BoardInfoModel, args[1] as View)

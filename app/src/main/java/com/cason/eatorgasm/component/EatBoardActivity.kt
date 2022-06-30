@@ -1,7 +1,9 @@
 package com.cason.eatorgasm.component
 
+import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.transition.TransitionInflater
 import android.view.View
 import android.widget.PopupMenu
 import androidx.activity.viewModels
@@ -12,25 +14,32 @@ import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.cason.eatorgasm.MainFragmentFactoryImpl
 import com.cason.eatorgasm.R
 import com.cason.eatorgasm.adapter.BoardImageListAdapter
+import com.cason.eatorgasm.adapter.ViewPageAdapter
 import com.cason.eatorgasm.component.contract.ComponentContract
 import com.cason.eatorgasm.databinding.BoardActivityBinding
 import com.cason.eatorgasm.define.CMEnum
 import com.cason.eatorgasm.define.EatDefine
+import com.cason.eatorgasm.define.EatDefine.BundleKey.BOARD_INFO_MODEL
 import com.cason.eatorgasm.model.entity.BoardInfoModel
 import com.cason.eatorgasm.util.CMLog
 import com.cason.eatorgasm.util.ProgressManager
 import com.cason.eatorgasm.viewmodel.screen.BoardViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import java.security.AccessController.getContext
+import kotlin.math.abs
 
 @AndroidEntryPoint
 class EatBoardActivity : AppCompatActivity(), ComponentContract {
     private lateinit var mBinding: BoardActivityBinding
     private val mBoardViewModel: BoardViewModel by viewModels()
 
-    private var mBoardImageListAdapter: BoardImageListAdapter? = null
+    private lateinit var mBoardImageListAdapter: BoardImageListAdapter
+
+    private lateinit var mBoardInfoModel: BoardInfoModel
 
     private val mEditBoardListener = FragmentResultListener { key, bundle ->
         if (key == EatDefine.Request.REQUEST_KEY) {
@@ -39,9 +48,10 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        supportFragmentManager.fragmentFactory = MainFragmentFactoryImpl(this)
         super.onCreate(savedInstanceState)
 
-        postponeEnterTransition()
+        mBoardInfoModel = intent.getSerializableExtra(BOARD_INFO_MODEL) as BoardInfoModel
 
         setLayout()
 
@@ -49,12 +59,16 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract {
         initBoardLayout()
         setObservers()
 
-        getBoardData(intent.extras)
+//        getBoardData(intent.extras)
     }
 
     private fun setLayout() {
         mBinding = BoardActivityBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
+
+        mBinding.board = mBoardInfoModel
+        mBinding.clBoardProfile.tvUserName.text = mBoardInfoModel.name
+        Glide.with(applicationContext).load(mBoardInfoModel.photoUrl).circleCrop().into(mBinding.clBoardProfile.ivUserThumb)
     }
 
     private fun initTransparentActionBar() {
@@ -73,8 +87,17 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract {
         mBoardImageListAdapter = BoardImageListAdapter(applicationContext, this)
 
         mBinding.boardViewPager.adapter = mBoardImageListAdapter
+        mBinding.boardViewPager.currentItem = 0
         mBinding.boardViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         mBinding.boardViewPager.offscreenPageLimit = 3
+        mBoardImageListAdapter.setItems(mBoardInfoModel.contentsList)
+
+        postponeEnterTransition();
+        mBinding.boardViewPager.viewTreeObserver
+            .addOnPreDrawListener {
+                startPostponedEnterTransition()
+                true
+            }
 
         mBinding.boardViewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
             override fun onPageScrolled(
@@ -91,10 +114,10 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract {
         val transform = CompositePageTransformer()
         transform.addTransformer(MarginPageTransformer(8))
         transform.addTransformer(ViewPager2.PageTransformer{ view: View, fl: Float ->
-            val v = 1-Math.abs(fl)
+            val v = 1- abs(fl)
             view.scaleY = 0.8f + v * 0.2f
         })
-        mBinding.boardViewPager.setPageTransformer(transform)
+        mBinding.boardViewPager.setPageTransformer(null)
 
         TabLayoutMediator(mBinding.boardTabLayout, mBinding.boardViewPager) { tab, position ->
 //            tab.text = "OBJECT ${(position + 1)}"
@@ -111,13 +134,15 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract {
             mBinding.board = boardInfoModel
             mBinding.clBoardProfile.tvUserName.text = boardInfoModel?.name
             Glide.with(applicationContext).load(boardInfoModel?.photoUrl).circleCrop().into(mBinding.clBoardProfile.ivUserThumb)
-            mBoardImageListAdapter?.setItems(boardInfoModel.contentsList)
+            mBoardImageListAdapter.setItems(boardInfoModel.contentsList)
             ProgressManager.dismissProgress()
         }
     }
 
     private fun getBoardData(bundle: Bundle?) {
-        val boardId = bundle?.getString(EatDefine.BundleKey.BOARD_ID, "")
+        val board = bundle?.getSerializable(BOARD_INFO_MODEL) as BoardInfoModel
+        val boardId = board.boardId
+//        val boardId = bundle?.getString(EatDefine.BundleKey.BOARD_ID, "")
         if(boardId != null && boardId != "") {
             mBoardViewModel.getBoardDataByBoardId(boardId)
             ProgressManager.showProgress()
@@ -136,7 +161,7 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract {
 
     private fun setPopupMenu(item: BoardInfoModel, view: View) {
         val popupMenu = PopupMenu(applicationContext, view)
-        menuInflater?.inflate(R.menu.board_more_menu, popupMenu.menu)
+        menuInflater.inflate(R.menu.board_more_menu, popupMenu.menu)
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when(menuItem.itemId) {
                 R.id.board_modification -> {

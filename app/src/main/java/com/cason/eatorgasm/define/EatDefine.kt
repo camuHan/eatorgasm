@@ -13,6 +13,7 @@ object EatDefine {
 
     object BundleKey {
         const val BOARD_ID = "board_id"
+        const val BOARD_INFO_MODEL = "board_info_model"
     }
 
     object FireStoreCollection {

@@ -1,5 +1,7 @@
 package com.cason.eatorgasm.model.entity
 
+import java.io.Serializable
+
 data class BoardInfoModel(
     var userId: String? = "",
     var boardId: String? = "",
@@ -15,4 +17,4 @@ data class BoardInfoModel(
     var timeStamp: String? = "",
     var photoUrl: String? = "",
     var locked: Boolean = false
-)
+) : Serializable
