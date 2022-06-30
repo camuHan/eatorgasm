@@ -36,7 +36,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class EatHomeActivity : AppCompatActivity(), EatHomeActivityActionListener, ComponentContract {
+class EatHomeActivity : AppCompatActivity(),
+    ActionListener, ComponentContract {
 
     private lateinit var mBinding: HomeMainViewBinding
 //    private lateinit var mUpPanelBinding: HomeBrowserUpPanelViewBinding

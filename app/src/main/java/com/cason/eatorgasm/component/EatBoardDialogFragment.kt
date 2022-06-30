@@ -74,6 +74,18 @@ class EatBoardDialogFragment : BaseDialogFragment(), ComponentContract {
         mBinding.boardViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         mBinding.boardViewPager.offscreenPageLimit = 3
 
+        mBinding.boardViewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                // 스크롤뷰와 함께 viewpager 사용 시, viewpager의 가로스크롤이 잘 먹지 않을때 사용
+                mBinding.boardViewPager.parent.requestDisallowInterceptTouchEvent(true)
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+            }
+        })
+
         val transform = CompositePageTransformer()
         transform.addTransformer(MarginPageTransformer(8))
         transform.addTransformer(ViewPager2.PageTransformer{ view: View, fl: Float ->

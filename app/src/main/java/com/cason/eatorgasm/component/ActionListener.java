@@ -4,6 +4,6 @@ import androidx.lifecycle.LiveData;
 
 import com.cason.eatorgasm.model.entity.UserInfoModel;
 
-public interface EatHomeActivityActionListener {
+public interface ActionListener {
     LiveData<UserInfoModel> getUserInfoLiveData();
 }

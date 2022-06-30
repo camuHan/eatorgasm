@@ -17,7 +17,7 @@
             android:id="@+id/board_scrollview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/board_fragment_background" >
+            android:background="@color/board_fragment_bg" >
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/board_main"
@@ -78,7 +78,7 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginStart="10dp"
                     android:padding="10dp"
-                    android:background="@drawable/common_round_shape"
+                    android:background="@drawable/board_round_shape"
                     android:gravity="center_vertical"
                     android:text="@{board.title}"
                     android:textSize="20sp"
@@ -104,9 +104,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
+                    android:padding="10dp"
                     android:layout_gravity="center"
                     android:gravity="center_vertical"
                     android:text="@{board.contents}"
+                    android:textSize="15sp"
+                    android:background="@drawable/board_round_shape"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

@@ -73,6 +73,7 @@
                 android:layout_height="280dp"
                 android:src="@drawable/splash_eat_cason"
                 android:scaleType="fitXY"
+                android:transitionName="imageTransition"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_board_list_title"
