@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.cason.eatorgasm.component.contract.ComponentContract
 import com.cason.eatorgasm.databinding.BoardListItemBinding
 import com.cason.eatorgasm.define.CMEnum
+import com.cason.eatorgasm.define.EatDefine.TransitionName.IMAGE_TRANSITION
 import com.cason.eatorgasm.model.entity.BoardInfoModel
 
 class BoardListAdapter(private var context: Context, contract: ComponentContract) :
@@ -22,6 +23,7 @@ class BoardListAdapter(private var context: Context, contract: ComponentContract
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val mBinding = BoardListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        mBinding.ivBoardListImage.transitionName = IMAGE_TRANSITION
         return BoardListViewHolder(mBinding)
     }
 
@@ -44,7 +46,7 @@ class BoardListAdapter(private var context: Context, contract: ComponentContract
             }
 
             mHolderBinding.root.setOnClickListener {
-                mBoardContract.onCommand(CMEnum.EatCommand.BOARD_ITEM_CLICKED, getItem(adapterPosition), mHolderBinding.ivBoardListImage)
+                mBoardContract.onCommand(CMEnum.EatCommand.BOARD_ITEM_CLICKED, getItem(adapterPosition), mHolderBinding.ivBoardListImage, mHolderBinding.clPrivateProfile.clPrivateProfile)
             }
 
             mHolderBinding.ibBoardListMore.setOnClickListener { view ->

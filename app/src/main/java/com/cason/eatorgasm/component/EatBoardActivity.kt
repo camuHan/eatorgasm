@@ -1,36 +1,35 @@
 package com.cason.eatorgasm.component
 
-import android.os.Build
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.transition.TransitionInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import androidx.fragment.app.DialogFragment.STYLE_NORMAL
 import androidx.fragment.app.FragmentResultListener
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.cason.eatorgasm.MainFragmentFactoryImpl
 import com.cason.eatorgasm.R
 import com.cason.eatorgasm.adapter.BoardImageListAdapter
-import com.cason.eatorgasm.adapter.ViewPageAdapter
 import com.cason.eatorgasm.component.contract.ComponentContract
 import com.cason.eatorgasm.databinding.BoardActivityBinding
 import com.cason.eatorgasm.define.CMEnum
 import com.cason.eatorgasm.define.EatDefine
 import com.cason.eatorgasm.define.EatDefine.BundleKey.BOARD_INFO_MODEL
+import com.cason.eatorgasm.define.EatDefine.TransitionName.IMAGE_TRANSITION
 import com.cason.eatorgasm.model.entity.BoardInfoModel
 import com.cason.eatorgasm.util.CMLog
 import com.cason.eatorgasm.util.ProgressManager
 import com.cason.eatorgasm.viewmodel.screen.BoardViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import java.security.AccessController.getContext
 import kotlin.math.abs
+
 
 @AndroidEntryPoint
 class EatBoardActivity : AppCompatActivity(), ComponentContract {
@@ -38,7 +37,6 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract {
     private val mBoardViewModel: BoardViewModel by viewModels()
 
     private lateinit var mBoardImageListAdapter: BoardImageListAdapter
-
     private lateinit var mBoardInfoModel: BoardInfoModel
 
     private val mEditBoardListener = FragmentResultListener { key, bundle ->
@@ -48,7 +46,6 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        supportFragmentManager.fragmentFactory = MainFragmentFactoryImpl(this)
         super.onCreate(savedInstanceState)
 
         mBoardInfoModel = intent.getSerializableExtra(BOARD_INFO_MODEL) as BoardInfoModel
@@ -58,8 +55,6 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract {
         initTransparentActionBar()
         initBoardLayout()
         setObservers()
-
-//        getBoardData(intent.extras)
     }
 
     private fun setLayout() {
@@ -92,6 +87,7 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract {
         mBinding.boardViewPager.offscreenPageLimit = 3
         mBoardImageListAdapter.setItems(mBoardInfoModel.contentsList)
 
+        // transition
         postponeEnterTransition();
         mBinding.boardViewPager.viewTreeObserver
             .addOnPreDrawListener {
@@ -111,13 +107,14 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract {
             }
         })
 
+        // viewpager2 페이지 효과
         val transform = CompositePageTransformer()
         transform.addTransformer(MarginPageTransformer(8))
-        transform.addTransformer(ViewPager2.PageTransformer{ view: View, fl: Float ->
-            val v = 1- abs(fl)
+        transform.addTransformer { view: View, fl: Float ->
+            val v = 1 - abs(fl)
             view.scaleY = 0.8f + v * 0.2f
-        })
-        mBinding.boardViewPager.setPageTransformer(null)
+        }
+        mBinding.boardViewPager.setPageTransformer(transform)
 
         TabLayoutMediator(mBinding.boardTabLayout, mBinding.boardViewPager) { tab, position ->
 //            tab.text = "OBJECT ${(position + 1)}"
@@ -190,4 +187,9 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract {
         dialog.show(supportFragmentManager, "board");
     }
 
+    override fun onBackPressed() {
+        val holder = (mBinding.boardViewPager.get(0) as RecyclerView).findViewHolderForAdapterPosition(mBinding.boardViewPager.currentItem)
+        holder?.itemView?.findViewById<ImageView>(R.id.iv_board_image_list_image)?.transitionName = IMAGE_TRANSITION
+        super.onBackPressed()
+    }
 }

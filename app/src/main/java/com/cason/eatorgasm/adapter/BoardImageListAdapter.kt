@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cason.eatorgasm.component.contract.ComponentContract
 import com.cason.eatorgasm.databinding.BoardImageListItemBinding
+import com.cason.eatorgasm.define.EatDefine.TransitionName.IMAGE_TRANSITION
 
 class BoardImageListAdapter(private var context: Context, contract: ComponentContract) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var mBoardContract = contract
@@ -49,7 +50,7 @@ class BoardImageListAdapter(private var context: Context, contract: ComponentCon
 
         fun bind(item: String) {
             if(adapterPosition == 0) {
-                mHolderBinding.ivBoardImageListImage.transitionName = "imageTransition"
+                mHolderBinding.ivBoardImageListImage.transitionName = IMAGE_TRANSITION
             }
             Glide.with(context).load(item).centerCrop().into(mHolderBinding.ivBoardImageListImage)
             mHolderBinding.ivBoardImageListImage.setOnClickListener {

@@ -9,8 +9,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.view.ViewCompat
+import androidx.core.util.Pair
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
@@ -23,6 +24,8 @@ import com.cason.eatorgasm.define.CMEnum
 import com.cason.eatorgasm.define.EatDefine
 import com.cason.eatorgasm.define.EatDefine.BundleKey.BOARD_ID
 import com.cason.eatorgasm.define.EatDefine.BundleKey.BOARD_INFO_MODEL
+import com.cason.eatorgasm.define.EatDefine.TransitionName.IMAGE_TRANSITION
+import com.cason.eatorgasm.define.EatDefine.TransitionName.PROFILE_TRANSITION
 import com.cason.eatorgasm.model.entity.BoardInfoModel
 import com.cason.eatorgasm.util.ProgressManager
 import com.cason.eatorgasm.viewmodel.screen.BoardViewModel
@@ -92,17 +95,17 @@ class EatBoardListFragment(contract: ComponentContract) : Fragment(), ComponentC
         popupMenu.show()
     }
 
-    private fun goBoard(board: BoardInfoModel, imageView: ImageView) {
+    private fun goBoard(board: BoardInfoModel, imageView: ImageView, constraint: ConstraintLayout) {
         val intent = Intent(activity, EatBoardActivity::class.java)
         intent.putExtra(BOARD_INFO_MODEL, board)
-        val transitionName = ViewCompat.getTransitionName(imageView)
-        if(transitionName != null) {
-            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                requireActivity(),
-                imageView, transitionName)
+        val imagePair: Pair<View?,String?> = Pair(imageView, IMAGE_TRANSITION)
+        val profilePair: Pair<View?,String?> = Pair(constraint, PROFILE_TRANSITION)
+//        ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), imagePair, profilePair)
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+            requireActivity(), imagePair, profilePair)
 
-            boardResultLauncher.launch(intent, options)
-        }
+        boardResultLauncher.launch(intent, options)
+
     }
 
     private val boardResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -130,8 +133,9 @@ class EatBoardListFragment(contract: ComponentContract) : Fragment(), ComponentC
             CMEnum.EatCommand.BOARD_ITEM_CLICKED -> {
                 val item = args[0] as BoardInfoModel
                 val imageView = args[1] as ImageView
+                val constraint = args[2] as ConstraintLayout
 
-                goBoard(item, imageView)
+                goBoard(item, imageView, constraint)
             }
             CMEnum.EatCommand.BOARD_MORE_MENU_CLICKED -> {
                 setPopupMenu(args[0] as BoardInfoModel, args[1] as View)

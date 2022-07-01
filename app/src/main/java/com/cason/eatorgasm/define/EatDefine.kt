@@ -16,6 +16,12 @@ object EatDefine {
         const val BOARD_INFO_MODEL = "board_info_model"
     }
 
+    object TransitionName {
+        const val IMAGE_TRANSITION = "image_transition"
+        const val TITLE_TRANSITION = "title_transition"
+        const val PROFILE_TRANSITION = "profile_transition"
+    }
+
     object FireStoreCollection {
         const val COLLECTION_NAME_USERS = "users"
         const val COLLECTION_NAME_BOARDS = "boards"
