@@ -17,7 +17,6 @@
             android:id="@+id/board_edit_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            android:background="?colorPrimary"
             app:contentInsetStartWithNavigation="0dp"
             app:navigationIcon="@drawable/ic_back_arrow"
             app:title="@string/string_new_board" />

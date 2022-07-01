@@ -7,7 +7,7 @@
     <color name="teal_700">#FF018786</color>
 
     <color name="board_fragment_bg">@color/gray13</color>
-    <color name="board_title_bg">@color/color_set20</color>
+    <color name="board_title_bg">@color/color_set20_alpha15</color>
     <color name="common_fragment_bg">@color/gray10</color>
     <color name="common_list_divider_color">@color/gray11</color>
 

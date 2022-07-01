@@ -4,7 +4,6 @@
     android:id="@+id/common_toolbar"
     android:layout_width="match_parent"
     android:layout_height="?actionBarSize"
-    android:background="?colorPrimary"
     app:contentInsetStartWithNavigation="0dp"
     tools:ignore="Overdraw">
 </androidx.appcompat.widget.Toolbar>

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.PopupMenu
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityOptionsCompat
@@ -26,6 +27,7 @@ import com.cason.eatorgasm.define.EatDefine.BundleKey.BOARD_ID
 import com.cason.eatorgasm.define.EatDefine.BundleKey.BOARD_INFO_MODEL
 import com.cason.eatorgasm.define.EatDefine.TransitionName.IMAGE_TRANSITION
 import com.cason.eatorgasm.define.EatDefine.TransitionName.PROFILE_TRANSITION
+import com.cason.eatorgasm.define.EatDefine.TransitionName.TITLE_TRANSITION
 import com.cason.eatorgasm.model.entity.BoardInfoModel
 import com.cason.eatorgasm.util.ProgressManager
 import com.cason.eatorgasm.viewmodel.screen.BoardViewModel
@@ -95,14 +97,14 @@ class EatBoardListFragment(contract: ComponentContract) : Fragment(), ComponentC
         popupMenu.show()
     }
 
-    private fun goBoard(board: BoardInfoModel, imageView: ImageView, constraint: ConstraintLayout) {
+    private fun goBoard(board: BoardInfoModel, imageView: ImageView, profileView: ConstraintLayout, titleView: TextView) {
         val intent = Intent(activity, EatBoardActivity::class.java)
         intent.putExtra(BOARD_INFO_MODEL, board)
         val imagePair: Pair<View?,String?> = Pair(imageView, IMAGE_TRANSITION)
-        val profilePair: Pair<View?,String?> = Pair(constraint, PROFILE_TRANSITION)
-//        ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), imagePair, profilePair)
+        val profilePair: Pair<View?,String?> = Pair(profileView, PROFILE_TRANSITION)
+        val titlePair: Pair<View?,String?> = Pair(titleView, TITLE_TRANSITION)
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-            requireActivity(), imagePair, profilePair)
+            requireActivity(), imagePair, profilePair, titlePair)
 
         boardResultLauncher.launch(intent, options)
 
@@ -133,9 +135,10 @@ class EatBoardListFragment(contract: ComponentContract) : Fragment(), ComponentC
             CMEnum.EatCommand.BOARD_ITEM_CLICKED -> {
                 val item = args[0] as BoardInfoModel
                 val imageView = args[1] as ImageView
-                val constraint = args[2] as ConstraintLayout
+                val prfileView = args[2] as ConstraintLayout
+                val titleView = args[3] as TextView
 
-                goBoard(item, imageView, constraint)
+                goBoard(item, imageView, prfileView, titleView)
             }
             CMEnum.EatCommand.BOARD_MORE_MENU_CLICKED -> {
                 setPopupMenu(args[0] as BoardInfoModel, args[1] as View)

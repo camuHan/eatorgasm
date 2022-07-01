@@ -59,4 +59,6 @@
 
     <color name="color_set16_alpha20">#33AF64E7</color>
     <color name="color_set16_alpha10">#1AAF64E7</color>
+
+    <color name="color_set20_alpha15">#26FFFF94</color>
 </resources>

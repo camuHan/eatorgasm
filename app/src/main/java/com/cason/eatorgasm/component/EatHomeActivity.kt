@@ -79,7 +79,8 @@ class EatHomeActivity : AppCompatActivity(),
         initViewPager()
 
         setSupportActionBar(mBinding.homeToolbarLayout.root)
-        showDisplayLogoInActionBar(true)
+//        showDisplayLogoInActionBar(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         mHomeViewModel.loadUserData()
     }

@@ -67,13 +67,18 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract {
     }
 
     private fun initTransparentActionBar() {
-        mBinding.boardToolbarLayout.background.alpha = 0
+        setSupportActionBar(mBinding.boardToolbarLayout)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        mBinding.boardToolbarLayout.background?.alpha = 0
+//        supportActionBar?.customView?.background?.alpha = 0
+
         // actionbar 투명 효과 적용
         mBinding.boardScrollview.setOnScrollChangeListener { view, x, y, oldx, oldy ->
             if(y in 0..1299) {
                 val ratio = y / (1300f)
                 CMLog.e("HSH", "test = $ratio")
-                mBinding.boardToolbarLayout.background.alpha = (ratio * 255).toInt()
+//                supportActionBar?.customView?.background?.alpha = (ratio * 255).toInt()
+                mBinding.boardToolbarLayout.background?.alpha = (ratio * 255).toInt()
             }
         }
     }
