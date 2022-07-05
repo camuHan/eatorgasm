@@ -17,7 +17,7 @@
             android:id="@+id/board_scrollview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/board_fragment_bg" >
+            android:background="@color/board_bg" >
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/board_main"
@@ -59,10 +59,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/board_tab_layout"
-                    app:layout_constraintBottom_toTopOf="@id/common_divider1"/>
+                    app:layout_constraintBottom_toTopOf="@id/board_divider1"/>
 
                 <View
-                    android:id="@+id/common_divider1"
+                    android:id="@+id/board_divider1"
                     style="@style/CommonDivider"
                     app:layout_constraintBottom_toTopOf="@id/tv_board_title"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +86,7 @@
                     app:layout_constraintBottom_toTopOf="@id/tv_board_contents"
                     app:layout_constraintEnd_toStartOf="@id/ib_board_list_more"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/common_divider1" />
+                    app:layout_constraintTop_toBottomOf="@id/board_divider1" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/ib_board_list_more"

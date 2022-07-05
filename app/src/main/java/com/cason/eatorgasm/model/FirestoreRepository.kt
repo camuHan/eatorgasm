@@ -21,6 +21,7 @@ interface FirestoreRepository {
 
     // upload image
     suspend fun uploadProfileImageInStorage(uri: Uri): String?
+    suspend fun uploadImageInStorage(storageName: String, uri: String): String?
     suspend fun uploadImageListInStorage(storageName: String
                                          , imageList: ArrayList<String>?): ArrayList<String>?
     suspend fun uploadProfileImage(data: Any): Boolean
@@ -31,7 +32,7 @@ interface FirestoreRepository {
 
     // set board
     suspend fun setFireStoreData(collectionName: String, data: Any): Boolean
-    suspend fun modifyFireStoreDataByDocumentId(collectionName: String, data: Any, documentId: String?): Boolean
+    suspend fun setFireStoreDataByDocumentId(collectionName: String, data: Any, documentId: String): Boolean
 
     // delete board
     suspend fun deleteBoardByBoardId(boardId: String?): Boolean
@@ -40,6 +41,9 @@ interface FirestoreRepository {
     suspend fun fetchBoard(boardId: String): DocumentSnapshot?
     suspend fun fetchBoardList(): List<DocumentSnapshot>?
 //    suspend fun fetchProfileImage(): Uri?
+
+    suspend fun setFireStoreSubDataByDocumentId(collectionName: String, documentId: String
+                                                , subCollectionName: String, subDocumentId: String, data: Any): Boolean
 
 
 }

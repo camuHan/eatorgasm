@@ -26,22 +26,14 @@
         <item name="android:windowExitAnimation">@anim/anim_out</item>
     </style>
 
-<!--    <style name="Widget.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">-->
-<!--        <item name="android:background">@drawable/ab_background</item>-->
-<!--    </style>-->
-
-<!--    <style name="Widget.ActionBar.Transparent">-->
-<!--        <item name="android:background">@android:color/transparent</item>-->
-<!--    </style>-->
-
-    <!-- old -->
-
-    <style name="MainToolbarTitleTextAppearance">
-        <item name="android:textSize">18sp</item>
+    <style name="WrapImageView" parent="NoDescriptionImageView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="ActionBarTitleTextStyle" parent="TextAppearance.AppCompat.Medium">
-        <item name="android:textColor">@color/white</item>
+    <style name="NoDescriptionImageView">
+        <item name="android:contentDescription">"@null"</item>
+        <item name="android:importantForAccessibility">no</item>
     </style>
 
     <style name="SubTitleDivider">
@@ -50,114 +42,12 @@
         <item name="android:background">@color/common_list_divider_color</item>
     </style>
 
-    <style name="CommonActionBarStyle" parent="Widget.AppCompat.ActionBar">
-        <item name="background">?attr/colorPrimary</item>
-        <item name="titleTextStyle">@style/ActionBarTitleTextStyle</item>
-    </style>
+<!--    <style name="Widget.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">-->
+<!--        <item name="android:background">@drawable/ab_background</item>-->
+<!--    </style>-->
 
-    <style name="CommonActionMenuTextAppearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
-        <item name="android:textSize">16sp</item>
-    </style>
-
-    <style name="CommonActionButtonStyle" parent="@android:style/Widget.Holo.ActionButton">
-        <item name="paddingStart">0dp</item>
-        <item name="paddingEnd">0dp</item>
-        <item name="android:minWidth">24dp</item>
-    </style>
-
-    <style name="CommonToolbar" parent="Widget.AppCompat.Toolbar">
-        <item name="android:itemPadding">0dp</item>
-    </style>
-
-    <style name="CommonOverflowMenu" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
-        <item name="android:overlapAnchor">false</item>
-<!--        <item name="android:popupBackground">@color/overflow_popup_bg</item>-->
-    </style>
-
-    <style name="CommonOverflowIconStyle" parent="Widget.AppCompat.Light.ActionButton.Overflow">
-<!--        <item name="tint">@color/actionbar_basic_icon_tint</item>-->
-<!--        <item name="android:defaultWidth">50dp</item>-->
-        <item name="android:minWidth">50dp</item>
-    </style>
-
-    <style name="CommonToolbarNavigationStyle" parent="Widget.AppCompat.Toolbar.Button.Navigation">
-        <item name="android:tint">@color/white</item>
-    </style>
-
-    <style name="OfficeToolbarNavigationStyle" parent="Widget.AppCompat.Toolbar.Button.Navigation">
-    </style>
-
-    <style name="CommonEditTextStyle" parent="Widget.AppCompat.EditText" />
-
-    <style name="InlineMenuStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">48dp</item>
-        <item name="android:gravity">center</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:focusable">false</item>
-        <item name="android:paddingStart">10dp</item>
-        <item name="android:paddingEnd">10dp</item>
-        <item name="android:textSize">14sp</item>
-<!--        <item name="android:textColor">@color/common_inline_text</item>-->
-<!--        <item name="android:background">@drawable/inline_menu_selector</item>-->
-        <item name="layout_constraintBaseline_toBaselineOf">parent</item>
-    </style>
-
-    <style name="ResizeEditStyle">
-        <item name="android:layout_width">131dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">start|center_vertical</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:longClickable">false</item>
-<!--        <item name="android:textColor">@color/common_text_field_text</item>-->
-        <item name="android:textSize">16sp</item>
-        <item name="android:paddingStart">12dp</item>
-        <item name="android:paddingEnd">12dp</item>
-        <item name="android:textCursorDrawable">@null</item>
-        <item name="android:actionModeSelectAllDrawable">@null</item>
-    </style>
-
-    <style name="ResizeEditTextStyle" parent="ResizeEditStyle">
-        <item name="android:digits">0123456789.,</item>
-        <item name="android:inputType">textNoSuggestions|number|numberDecimal</item>
-        <item name="android:maxLength">5</item>
-        <item name="android:imeOptions">flagNoExtractUi|actionNext</item>
-    </style>
-
-    <style name="RotateEditTextStyle" parent="ResizeEditStyle">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:digits">1234567890</item>
-        <item name="android:inputType">textNoSuggestions|number</item>
-        <item name="android:maxLength">3</item>
-        <item name="android:imeOptions">flagNoExtractUi|actionDone</item>
-    </style>
-
-    <style name="NoDescriptionImageView">
-        <item name="android:contentDescription">"@null"</item>
-        <item name="android:importantForAccessibility">no</item>
-    </style>
-
-    <style name="SlidePenDrawSizeImageView" parent="NoDescriptionImageView">
-        <item name="android:layout_width">44dp</item>
-        <item name="android:layout_height">48dp</item>
-        <item name="android:scaleType">center</item>
-    </style>
-
-    <style name="WrapImageView" parent="NoDescriptionImageView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
-    <!-- Common PopUp&PopOver Dialog-->
-    <style name="PopOverMargin">
-        <item name="android:layout_marginTop">8dp</item>
-        <item name="android:layout_marginBottom">8dp</item>
-    </style>
-
-    <style name="PopOverListItemPadding">
-        <item name="android:paddingStart">16dp</item>
-        <item name="android:paddingEnd">16dp</item>
-    </style>
+<!--    <style name="Widget.ActionBar.Transparent">-->
+<!--        <item name="android:background">@android:color/transparent</item>-->
+<!--    </style>-->
 
 </resources>

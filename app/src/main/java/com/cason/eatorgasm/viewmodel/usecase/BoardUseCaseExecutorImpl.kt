@@ -2,12 +2,14 @@ package com.cason.eatorgasm.viewmodel.usecase
 
 import androidx.lifecycle.MutableLiveData
 import com.cason.eatorgasm.define.EatDefine.FireBaseStorage.FIREBASE_STORAGE_BOARD_IMAGES
+import com.cason.eatorgasm.define.EatDefine.FireBaseStorage.FIREBASE_STORAGE_COMMENT_IMAGE
 import com.cason.eatorgasm.define.EatDefine.FireStoreCollection.COLLECTION_NAME_BOARDS
+import com.cason.eatorgasm.define.EatDefine.FireStoreCollection.COLLECTION_NAME_COMMENTS
 import com.cason.eatorgasm.model.entity.BoardInfoModel
 import com.cason.eatorgasm.model.mapper.EatLocalMapper
 import com.cason.eatorgasm.model.FirestoreRepositoryImpl
+import com.cason.eatorgasm.model.entity.CommentInfoModel
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,39 +23,42 @@ class BoardUseCaseExecutorImpl @Inject constructor(private val mFirestoreReposit
     private val vmScope = CoroutineScope(Dispatchers.Main + vmJob)
 
     private val mUpdateBoardInfo = MutableLiveData<Boolean>()
+    private val mUpdateCommentInfo = MutableLiveData<Boolean>()
 
     private val mBoardInfo = MutableLiveData<BoardInfoModel>()
     private val mBoardInfoList = MutableLiveData<ArrayList<BoardInfoModel>>()
 
-    override fun setBoardData(data: BoardInfoModel) {
+    override fun setBoardData(boardData: BoardInfoModel) {
         vmScope.launch {
             val user = Firebase.auth.currentUser
             if(user != null) {
-                data.userId = user.uid
-                data.name = user.displayName
-                data.publisher = user.displayName
-                data.timeStamp = System.currentTimeMillis().toString()  // for test
-                data.location = ""
-                data.photoUrl = user.photoUrl.toString()
+                boardData.userId = user.uid
+                if(user.displayName != null) {
+                    boardData.name = user.displayName!!
+                    boardData.publisher = user.displayName!!
+                }
+                boardData.timeStamp = System.currentTimeMillis().toString()  // for test
+                boardData.location = ""
+                boardData.photoUrl = user.photoUrl.toString()
             }
 
-            val result = if(data.boardId != null && data.boardId != "") {
-//                data.modifiedTime = FieldValue.serverTimestamp().toString()
-                val boardStorageName = FIREBASE_STORAGE_BOARD_IMAGES + "/" + data.boardId
-                data.contentsList = mFirestoreRepository.uploadImageListInStorage(boardStorageName, data.contentsList)
-                mFirestoreRepository.modifyFireStoreDataByDocumentId(COLLECTION_NAME_BOARDS, data, data.boardId)
+            val result = if(boardData.boardId != "") {
+                boardData.modifiedTime = System.currentTimeMillis().toString()
+                val boardStorageName = FIREBASE_STORAGE_BOARD_IMAGES + "/" + boardData.boardId
+                boardData.contentsList = mFirestoreRepository.uploadImageListInStorage(boardStorageName, boardData.contentsList)
+                mFirestoreRepository.setFireStoreDataByDocumentId(COLLECTION_NAME_BOARDS, boardData, boardData.boardId!!)
             } else {
-//                data.createdTime = FieldValue.serverTimestamp().toString()
-                data.boardId = data.userId + data.timeStamp
-                val boardStorageName = FIREBASE_STORAGE_BOARD_IMAGES + "/" + data.boardId
-                data.contentsList = mFirestoreRepository.uploadImageListInStorage(boardStorageName, data.contentsList)
-                mFirestoreRepository.setFireStoreData(COLLECTION_NAME_BOARDS, data)
+                boardData.createdTime = System.currentTimeMillis().toString()
+                boardData.boardId = boardData.userId + boardData.timeStamp
+                val boardStorageName = FIREBASE_STORAGE_BOARD_IMAGES + "/" + boardData.boardId
+                boardData.contentsList = mFirestoreRepository.uploadImageListInStorage(boardStorageName, boardData.contentsList)
+                mFirestoreRepository.setFireStoreData(COLLECTION_NAME_BOARDS, boardData)
             }
             mUpdateBoardInfo.postValue(result)
         }
     }
 
-    override fun updateBoardData(data: BoardInfoModel) {
+    override fun updateBoardData(boardData: BoardInfoModel) {
         TODO("Not yet implemented")
     }
 
@@ -80,6 +85,36 @@ class BoardUseCaseExecutorImpl @Inject constructor(private val mFirestoreReposit
                 val list = EatLocalMapper.mapToBoardInfoList(result)
                 mBoardInfoList.postValue(list)
             }
+        }
+    }
+
+    override fun setCommentData(commentData: CommentInfoModel) {
+        vmScope.launch {
+            val user = Firebase.auth.currentUser
+            if (user != null) {
+                commentData.writerId = user.uid
+                if(user.displayName != null) {
+                    commentData.writerName = user.displayName!!
+                }
+                commentData.photoUrl = user.photoUrl.toString()
+            }
+
+            if (commentData.commentId != null && commentData.commentId != "") {
+                commentData.modifiedTime = System.currentTimeMillis().toString()
+            } else {
+                commentData.createdTime = System.currentTimeMillis().toString()
+                commentData.commentId = commentData.writerId + commentData.createdTime
+            }
+            val boardStorageName = FIREBASE_STORAGE_COMMENT_IMAGE + "/" + commentData.commentId
+            commentData.content = mFirestoreRepository.uploadImageInStorage(boardStorageName, commentData.content) ?: ""
+            val result = mFirestoreRepository.setFireStoreSubDataByDocumentId(
+                COLLECTION_NAME_BOARDS,
+                commentData.boardId,
+                COLLECTION_NAME_COMMENTS,
+                commentData.commentId,
+                commentData)
+
+            mUpdateCommentInfo.postValue(result)
         }
     }
 

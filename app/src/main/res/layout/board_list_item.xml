@@ -25,13 +25,13 @@
             <include
                 android:id="@+id/cl_private_profile"
                 layout="@layout/private_profile_layout"
-                app:layout_constraintBottom_toTopOf="@id/common_divider1"
+                app:layout_constraintBottom_toTopOf="@id/board_divider1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View
-                android:id="@+id/common_divider1"
+                android:id="@+id/board_divider1"
                 style="@style/CommonDivider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +52,7 @@
                 android:textSize="20sp"
                 app:layout_constraintHeight_percent="0.2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/common_divider1"
+                app:layout_constraintTop_toBottomOf="@id/board_divider1"
                 app:layout_constraintBottom_toTopOf="@id/fl_board_list_image"
                 app:layout_constraintEnd_toStartOf="@id/ib_board_list_more"/>
 

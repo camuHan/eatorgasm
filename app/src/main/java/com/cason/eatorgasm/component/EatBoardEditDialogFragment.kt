@@ -15,6 +15,7 @@ import com.cason.eatorgasm.component.base.BaseDialogFragment
 import com.cason.eatorgasm.component.contract.ComponentContract
 import com.cason.eatorgasm.databinding.BoardEditFragmentBinding
 import com.cason.eatorgasm.define.CMEnum
+import com.cason.eatorgasm.define.EatDefine
 import com.cason.eatorgasm.define.EatDefine.BundleKey.BOARD_ID
 import com.cason.eatorgasm.define.EatDefine.Request.REQUEST_KEY
 import com.cason.eatorgasm.model.entity.BoardInfoModel
@@ -23,8 +24,9 @@ import com.cason.eatorgasm.viewmodel.screen.BoardViewModel
 import com.cason.eatorgasm.viewmodel.screen.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
-class EatBoardEditDialogFragment : BaseDialogFragment(), ComponentContract {
+class EatBoardEditDialogFragment : BaseDialogFragment(), ComponentContract, View.OnClickListener {
     private lateinit var mBinding: BoardEditFragmentBinding
     private val mHomeViewModel: HomeViewModel by activityViewModels()
     private val mBoardViewModel: BoardViewModel by viewModels()
@@ -57,30 +59,17 @@ class EatBoardEditDialogFragment : BaseDialogFragment(), ComponentContract {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val boardId = arguments?.getString(BOARD_ID, "")
-        if(boardId != null && boardId != "") {
-            mBoardViewModel.getBoardDataByBoardId(boardId)
+        initializeBoardImageListView()
+
+        val board = arguments?.getSerializable(EatDefine.BundleKey.BOARD_INFO_MODEL)
+        if(board != null) {
+            mBinding.board = board as BoardInfoModel
         }
 
-        initializeBoardImageListView()
         setObservers()
 
-        mBinding.btnBoardEditCamera.setOnClickListener {
-            val intent = Intent()
-            intent.type = "image/*"
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-            intent.action = Intent.ACTION_PICK
-            addImageResult.launch(intent)
-        }
-
-        mBinding.btnBoardEditConfirm.setOnClickListener {
-            val data = BoardInfoModel()
-            data.boardId = mBinding.board?.boardId
-            data.title = mBinding.etBoardEditTitle.text.toString()
-            data.contents = mBinding.etBoardEditContents.text.toString()
-            data.contentsList = mBoardEditImageListAdapter?.getItems()
-            mBoardViewModel.setBoardData(data)
-        }
+        mBinding.btnBoardEditCamera.setOnClickListener(this)
+        mBinding.btnBoardEditConfirm.setOnClickListener(this)
     }
 
     private fun initializeBoardImageListView() {
@@ -89,11 +78,6 @@ class EatBoardEditDialogFragment : BaseDialogFragment(), ComponentContract {
     }
 
     private fun setObservers() {
-        mBoardViewModel.getBoardLiveData().observe(viewLifecycleOwner) { boardInfoModel ->
-            mBinding.board = boardInfoModel
-            mBoardEditImageListAdapter?.setItems(boardInfoModel.contentsList)
-        }
-
         mBoardViewModel.getUpdateBoardLiveData().observe(viewLifecycleOwner) { isUpdate ->
             ProgressManager.dismissProgressCircular()
             dismiss()
@@ -116,4 +100,23 @@ class EatBoardEditDialogFragment : BaseDialogFragment(), ComponentContract {
         }
     }
 
+    override fun onClick(view: View?) {
+        when(view?.id) {
+            mBinding.btnBoardEditCamera.id -> {
+                val intent = Intent()
+                intent.type = "image/*"
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                intent.action = Intent.ACTION_PICK
+                addImageResult.launch(intent)
+            }
+            mBinding.btnBoardEditConfirm.id -> {
+                val data = BoardInfoModel()
+                data.boardId = mBinding.board?.boardId.toString()
+                data.title = mBinding.etBoardEditTitle.text.toString()
+                data.contents = mBinding.etBoardEditContents.text.toString()
+                data.contentsList = mBoardEditImageListAdapter?.getItems()
+                mBoardViewModel.setBoardData(data)
+            }
+        }
+    }
 }

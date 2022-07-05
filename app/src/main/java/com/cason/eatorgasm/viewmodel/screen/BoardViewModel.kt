@@ -6,6 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.cason.eatorgasm.define.CMEnum
 import com.cason.eatorgasm.model.entity.BoardInfoModel
+import com.cason.eatorgasm.model.entity.CommentInfoModel
 import com.cason.eatorgasm.util.ProgressManager
 import com.cason.eatorgasm.view.PrivateView
 import com.cason.eatorgasm.viewmodel.usecase.BoardUseCaseExecutor
@@ -31,9 +32,13 @@ class BoardViewModel @Inject constructor(
 //        view.setUpdateProfileImageLiveData(profileUsecase.getUpdateProfileImageResultLiveData())
     }
 
-    fun setBoardData(data: BoardInfoModel) {
+    fun setBoardData(boardData: BoardInfoModel) {
         ProgressManager.showProgressCircular(CMEnum.CommonProgressType.UPLOAD, "", null)
-        boardUsecase.setBoardData(data)
+        boardUsecase.setBoardData(boardData)
+    }
+
+    fun updateBoardDataList() {
+        boardUsecase.fetchBoardDataList()
     }
 
     fun deleteBoardDataByBoardId(boardId: String?) {
@@ -44,10 +49,11 @@ class BoardViewModel @Inject constructor(
         boardUsecase.fetchBoardDataByBoardId(boardId)
     }
 
-    fun updateBoardDataList() {
-        boardUsecase.fetchBoardDataList()
+    fun setBoardComment(commentData: CommentInfoModel) {
+        boardUsecase.setCommentData(commentData)
     }
 
+    /* LiveData */
     fun getUpdateBoardLiveData(): LiveData<Boolean> {
         return boardUsecase.getUpdateBoardLiveData()
     }

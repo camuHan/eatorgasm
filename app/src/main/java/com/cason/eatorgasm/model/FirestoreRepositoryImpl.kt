@@ -194,6 +194,27 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
         return result
     }
 
+    override suspend fun uploadImageInStorage(storageName: String, uri: String): String? {
+        if (uri == "") {
+            return null
+        }
+
+        var result: String? = null
+        val storageRef = FirebaseStorage.getInstance().reference
+        val imageRef = storageRef.child(storageName)
+
+        imageRef.putFile(Uri.parse(uri)).continueWithTask { task: Task<UploadTask.TaskSnapshot> ->
+            return@continueWithTask imageRef.downloadUrl
+        }.addOnCompleteListener{
+            if(it.isSuccessful) {
+                result= it.result.toString()
+            } else {
+                CMLog.e(TAG, "fail in \n + ${it.exception}")
+            }
+        }.await()
+        return result
+    }
+
     override suspend fun uploadImageListInStorage(storageName: String
                                                   , imageList: ArrayList<String>?): ArrayList<String>? {
         if(imageList == null) {
@@ -304,11 +325,7 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
         return result
     }
 
-    override suspend fun modifyFireStoreDataByDocumentId(collectionName: String, data: Any, documentId: String?): Boolean {
-        if(documentId == null) {
-            return false
-        }
-
+    override suspend fun setFireStoreDataByDocumentId(collectionName: String, data: Any, documentId: String): Boolean {
         var result = false
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         val db = FirebaseFirestore.getInstance()
@@ -378,6 +395,25 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
             }.await()
 
         return list
+    }
+
+    override suspend fun setFireStoreSubDataByDocumentId(collectionName: String, documentId: String,
+                                                         subCollectionName: String, subDocumentId: String, data: Any): Boolean {
+        var result = false
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        val db = FirebaseFirestore.getInstance()
+        if(uid != null) {
+            db.collection(collectionName)
+                .document(documentId).collection(subCollectionName).document(subDocumentId)
+                .set(data).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        result = true
+                    } else {
+                        CMLog.e(TAG, "fail in \n + ${it.exception}")
+                    }
+                }.await()
+        }
+        return result
     }
 
     companion object {

@@ -81,7 +81,7 @@ class EatBoardListFragment(contract: ComponentContract) : Fragment(), ComponentC
             when(menuItem.itemId) {
                 R.id.board_modification -> {
                     val bundle = Bundle()
-                    bundle.putString(BOARD_ID, item.boardId)
+                    bundle.putSerializable(BOARD_INFO_MODEL, item)
                     goEditBoard(bundle)
                     true
                 }

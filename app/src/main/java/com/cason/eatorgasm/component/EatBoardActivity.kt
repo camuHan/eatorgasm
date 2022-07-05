@@ -23,6 +23,7 @@ import com.cason.eatorgasm.define.EatDefine
 import com.cason.eatorgasm.define.EatDefine.BundleKey.BOARD_INFO_MODEL
 import com.cason.eatorgasm.define.EatDefine.TransitionName.IMAGE_TRANSITION
 import com.cason.eatorgasm.model.entity.BoardInfoModel
+import com.cason.eatorgasm.model.entity.CommentInfoModel
 import com.cason.eatorgasm.util.CMLog
 import com.cason.eatorgasm.util.ProgressManager
 import com.cason.eatorgasm.viewmodel.screen.BoardViewModel
@@ -32,7 +33,7 @@ import kotlin.math.abs
 
 
 @AndroidEntryPoint
-class EatBoardActivity : AppCompatActivity(), ComponentContract {
+class EatBoardActivity : AppCompatActivity(), ComponentContract, View.OnClickListener {
     private lateinit var mBinding: BoardActivityBinding
     private val mBoardViewModel: BoardViewModel by viewModels()
 
@@ -70,14 +71,12 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract {
         setSupportActionBar(mBinding.boardToolbarLayout)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         mBinding.boardToolbarLayout.background?.alpha = 0
-//        supportActionBar?.customView?.background?.alpha = 0
 
         // actionbar 투명 효과 적용
         mBinding.boardScrollview.setOnScrollChangeListener { view, x, y, oldx, oldy ->
             if(y in 0..1299) {
                 val ratio = y / (1300f)
                 CMLog.e("HSH", "test = $ratio")
-//                supportActionBar?.customView?.background?.alpha = (ratio * 255).toInt()
                 mBinding.boardToolbarLayout.background?.alpha = (ratio * 255).toInt()
             }
         }
@@ -125,10 +124,8 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract {
 //            tab.text = "OBJECT ${(position + 1)}"
         }.attach()
 
-        mBinding.ibBoardListMore.setOnClickListener { view ->
-            val boardInfoModel = mBinding.board as BoardInfoModel
-            setPopupMenu(boardInfoModel, view)
-        }
+        mBinding.ibBoardListMore.setOnClickListener(this)
+        mBinding.btnBoardComment.setOnClickListener(this)
     }
 
     private fun setObservers() {
@@ -168,7 +165,7 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract {
             when(menuItem.itemId) {
                 R.id.board_modification -> {
                     val bundle = Bundle()
-                    bundle.putString(EatDefine.BundleKey.BOARD_ID, item.boardId)
+                    bundle.putSerializable(BOARD_INFO_MODEL, item)
                     goEditBoard(bundle)
                     true
                 }
@@ -196,5 +193,20 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract {
         val holder = (mBinding.boardViewPager.get(0) as RecyclerView).findViewHolderForAdapterPosition(mBinding.boardViewPager.currentItem)
         holder?.itemView?.findViewById<ImageView>(R.id.iv_board_image_list_image)?.transitionName = IMAGE_TRANSITION
         super.onBackPressed()
+    }
+
+    override fun onClick(view: View?) {
+        when(view?.id) {
+            mBinding.ibBoardListMore.id -> {
+                val boardInfoModel = mBinding.board as BoardInfoModel
+                setPopupMenu(boardInfoModel, view)
+            }
+            mBinding.btnBoardComment.id -> {
+                val boardInfoModel = mBinding.board as BoardInfoModel
+                val commentInfoModel = CommentInfoModel()
+                commentInfoModel.boardId = boardInfoModel.boardId
+                mBoardViewModel.setBoardComment(commentInfoModel)
+            }
+        }
     }
 }

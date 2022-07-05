@@ -25,6 +25,7 @@ object EatDefine {
     object FireStoreCollection {
         const val COLLECTION_NAME_USERS = "users"
         const val COLLECTION_NAME_BOARDS = "boards"
+        const val COLLECTION_NAME_COMMENTS = "comments"
         /* not used */
         const val COLLECTION_NAME_PROFILE_IMAGES = "profileImages"
     }
@@ -32,6 +33,7 @@ object EatDefine {
     object FireBaseStorage {
         const val FIREBASE_STORAGE_PROFILE_IMAGES = "userProfileImages"
         const val FIREBASE_STORAGE_BOARD_IMAGES = "boardImages"
+        const val FIREBASE_STORAGE_COMMENT_IMAGE = "commentImage"
     }
 
     /*  not used  */

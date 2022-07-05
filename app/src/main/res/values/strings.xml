@@ -25,4 +25,9 @@
     <string name="string_modification">"modification"</string>
     <string name="string_delete">"delete"</string>
 
+    <string name="board_likes">"likes %d"</string>
+    <string name="board_comments">"comments %d"</string>
+    <string name="board_views">"views %d"</string>
+    <string name="board_compliant">"likes %d, comments %d, views %d"</string>
+    <string name="board_input_comment">"Please leave a comment."</string>
 </resources>
