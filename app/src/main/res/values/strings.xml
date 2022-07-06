@@ -25,6 +25,7 @@
     <string name="string_modification">"modification"</string>
     <string name="string_delete">"delete"</string>
 
+    <string name="board_like">"like"</string>
     <string name="board_likes">"likes %d"</string>
     <string name="board_comments">"comments %d"</string>
     <string name="board_views">"views %d"</string>

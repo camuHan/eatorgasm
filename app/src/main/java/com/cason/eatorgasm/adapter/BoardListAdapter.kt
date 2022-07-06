@@ -56,6 +56,7 @@ class BoardListAdapter(private var context: Context, contract: ComponentContract
             mHolderBinding.ibBoardListMore.setOnClickListener { view ->
                 mBoardContract.onCommand(CMEnum.EatCommand.BOARD_MORE_MENU_CLICKED, getItem(adapterPosition), view)
             }
+            mHolderBinding.executePendingBindings()
         }
 
         override fun onLongClick(v: View?): Boolean {
@@ -81,7 +82,7 @@ class BoardItemDiffCallback : DiffUtil.ItemCallback<BoardInfoModel>() {
         oldItem: BoardInfoModel,
         newItem: BoardInfoModel
     ): Boolean {
-        return oldItem.userId + oldItem.title == newItem.userId + newItem.title
+        return oldItem.boardId == newItem.boardId
     }
 
     override fun areContentsTheSame(

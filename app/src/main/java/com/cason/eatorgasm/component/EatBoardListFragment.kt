@@ -23,7 +23,6 @@ import com.cason.eatorgasm.component.contract.ComponentContract
 import com.cason.eatorgasm.databinding.BoardListFragmentBinding
 import com.cason.eatorgasm.define.CMEnum
 import com.cason.eatorgasm.define.EatDefine
-import com.cason.eatorgasm.define.EatDefine.BundleKey.BOARD_ID
 import com.cason.eatorgasm.define.EatDefine.BundleKey.BOARD_INFO_MODEL
 import com.cason.eatorgasm.define.EatDefine.TransitionName.IMAGE_TRANSITION
 import com.cason.eatorgasm.define.EatDefine.TransitionName.PROFILE_TRANSITION

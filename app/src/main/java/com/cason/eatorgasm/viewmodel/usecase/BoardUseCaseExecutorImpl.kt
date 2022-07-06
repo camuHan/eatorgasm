@@ -72,7 +72,7 @@ class BoardUseCaseExecutorImpl @Inject constructor(private val mFirestoreReposit
         vmScope.launch {
             val result = mFirestoreRepository.fetchBoard(boardId)
             if(result != null) {
-                val item = EatLocalMapper.mapToBoardInfo(result)
+                val item = EatLocalMapper.mapToBoardInfo(result) ?: return@launch
                 mBoardInfo.postValue(item)
             }
         }

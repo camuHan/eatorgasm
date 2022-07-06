@@ -120,33 +120,45 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_board_title" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/board_information"
+                    android:id="@+id/ll_board_etc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
                     android:orientation="horizontal"
+                    android:gravity="end"
                     app:layout_constraintBottom_toTopOf="@id/board_divider2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_board_contents" >
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/board_comment"
+                        android:id="@+id/tv_board_etc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:foregroundGravity="right"
-                        android:text="@{@string/board_compliant(board.likeCount, board.commentCount, board.viewCount)}">
-
-                    </androidx.appcompat.widget.AppCompatTextView>
+                        android:text="@{@string/board_compliant(board.likeCount, board.commentCount, board.viewCount)}" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <View
                     android:id="@+id/board_divider2"
                     style="@style/CommonDivider"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/rv_board_comments"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/board_information" />
+                    app:layout_constraintTop_toBottomOf="@id/ll_board_etc" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_board_comments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/board_divider2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:listitem="@layout/comment_list_item" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
@@ -170,7 +182,7 @@
             app:hintEnabled="false"
             app:layout_constraintWidth_percent="0.7"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btn_board_comment"
+            app:layout_constraintEnd_toStartOf="@id/btn_board_comment_ok"
             app:layout_constraintTop_toBottomOf="@id/board_scrollview"
             app:layout_constraintBottom_toBottomOf="parent" >
 
@@ -182,7 +194,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_board_comment"
+            android:id="@+id/btn_board_comment_ok"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/cm_btn_done"

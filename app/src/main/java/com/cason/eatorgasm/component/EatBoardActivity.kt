@@ -15,6 +15,7 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.cason.eatorgasm.R
+import com.cason.eatorgasm.adapter.BoardCommentsAdapter
 import com.cason.eatorgasm.adapter.BoardImageListAdapter
 import com.cason.eatorgasm.component.contract.ComponentContract
 import com.cason.eatorgasm.databinding.BoardActivityBinding
@@ -29,6 +30,7 @@ import com.cason.eatorgasm.util.ProgressManager
 import com.cason.eatorgasm.viewmodel.screen.BoardViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import org.w3c.dom.Comment
 import kotlin.math.abs
 
 
@@ -38,6 +40,8 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract, View.OnClickLis
     private val mBoardViewModel: BoardViewModel by viewModels()
 
     private lateinit var mBoardImageListAdapter: BoardImageListAdapter
+    private lateinit var mCommentsAdapter: BoardCommentsAdapter
+
     private lateinit var mBoardInfoModel: BoardInfoModel
 
     private val mEditBoardListener = FragmentResultListener { key, bundle ->
@@ -55,6 +59,7 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract, View.OnClickLis
 
         initTransparentActionBar()
         initBoardLayout()
+        initCommentLayout()
         setObservers()
     }
 
@@ -125,7 +130,20 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract, View.OnClickLis
         }.attach()
 
         mBinding.ibBoardListMore.setOnClickListener(this)
-        mBinding.btnBoardComment.setOnClickListener(this)
+        mBinding.btnBoardCommentOk.setOnClickListener(this)
+    }
+
+    private fun initCommentLayout() {
+        mCommentsAdapter = BoardCommentsAdapter(applicationContext, this)
+        mBinding.rvBoardComments.adapter = mCommentsAdapter
+        val list = ArrayList<CommentInfoModel>()
+        val commentInfo = CommentInfoModel()
+        commentInfo.writerName = "tester"
+        commentInfo.createdTime = "1111111"
+        commentInfo.comment = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        list.add(commentInfo)
+        list.add(CommentInfoModel())
+        mCommentsAdapter?.submitList(list)
     }
 
     private fun setObservers() {
@@ -139,9 +157,9 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract, View.OnClickLis
     }
 
     private fun getBoardData(bundle: Bundle?) {
-        val board = bundle?.getSerializable(BOARD_INFO_MODEL) as BoardInfoModel
-        val boardId = board.boardId
-//        val boardId = bundle?.getString(EatDefine.BundleKey.BOARD_ID, "")
+//        val board = bundle?.getSerializable(BOARD_INFO_MODEL) as BoardInfoModel?
+//        val boardId = board?.boardId
+        val boardId = bundle?.getString(EatDefine.BundleKey.BOARD_ID, "")
         if(boardId != null && boardId != "") {
             mBoardViewModel.getBoardDataByBoardId(boardId)
             ProgressManager.showProgress()
@@ -201,7 +219,7 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract, View.OnClickLis
                 val boardInfoModel = mBinding.board as BoardInfoModel
                 setPopupMenu(boardInfoModel, view)
             }
-            mBinding.btnBoardComment.id -> {
+            mBinding.btnBoardCommentOk.id -> {
                 val boardInfoModel = mBinding.board as BoardInfoModel
                 val commentInfoModel = CommentInfoModel()
                 commentInfoModel.boardId = boardInfoModel.boardId
