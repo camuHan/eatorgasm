@@ -37,7 +37,8 @@ class BoardViewModel @Inject constructor(
         boardUsecase.setBoardData(boardData)
     }
 
-    fun updateBoardDataList() {
+    /* board */
+    fun getBoardList() {
         boardUsecase.fetchBoardDataList()
     }
 
@@ -49,8 +50,13 @@ class BoardViewModel @Inject constructor(
         boardUsecase.fetchBoardDataByBoardId(boardId)
     }
 
+    /* comment */
     fun setBoardComment(commentData: CommentInfoModel) {
         boardUsecase.setCommentData(commentData)
+    }
+
+    fun getCommentList(boardId: String) {
+        boardUsecase.fetchCommentList(boardId)
     }
 
     /* LiveData */
@@ -64,6 +70,10 @@ class BoardViewModel @Inject constructor(
 
     fun getBoardLiveData(): LiveData<BoardInfoModel> {
         return boardUsecase.getBoardLiveData()
+    }
+
+    fun getCommentListLiveData(): LiveData<ArrayList<CommentInfoModel>> {
+        return boardUsecase.getCommentListLiveData()
     }
 
 }

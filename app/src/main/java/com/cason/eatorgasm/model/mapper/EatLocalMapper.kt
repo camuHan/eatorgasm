@@ -1,6 +1,7 @@
 package com.cason.eatorgasm.model.mapper
 
 import com.cason.eatorgasm.model.entity.BoardInfoModel
+import com.cason.eatorgasm.model.entity.CommentInfoModel
 import com.google.firebase.firestore.DocumentSnapshot
 
 
@@ -40,5 +41,42 @@ object EatLocalMapper {
             }
         }
         return boardInfoList
+    }
+
+    fun mapToCommentInfo(documentSnapshot: DocumentSnapshot?): CommentInfoModel? {
+        var commentInfo: CommentInfoModel? = null
+        if(documentSnapshot != null) {
+            val item = CommentInfoModel()
+            item.commentId = documentSnapshot.id
+            item.boardId = documentSnapshot.data?.get("boardId").toString()
+            item.writerId = documentSnapshot.data?.get("writerId").toString()
+            item.writerName = documentSnapshot.data?.get("writerName").toString()
+            item.comment = documentSnapshot.data?.get("comment").toString()
+            item.parentId = documentSnapshot.data?.get("parentId").toString()
+            item.parentName = documentSnapshot.data?.get("parentName").toString()
+            item.rootId = documentSnapshot.data?.get("rootId").toString()
+            item.mode = documentSnapshot.data?.get("mode") as Boolean
+            item.content = documentSnapshot.data?.get("content").toString()
+
+            item.createdTime = documentSnapshot.data?.get("createdTime").toString()
+            item.modifiedTime = documentSnapshot.data?.get("modifiedTime").toString()
+            item.photoUrl = documentSnapshot.data?.get("photoUrl").toString()
+            item.likeCount = Integer.parseInt(documentSnapshot.data?.get("likeCount").toString())
+            item.replyCount = Integer.parseInt(documentSnapshot.data?.get("replyCount").toString())
+//            item.locked = it.getData()?.get("locked").toString() as Boolean
+            commentInfo = item
+        }
+        return commentInfo
+    }
+
+    fun mapToCommentInfoList(documentList: List<DocumentSnapshot>?): ArrayList<CommentInfoModel> {
+        val commentInfoList = ArrayList<CommentInfoModel>()
+        documentList?.forEach { documentSnapshot ->
+            val item = mapToCommentInfo(documentSnapshot)
+            if(item != null) {
+                commentInfoList.add(item)
+            }
+        }
+        return commentInfoList
     }
 }

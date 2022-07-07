@@ -28,6 +28,7 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_eat_account_profile_circle"
                 app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintVertical_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -65,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:gravity="center_vertical"
-                    android:text="@={comment.writerName}"
+                    android:text="@{comment.mode == true ? @string/board_writer : null}"
                     android:textStyle="bold"
                     android:textSize="11sp"
                     app:layout_constraintTop_toTopOf="parent"
@@ -110,30 +111,42 @@
             app:layout_constraintTop_toBottomOf="@id/cl_comment_info"
             app:layout_constraintBottom_toBottomOf="parent">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_comment_etc_like"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_margin="5dp"
-                android:scaleType="fitXY"
-                android:adjustViewBounds="true"
-                android:src="@drawable/ic_favorite_empty"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:src="@drawable/ic_favorite_empty" />
-
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_comment_etc_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:gravity="center_vertical"
                 android:text="@string/board_like"
                 android:textStyle="bold"
                 android:textSize="13sp"
+                android:drawableStart="@drawable/ic_favorite_empty"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/comment_divider"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/iv_comment_etc_like" />
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <View
+                android:id="@+id/comment_divider"
+                style="@style/VerticalDivider"
+                android:layout_marginHorizontal="5dp"
+                app:layout_constraintStart_toEndOf="@id/tv_comment_etc_like"
+                app:layout_constraintEnd_toStartOf="@id/tv_comment_etc_reply"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_comment_etc_reply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical"
+                android:text="@string/board_reply"
+                android:textStyle="bold"
+                android:textSize="13sp"
+                app:layout_constraintStart_toEndOf="@id/comment_divider"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -26,6 +26,10 @@
     <string name="string_delete">"delete"</string>
 
     <string name="board_like">"like"</string>
+    <string name="board_reply">"reply"</string>
+
+    <string name="board_writer">"writer"</string>
+
     <string name="board_likes">"likes %d"</string>
     <string name="board_comments">"comments %d"</string>
     <string name="board_views">"views %d"</string>

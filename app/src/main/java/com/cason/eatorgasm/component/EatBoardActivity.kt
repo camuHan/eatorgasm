@@ -136,18 +136,20 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract, View.OnClickLis
     private fun initCommentLayout() {
         mCommentsAdapter = BoardCommentsAdapter(applicationContext, this)
         mBinding.rvBoardComments.adapter = mCommentsAdapter
-        val list = ArrayList<CommentInfoModel>()
-        val commentInfo = CommentInfoModel()
-        commentInfo.writerName = "tester"
-        commentInfo.createdTime = "1111111"
-        commentInfo.comment = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-        list.add(commentInfo)
-        val commentInfo2 = CommentInfoModel()
-        commentInfo2.writerName = "tester"
-        commentInfo2.createdTime = "1111111"
-        commentInfo2.comment = "bbb"
-        list.add(commentInfo2)
-        mCommentsAdapter?.submitList(list)
+
+        mBoardViewModel.getCommentList(mBoardInfoModel.boardId)
+//        val list = ArrayList<CommentInfoModel>()
+//        val commentInfo = CommentInfoModel()
+//        commentInfo.writerName = "tester"
+//        commentInfo.createdTime = "1111111"
+//        commentInfo.comment = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+//        list.add(commentInfo)
+//        val commentInfo2 = CommentInfoModel()
+//        commentInfo2.writerName = "tester"
+//        commentInfo2.createdTime = "1111111"
+//        commentInfo2.comment = "bbb"
+//        list.add(commentInfo2)
+//        mCommentsAdapter.submitList(list)
     }
 
     private fun setObservers() {
@@ -158,11 +160,13 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract, View.OnClickLis
             mBoardImageListAdapter.setItems(boardInfoModel.contentsList)
             ProgressManager.dismissProgress()
         }
+
+        mBoardViewModel.getCommentListLiveData().observe(this) { commentInfoModelList ->
+            mCommentsAdapter.submitList(commentInfoModelList)
+        }
     }
 
     private fun getBoardData(bundle: Bundle?) {
-//        val board = bundle?.getSerializable(BOARD_INFO_MODEL) as BoardInfoModel?
-//        val boardId = board?.boardId
         val boardId = bundle?.getString(EatDefine.BundleKey.BOARD_ID, "")
         if(boardId != null && boardId != "") {
             mBoardViewModel.getBoardDataByBoardId(boardId)
@@ -212,6 +216,7 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract, View.OnClickLis
     }
 
     override fun onBackPressed() {
+        // for activity transition
         val holder = (mBinding.boardViewPager.get(0) as RecyclerView).findViewHolderForAdapterPosition(mBinding.boardViewPager.currentItem)
         holder?.itemView?.findViewById<ImageView>(R.id.iv_board_image_list_image)?.transitionName = IMAGE_TRANSITION
         super.onBackPressed()
@@ -220,13 +225,14 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract, View.OnClickLis
     override fun onClick(view: View?) {
         when(view?.id) {
             mBinding.ibBoardListMore.id -> {
-                val boardInfoModel = mBinding.board as BoardInfoModel
-                setPopupMenu(boardInfoModel, view)
+//                val boardInfoModel = mBinding.board as BoardInfoModel
+                setPopupMenu(mBoardInfoModel, view)
             }
             mBinding.btnBoardCommentOk.id -> {
-                val boardInfoModel = mBinding.board as BoardInfoModel
+//                val boardInfoModel = mBinding.board as BoardInfoModel
                 val commentInfoModel = CommentInfoModel()
-                commentInfoModel.boardId = boardInfoModel.boardId
+                commentInfoModel.boardId = mBoardInfoModel.boardId
+                commentInfoModel.comment = mBinding.etBoardComment.text.toString()
                 mBoardViewModel.setBoardComment(commentInfoModel)
             }
         }

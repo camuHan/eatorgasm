@@ -147,6 +147,6 @@ class EatBoardListFragment(contract: ComponentContract) : Fragment(), ComponentC
 
     private fun updateBoardDataListCommand() {
         ProgressManager.showProgress()
-        mBoardViewModel.updateBoardDataList()
+        mBoardViewModel.getBoardList()
     }
 }

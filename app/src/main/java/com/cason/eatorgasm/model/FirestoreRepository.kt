@@ -42,8 +42,13 @@ interface FirestoreRepository {
     suspend fun fetchBoardList(): List<DocumentSnapshot>?
 //    suspend fun fetchProfileImage(): Uri?
 
+    // set subdata
     suspend fun setFireStoreSubDataByDocumentId(collectionName: String, documentId: String
                                                 , subCollectionName: String, subDocumentId: String, data: Any): Boolean
+
+    // get subdata List
+    suspend fun fetchFireStoreSubDataList(collectionName: String, documentId: String,
+                                          subCollectionName: String): List<DocumentSnapshot>?
 
 
 }

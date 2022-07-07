@@ -416,6 +416,24 @@ class FirestoreRepositoryImpl @Inject constructor() : FirestoreRepository {
         return result
     }
 
+    override suspend fun fetchFireStoreSubDataList(collectionName: String, documentId: String,
+                                                   subCollectionName: String): List<DocumentSnapshot>? {
+        var list: List<DocumentSnapshot>? = null
+        val db = FirebaseFirestore.getInstance()
+        db.collection(collectionName).document(documentId)
+            .collection(subCollectionName).get()
+            .addOnCompleteListener {
+                if(!it.isSuccessful) {
+                    CMLog.e("HSH", "fail in \n + ${it.exception}")
+                } else {
+                    CMLog.e("HSH", "success in")
+                    list = it.result.documents
+                }
+            }.await()
+
+        return list
+    }
+
     companion object {
         private val TAG = FirestoreRepositoryImpl::class.java.simpleName
         private val FIRESTORE_DOWNLOAD_URL = "https://firebasestorage.googleapis.com"

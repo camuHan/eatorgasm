@@ -22,7 +22,11 @@ interface BoardUseCaseExecutor {
     /* comment */
     fun setCommentData(commentData: CommentInfoModel)
 
+    fun fetchCommentList(boardId: String)
+
     fun getUpdateBoardLiveData(): MutableLiveData<Boolean>
     fun getBoardLiveData(): MutableLiveData<BoardInfoModel>
     fun getBoardListLiveData(): MutableLiveData<ArrayList<BoardInfoModel>>
+
+    fun getCommentListLiveData(): MutableLiveData<ArrayList<CommentInfoModel>>
 }

@@ -28,6 +28,9 @@ class BoardUseCaseExecutorImpl @Inject constructor(private val mFirestoreReposit
     private val mBoardInfo = MutableLiveData<BoardInfoModel>()
     private val mBoardInfoList = MutableLiveData<ArrayList<BoardInfoModel>>()
 
+//    private val mBoardInfo = MutableLiveData<BoardInfoModel>()
+    private val mCommentInfoList = MutableLiveData<ArrayList<CommentInfoModel>>()
+
     override fun setBoardData(boardData: BoardInfoModel) {
         vmScope.launch {
             val user = Firebase.auth.currentUser
@@ -99,7 +102,7 @@ class BoardUseCaseExecutorImpl @Inject constructor(private val mFirestoreReposit
                 commentData.photoUrl = user.photoUrl.toString()
             }
 
-            if (commentData.commentId != null && commentData.commentId != "") {
+            if (commentData.commentId != "") {
                 commentData.modifiedTime = System.currentTimeMillis().toString()
             } else {
                 commentData.createdTime = System.currentTimeMillis().toString()
@@ -118,6 +121,17 @@ class BoardUseCaseExecutorImpl @Inject constructor(private val mFirestoreReposit
         }
     }
 
+    override fun fetchCommentList(boardId: String) {
+        vmScope.launch {
+            val result = mFirestoreRepository.fetchFireStoreSubDataList(
+                COLLECTION_NAME_BOARDS, boardId, COLLECTION_NAME_COMMENTS)
+            if(result != null) {
+                val list = EatLocalMapper.mapToCommentInfoList(result)
+                mCommentInfoList.postValue(list)
+            }
+        }
+    }
+
     override fun getUpdateBoardLiveData(): MutableLiveData<Boolean> {
         return mUpdateBoardInfo
     }
@@ -128,5 +142,9 @@ class BoardUseCaseExecutorImpl @Inject constructor(private val mFirestoreReposit
 
     override fun getBoardListLiveData(): MutableLiveData<ArrayList<BoardInfoModel>> {
         return mBoardInfoList
+    }
+
+    override fun getCommentListLiveData(): MutableLiveData<ArrayList<CommentInfoModel>> {
+        return mCommentInfoList
     }
 }

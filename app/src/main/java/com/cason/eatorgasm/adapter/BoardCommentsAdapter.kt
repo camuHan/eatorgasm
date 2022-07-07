@@ -8,6 +8,7 @@ import android.widget.CompoundButton
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.cason.eatorgasm.component.contract.ComponentContract
 import com.cason.eatorgasm.databinding.CommentListItemBinding
 import com.cason.eatorgasm.model.entity.CommentInfoModel
@@ -33,8 +34,7 @@ class BoardCommentsAdapter(private var context: Context, contract: ComponentCont
 
         fun bind(item: CommentInfoModel?) {
             mHolderBinding.comment = item
-            mHolderBinding.ivCommentUserThumb
-//            Glide.with(context).load(item?.photoUrl).circleCrop().into(mHolderBinding.ivCommentUserThumb)
+            Glide.with(context).load(item?.photoUrl).circleCrop().into(mHolderBinding.ivCommentUserThumb)
 
 //            if(item?.contentsList?.size != 0) {
 //                Glide.with(context).load(item?.contentsList?.get(0)).centerCrop()
