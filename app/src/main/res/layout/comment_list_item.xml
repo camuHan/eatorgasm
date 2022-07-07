@@ -35,14 +35,15 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_comment_info"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/comment_bg"
-                android:padding="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:background="@drawable/board_comment_bubble"
+                android:padding="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toEndOf="@id/iv_comment_user_thumb"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintTop_toTopOf="parent" >
 
                 <TextView
                     android:id="@+id/tv_comment_user_name"

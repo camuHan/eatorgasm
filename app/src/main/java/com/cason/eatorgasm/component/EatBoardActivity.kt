@@ -142,7 +142,11 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract, View.OnClickLis
         commentInfo.createdTime = "1111111"
         commentInfo.comment = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         list.add(commentInfo)
-        list.add(CommentInfoModel())
+        val commentInfo2 = CommentInfoModel()
+        commentInfo2.writerName = "tester"
+        commentInfo2.createdTime = "1111111"
+        commentInfo2.comment = "bbb"
+        list.add(commentInfo2)
         mCommentsAdapter?.submitList(list)
     }
 

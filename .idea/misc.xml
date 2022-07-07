@@ -14,7 +14,6 @@
         <entry key="..\:/eatorgasm/app/src/main/res/drawable/default_dot.xml" value="0.1" />
         <entry key="..\:/eatorgasm/app/src/main/res/drawable/eat_tab_home_icon.xml" value="0.24947916666666667" />
         <entry key="..\:/eatorgasm/app/src/main/res/drawable/eat_tab_private_icon.xml" value="0.24947916666666667" />
-        <entry key="..\:/eatorgasm/app/src/main/res/drawable/eat_theme_round_shape.xml" value="0.1" />
         <entry key="..\:/eatorgasm/app/src/main/res/drawable/home_tab_background.xml" value="0.24166666666666667" />
         <entry key="..\:/eatorgasm/app/src/main/res/drawable/home_tab_chat_icon.xml" value="0.23697916666666666" />
         <entry key="..\:/eatorgasm/app/src/main/res/drawable/home_tab_map_icon.xml" value="0.23333333333333334" />
@@ -30,11 +29,12 @@
         <entry key="..\:/eatorgasm/app/src/main/res/drawable/selected_dot.xml" value="0.1" />
         <entry key="..\:/eatorgasm/app/src/main/res/drawable/tab_selector.xml" value="0.1" />
         <entry key="..\:/eatorgasm/app/src/main/res/layout/board_activity.xml" value="0.22" />
-        <entry key="..\:/eatorgasm/app/src/main/res/layout/board_edit_fragment.xml" value="0.33" />
+        <entry key="..\:/eatorgasm/app/src/main/res/layout/board_edit_fragment.xml" value="0.18" />
         <entry key="..\:/eatorgasm/app/src/main/res/layout/board_fragment.xml" value="0.22" />
         <entry key="..\:/eatorgasm/app/src/main/res/layout/board_image_list_item.xml" value="0.25" />
         <entry key="..\:/eatorgasm/app/src/main/res/layout/board_list_fragment.xml" value="0.22447916666666667" />
         <entry key="..\:/eatorgasm/app/src/main/res/layout/board_list_item.xml" value="0.1" />
+        <entry key="..\:/eatorgasm/app/src/main/res/layout/comment_list_item.xml" value="0.22" />
         <entry key="..\:/eatorgasm/app/src/main/res/layout/common_camera_count_layout.xml" value="0.22" />
         <entry key="..\:/eatorgasm/app/src/main/res/layout/common_list_divider.xml" value="0.17502532928064843" />
         <entry key="..\:/eatorgasm/app/src/main/res/layout/common_progress.xml" value="0.213768115942029" />
