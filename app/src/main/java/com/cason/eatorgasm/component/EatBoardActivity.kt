@@ -138,18 +138,6 @@ class EatBoardActivity : AppCompatActivity(), ComponentContract, View.OnClickLis
         mBinding.rvBoardComments.adapter = mCommentsAdapter
 
         mBoardViewModel.getCommentList(mBoardInfoModel.boardId)
-//        val list = ArrayList<CommentInfoModel>()
-//        val commentInfo = CommentInfoModel()
-//        commentInfo.writerName = "tester"
-//        commentInfo.createdTime = "1111111"
-//        commentInfo.comment = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-//        list.add(commentInfo)
-//        val commentInfo2 = CommentInfoModel()
-//        commentInfo2.writerName = "tester"
-//        commentInfo2.createdTime = "1111111"
-//        commentInfo2.comment = "bbb"
-//        list.add(commentInfo2)
-//        mCommentsAdapter.submitList(list)
     }
 
     private fun setObservers() {
